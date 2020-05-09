@@ -178,6 +178,7 @@ EFI_GUID UnknownDevice      = UNKNOWN_DEVICE_GUID;
 EFI_GUID MpsTableGuid             = MPS_TABLE_GUID;
 EFI_GUID AcpiTableGuid            = ACPI_TABLE_GUID;
 EFI_GUID SMBIOSTableGuid          = SMBIOS_TABLE_GUID;
+EFI_GUID SMBIOS3TableGuid         = SMBIOS3_TABLE_GUID;
 EFI_GUID SalSystemTableGuid       = SAL_SYSTEM_TABLE_GUID;
 
 //

@@ -137,6 +137,7 @@ extern EFI_GUID EfiPartTypeLegacyMbrGuid;
 extern EFI_GUID MpsTableGuid;
 extern EFI_GUID AcpiTableGuid;
 extern EFI_GUID SMBIOSTableGuid;
+extern EFI_GUID SMBIOS3TableGuid;
 extern EFI_GUID SalSystemTableGuid;
 
 extern EFI_GUID SimplePointerProtocol;
