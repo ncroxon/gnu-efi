@@ -205,7 +205,7 @@ StrDuplicate (
     Size = StrSize(Src);
     Dest = AllocatePool (Size);
     if (Dest) {
-        CopyMem (Dest, Src, Size);
+        CopyMem (Dest, (void *)Src, Size);
     }
     return Dest;
 }
