@@ -1428,4 +1428,39 @@ typedef struct _EFI_EBC_PROTOCOL {
   EFI_EBC_GET_VERSION           GetVersion;
 } EFI_EBC_PROTOCOL;
 
+INTERFACE_DECL(_EFI_MEMORY_ATTRIBUTE_PROTOCOL);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_GET_MEMORY_ATTRIBUTES)(
+  IN struct _EFI_MEMORY_ATTRIBUTE_PROTOCOL      *This,
+  IN EFI_PHYSICAL_ADDRESS                       BaseAddress,
+  IN UINT64                                     Length,
+  OUT UINT64                                    *Attributes
+  );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_SET_MEMORY_ATTRIBUTES)(
+  IN struct _EFI_MEMORY_ATTRIBUTE_PROTOCOL      *This,
+  IN EFI_PHYSICAL_ADDRESS                       BaseAddress,
+  IN UINT64                                     Length,
+  IN UINT64                                     Attributes
+  );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CLEAR_MEMORY_ATTRIBUTES)(
+  IN struct _EFI_MEMORY_ATTRIBUTE_PROTOCOL      *This,
+  IN EFI_PHYSICAL_ADDRESS                       BaseAddress,
+  IN UINT64                                     Length,
+  IN UINT64                                     Attributes
+  );
+
+typedef struct _EFI_MEMORY_ATTRIBUTE_PROTOCOL {
+  EFI_GET_MEMORY_ATTRIBUTES     GetMemoryAttributes;
+  EFI_SET_MEMORY_ATTRIBUTES     SetMemoryAttributes;
+  EFI_CLEAR_MEMORY_ATTRIBUTES   ClearMemoryAttributes;
+} EFI_MEMORY_ATTRIBUTE_PROTOCOL;
+
 #endif
