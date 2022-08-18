@@ -94,6 +94,8 @@ extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
 #define FileSystemProtocol gEfiSimpleFileSystemProtocolGuid
 extern EFI_GUID gEfiLoadFileProtocolGuid;
 #define LoadFileProtocol gEfiLoadFileProtocolGuid
+extern EFI_GUID gEfiLoadFile2ProtocolGuid;
+#define LoadFile2Protocol gEfiLoadFile2ProtocolGuid
 extern EFI_GUID gEfiDeviceIoProtocolGuid;
 #define DeviceIoProtocol gEfiDeviceIoProtocolGuid
 extern EFI_GUID VariableStoreProtocol;
