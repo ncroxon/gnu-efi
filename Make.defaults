@@ -161,9 +161,7 @@ endif
 ifneq ($(ARCH),arm)
 ifneq ($(ARCH),mips64el)
 ifneq ($(ARCH),riscv64)
-ifneq ($(ARCH),loongarch64)
 export HAVE_EFI_OBJCOPY=y
-endif
 endif
 endif
 endif
@@ -172,7 +170,7 @@ ifeq ($(ARCH),arm)
 CFLAGS += -marm
 endif
 
-ifneq (,$(filter $(ARCH),aarch64 arm))
+ifneq (,$(filter $(ARCH),aarch64 arm loongarch64))
 LDFLAGS += -z common-page-size=4096
 LDFLAGS += -z max-page-size=4096
 endif
