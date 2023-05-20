@@ -130,7 +130,7 @@ _start:
 	bne		a0, zero, 0f
 	ld		a1, 8(sp)
 	ld		a0, 0(sp)
-	call		efi_main
+	call		_entry
 	ld		ra, 16(sp)
 0:	addi		sp, sp, 24
 	ret
