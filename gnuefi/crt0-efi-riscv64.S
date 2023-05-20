@@ -49,7 +49,7 @@ optional_header:
 	.byte	0x02				// MajorLinkerVersion
 	.byte	0x14				// MinorLinkerVersion
 	.4byte	_data - _start			// SizeOfCode
-	.4byte	_data_size			// SizeOfInitializedData
+	.4byte	_edata - _data			// SizeOfInitializedData
 	.4byte	0				// SizeOfUninitializedData
 	.4byte	_start - ImageBase		// AddressOfEntryPoint
 	.4byte	_start - ImageBase		// BaseOfCode
