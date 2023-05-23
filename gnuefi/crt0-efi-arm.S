@@ -142,7 +142,7 @@ _start:
 	ldr		pc, [sp], #4
 
 .L_DYNAMIC:
-	.2byte		_DYNAMIC - .
+	.4byte		_DYNAMIC - .
 
 #if defined(__ELF__) && defined(__linux__)
 	.section .note.GNU-stack,"",%progbits
