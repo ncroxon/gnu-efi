@@ -76,7 +76,7 @@ extra_header_fields:
 	.4byte	0				// SizeOfHeapReserve
 	.4byte	0				// SizeOfHeapCommit
 	.4byte	0				// LoaderFlags
-	.4byte	0x6				// NumberOfRvaAndSizes
+	.4byte	0x10				// NumberOfRvaAndSizes
 
 	.8byte	0				// ExportTable
 	.8byte	0				// ImportTable
@@ -84,6 +84,16 @@ extra_header_fields:
 	.8byte	0				// ExceptionTable
 	.8byte	0				// CertificationTable
 	.8byte	0				// BaseRelocationTable
+	.8byte	0				// Debug
+	.8byte	0				// Architecture
+	.8byte	0				// Global Ptr
+	.8byte	0				// TLS Table
+	.8byte	0				// Load Config Table
+	.8byte	0				// Bound Import
+	.8byte	0				// IAT
+	.8byte	0				// Delay Import Descriptor
+	.8byte	0				// CLR Runtime Header
+	.8byte	0				// Reserved, must be zero
 
 	// Section table
 section_table:
