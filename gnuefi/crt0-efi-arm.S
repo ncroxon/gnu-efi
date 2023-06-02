@@ -132,6 +132,7 @@ section_table:
 	.2byte	0		// NumberOfLineNumbers  (0 for executables)
 	.4byte	0xe0500020	// Characteristics (section flags)
 
+.globl	_start
 _start:
 	stmfd		sp!, {r0-r2, lr}
 
