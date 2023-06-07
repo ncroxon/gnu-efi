@@ -38,6 +38,7 @@
 	.align 4
 
 	.globl _start
+	.type _start,%function
 _start:
 	subq $8, %rsp
 	pushq %rcx

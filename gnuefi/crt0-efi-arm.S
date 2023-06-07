@@ -133,6 +133,7 @@ section_table:
 	.4byte	0xe0500020	// Characteristics (section flags)
 
 .globl	_start
+.type _start,%function
 _start:
 	stmfd		sp!, {r0-r2, lr}
 

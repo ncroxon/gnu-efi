@@ -129,6 +129,7 @@ section_table:
 
 	.align	12
 	.globl _start
+	.type _start,%function
 _start:
 	addi		sp, sp, -24
 	sd		a0, 0(sp)
