@@ -89,6 +89,16 @@ ifeq ($(ARCH),amd64)
   override ARCH := x86_64
 endif
 
+GCCVERSION   := $(shell $(CC) -dumpversion | cut -f1 -d.)
+GCCMINOR     := $(shell $(CC) -dumpversion | cut -f2 -d.)
+USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang)
+
+# Rely on GCC MS ABI support?
+GCCNEWENOUGH := $(shell ( [ $(GCCVERSION) -gt "4" ]           \
+                          || ( [ $(GCCVERSION) -eq "4" ]      \
+                          && [ $(GCCMINOR) -ge "7" ] ) ) \
+                          && echo 1)
+
 #
 # Where to build the package
 #
@@ -114,20 +124,15 @@ ifeq ($(ARCH),ia32)
   endif
 endif
 
-ifeq ($(ARCH),x86_64)
-  GCCVERSION   := $(shell $(CC) -dumpversion | cut -f1 -d.)
-  GCCMINOR     := $(shell $(CC) -dumpversion | cut -f2 -d.)
-  USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang)
+# Set ISO C mode
+CPPFLAGS += -std=c11
 
-  # Rely on GCC MS ABI support?
-  GCCNEWENOUGH := $(shell ( [ $(GCCVERSION) -gt "4" ]           \
-                            || ( [ $(GCCVERSION) -eq "4" ]      \
-                                 && [ $(GCCMINOR) -ge "7" ] ) ) \
-                          && echo 1)
+ifeq ($(ARCH),x86_64)
   ifeq ($(GCCNEWENOUGH),1)
-    CPPFLAGS += -DGNU_EFI_USE_MS_ABI -maccumulate-outgoing-args -std=c11
-  else ifeq ($(USING_CLANG),clang)
-    CPPFLAGS += -DGNU_EFI_USE_MS_ABI -std=c11
+    CPPFLAGS += -DGNU_EFI_USE_MS_ABI
+    ifneq ($(USING_CLANG),clang)
+      CPPFLAGS +=  -maccumulate-outgoing-args
+    endif
   endif
 
   CFLAGS += -mno-red-zone
