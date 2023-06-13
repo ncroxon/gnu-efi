@@ -33,6 +33,10 @@ Revision History
 #ifndef _EFI_INCLUDE_
 #define _EFI_INCLUDE_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define EFI_FIRMWARE_VENDOR         L"INTEL"
 #define EFI_FIRMWARE_MAJOR_REVISION 12
 #define EFI_FIRMWARE_MINOR_REVISION 33
@@ -78,5 +82,9 @@ Revision History
 #include "efitcp.h"
 #include "efipoint.h"
 #include "efishell.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -19,6 +19,10 @@ Revision History
 
 --*/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "efidebug.h"
 #include "efipart.h"
 #if defined(_M_X64) || defined(__x86_64__) || defined(__amd64__)
@@ -1077,5 +1081,9 @@ extern EFI_DEVICE_IO_INTERFACE  *GlobalIoFncs;
 #define readpci32(_Addr)             (UINT32)ReadPciConfig(GlobalIoFncs,  IO_UINT32, (UINTN)_Addr)
 
 #define Port80(_PostCode)   GlobalIoFncs->Io.Write (GlobalIoFncs, IO_UINT16, (UINT64)0x80, 1, &(_PostCode))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
