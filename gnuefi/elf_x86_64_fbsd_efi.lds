@@ -31,7 +31,6 @@ SECTIONS
   .data :
   {
    _data = .;
-   *(.rodata*)
    *(.got.plt)
    *(.got)
    *(.data*)
@@ -88,6 +87,8 @@ SECTIONS
     *(.rela.ctors*)
     *(.rela.dtors*)
   }
+  . = ALIGN(4096);
+  .rodata : { *(.rodata*) }
   _edata = .;
   _data_size = _edata - _etext;
   . = ALIGN(4096);

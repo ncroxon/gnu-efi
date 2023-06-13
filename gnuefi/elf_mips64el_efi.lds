@@ -9,8 +9,6 @@ SECTIONS
     *(.text)
     *(.text.*)
     *(.gnu.linkonce.t.*)
-    *(.srodata)
-    *(.rodata*)
     . = ALIGN(16);
   }
   _etext = .;
@@ -84,6 +82,8 @@ SECTIONS
   }
   . = ALIGN(4096);
   .rel.plt : { *(.rel.plt) }
+  . = ALIGN(4096);
+  .rodata : { *(.rodata*) }
   _edata = .;
   _data_size = _edata - _etext;
 
