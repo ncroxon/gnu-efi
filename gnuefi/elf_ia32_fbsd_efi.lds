@@ -18,7 +18,7 @@ SECTIONS
    . = ALIGN(16);
   }
   _etext = .;
-  _text_size = . - _text;
+  _text_size = _etext - _text;
   . = ALIGN(4096);
   .sdata :
   {
@@ -97,7 +97,7 @@ SECTIONS
     *(.data.rel*)
   }
   _edata = .;
-  _data_size = . - _etext;
+  _data_size = _edata - _etext;
   . = ALIGN(4096);
   .reloc :		/* This is the PECOFF .reloc section! */
   {

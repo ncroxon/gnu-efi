@@ -22,7 +22,7 @@ SECTIONS
     . = ALIGN(16);
   }
   _etext = .;
-  _text_size = . - _text;
+  _text_size = _etext - _text;
   . = ALIGN(4096);
   .reloc :
   {
@@ -101,7 +101,7 @@ SECTIONS
   .rela.plt : { *(.rela.plt) }
   . = ALIGN(512);
   _edata = .;
-  _data_size = . - _data;
+  _data_size = _edata - _data;
 
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }

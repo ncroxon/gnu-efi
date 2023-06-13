@@ -20,7 +20,7 @@ SECTIONS
    . = ALIGN(16);
   }
   _etext = .;
-  _text_size = . - _text;
+  _text_size = _etext - _text;
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
   __gp = ALIGN (8) + 0x200000;
   .sdata :
@@ -97,7 +97,7 @@ SECTIONS
   . = ALIGN(4096);
   .rela.plt : { *(.rela.plt) }
   _edata = .;
-  _data_size = . - _etext;
+  _data_size = _edata - _etext;
   . = ALIGN(4096);
   .reloc :		/* This is the PECOFF .reloc section! */
   {

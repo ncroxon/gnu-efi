@@ -14,7 +14,7 @@ SECTIONS
     . = ALIGN(16);
   }
   _etext = .;
-  _text_size = . - _text;
+  _text_size = _etext - _text;
   . = ALIGN(4096);
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
@@ -86,7 +86,7 @@ SECTIONS
   . = ALIGN(4096);
   .rel.plt : { *(.rel.plt) }
   _edata = .;
-  _data_size = . - _etext;
+  _data_size = _edata - _etext;
 
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }
