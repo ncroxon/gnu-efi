@@ -37,7 +37,7 @@
 .SECONDARY:
 
 %.efi: %.so
-	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .dynsym -j .rel \
+	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .rel \
 		    -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
 		    -j .reloc $(FORMAT) $*.so $@
 
