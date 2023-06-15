@@ -3,23 +3,36 @@ OUTPUT_ARCH(arm)
 ENTRY(_start)
 SECTIONS
 {
-  .text 0x0 : {
-    _text = .;
+  .text 0 : {
     *(.text.head)
+    _text = .;
     *(.text)
     *(.text.*)
     *(.gnu.linkonce.t.*)
     *(.plt)
     . = ALIGN(16);
-  }
-  _etext = .;
+    _evtext = .;
+    . = ALIGN(4096);
+    _etext = .;
+  } =0
+  _text_vsize = _evtext - _text;
   _text_size = _etext - _text;
   . = ALIGN(4096);
+  _reloc = .;
+  .areloc : {
+    *(.areloc)
+    _evreloc = .;
+    . = ALIGN(4096);
+    _ereloc = .;
+  } =0
+  _reloc_vsize = _evreloc - _reloc;
+  _reloc_size = _ereloc - _reloc;
+  . = ALIGN(4096);
+  _data = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .data :
   {
-   _data = .;
    *(.sdata)
    *(.data)
    *(.data1)
@@ -66,9 +79,15 @@ SECTIONS
    *(COMMON)
    . = ALIGN(16);
    _bss_end = .;
-  }
+   _evdata = .;
+   . = ALIGN(4096);
+   _edata = .;
+  } =0
+  _data_vsize = _evdata - _data;
+  _data_size = _edata - _data;
 
   . = ALIGN(4096);
+  _rodata = .;
   .rel :
   {
     *(.rel.text*)
@@ -85,9 +104,16 @@ SECTIONS
   . = ALIGN(4096);
   .rel.plt : { *(.rel.plt) }
   . = ALIGN(4096);
-  .rodata : { *(.rodata*) }
-  _edata = .;
-  _data_size = _edata - _etext;
+  .rodata : {
+    *(.rodata*)
+    _evrodata = .;
+    . = ALIGN(4096);
+    _erodata = .;
+  } =0
+  _rodata_vsize = _evrodata - _rodata;
+  _rodata_size = _erodata - _rodata;
+  _image_end = .;
+  _alldata_size = _image_end - _reloc;
 
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }
@@ -95,10 +121,16 @@ SECTIONS
   .dynstr   : { *(.dynstr) }
   . = ALIGN(4096);
   .note.gnu.build-id : { *(.note.gnu.build-id) }
+  . = ALIGN(4096);
+  .hash : { *(.hash) }
+  . = ALIGN(4096);
+  .gnu.hash : { *(.gnu.hash) }
+  . = ALIGN(4096);
+  .ARM.exidx : { *(.ARM.exidx*) }
+  .ARM.extab : { *(.ARM.extab*) }
   /DISCARD/ :
   {
-    *(.rel.reloc)
-    *(.eh_frame)
+    *(.rel.areloc)
     *(.note.GNU-stack)
   }
   .comment 0 : { *(.comment) }
