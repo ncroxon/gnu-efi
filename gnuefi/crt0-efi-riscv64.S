@@ -35,7 +35,7 @@ pe_header:
 	.2byte 	0
 coff_header:
 	.2byte	0x5064				// riscv64
-	.2byte	2				// nr_sections
+	.2byte	4				// nr_sections
 	.4byte	0 				// TimeDateStamp
 	.4byte	0				// PointerToSymbolTable
 	.4byte	0				// NumberOfSymbols
@@ -48,16 +48,16 @@ optional_header:
 	.2byte	0x20b				// PE32+ format
 	.byte	0x02				// MajorLinkerVersion
 	.byte	0x14				// MinorLinkerVersion
-	.4byte	_data - _start			// SizeOfCode
-	.4byte	_edata - _data			// SizeOfInitializedData
+	.4byte	_text_size - ImageBase		// SizeOfCode
+	.4byte	_alldata_size - ImageBase		// SizeOfInitializedData
 	.4byte	0				// SizeOfUninitializedData
 	.4byte	_start - ImageBase		// AddressOfEntryPoint
-	.4byte	_start - ImageBase		// BaseOfCode
+	.4byte	_text - ImageBase		// BaseOfCode
 
 extra_header_fields:
 	.8byte	0				// ImageBase
 	.4byte	0x1000				// SectionAlignment
-	.4byte	0x200				// FileAlignment
+	.4byte	0x1000				// FileAlignment
 	.2byte	0				// MajorOperatingSystemVersion
 	.2byte	0				// MinorOperatingSystemVersion
 	.2byte	0				// MajorImageVersion
@@ -66,10 +66,10 @@ extra_header_fields:
 	.2byte	0				// MinorSubsystemVersion
 	.4byte	0				// Win32VersionValue
 
-	.4byte	_edata - ImageBase		// SizeOfImage
+	.4byte	_image_end - ImageBase		// SizeOfImage
 
 	// Everything before the kernel image is considered part of the header
-	.4byte	_start - ImageBase		// SizeOfHeaders
+	.4byte	_text - ImageBase		// SizeOfHeaders
 	.4byte	0				// CheckSum
 	.2byte	EFI_SUBSYSTEM			// Subsystem
 	.2byte	0				// DllCharacteristics
@@ -85,7 +85,8 @@ extra_header_fields:
 	.8byte	0				// ResourceTable
 	.8byte	0				// ExceptionTable
 	.8byte	0				// CertificationTable
-	.8byte	0				// BaseRelocationTable
+	.4byte	_reloc - ImageBase				// BaseRelocationTable (VirtualAddress)
+	.4byte	_reloc_vsize - ImageBase				// BaseRelocationTable (Size)
 	.8byte	0				// Debug
 	.8byte	0				// Architecture
 	.8byte	0				// Global Ptr
@@ -99,35 +100,57 @@ extra_header_fields:
 
 	// Section table
 section_table:
+
+	.ascii	".text\0\0\0"
+	.4byte	_text_vsize - ImageBase		// VirtualSize
+	.4byte	_text - ImageBase	// VirtualAddress
+	.4byte	_text_size - ImageBase		// SizeOfRawData
+	.4byte	_text - ImageBase	// PointerToRawData
+	.4byte	0		// PointerToRelocations (0 for executables)
+	.4byte	0		// PointerToLineNumbers (0 for executables)
+	.2byte	0		// NumberOfRelocations  (0 for executables)
+	.2byte	0		// NumberOfLineNumbers  (0 for executables)
+	.4byte	0x60000020	// Characteristics (section flags)
+
 	/*
 	 * The EFI application loader requires a relocation section
 	 * because EFI applications must be relocatable.  This is a
 	 * dummy section as far as we are concerned.
 	 */
 	.ascii	".reloc\0\0"
-	.4byte	0
-	.4byte	0
-	.4byte	0				// SizeOfRawData
-	.4byte	0				// PointerToRawData
-	.4byte	0				// PointerToRelocations
-	.4byte	0				// PointerToLineNumbers
-	.2byte	0				// NumberOfRelocations
-	.2byte	0				// NumberOfLineNumbers
-	.4byte	0x42100040			// Characteristics (section flags)
+	.4byte	_reloc_vsize - ImageBase			// VirtualSize
+	.4byte	_reloc - ImageBase			// VirtualAddress
+	.4byte	_reloc_size - ImageBase			// SizeOfRawData
+	.4byte	_reloc - ImageBase			// PointerToRawData
+	.4byte	0			// PointerToRelocations
+	.4byte	0			// PointerToLineNumbers
+	.2byte	0			// NumberOfRelocations
+	.2byte	0			// NumberOfLineNumbers
+	.4byte	0x42000040		// Characteristics (section flags)
 
-	.ascii	".text\0\0\0"
-	.4byte	_edata - _start			// VirtualSize
-	.4byte	_start - ImageBase		// VirtualAddress
-	.4byte	_edata - _start			// SizeOfRawData
-	.4byte	_start - ImageBase		// PointerToRawData
+	.ascii	".data\0\0\0"
+	.4byte	_data_vsize - ImageBase			// VirtualSize
+	.4byte	_data - ImageBase			// VirtualAddress
+	.4byte	_data_size - ImageBase			// SizeOfRawData
+	.4byte	_data - ImageBase			// PointerToRawData
+	.4byte	0			// PointerToRelocations
+	.4byte	0			// PointerToLineNumbers
+	.2byte	0			// NumberOfRelocations
+	.2byte	0			// NumberOfLineNumbers
+	.4byte	0xC0000040		// Characteristics (section flags)
 
-	.4byte	0				// PointerToRelocations (0 for executables)
-	.4byte	0				// PointerToLineNumbers (0 for executables)
-	.2byte	0				// NumberOfRelocations  (0 for executables)
-	.2byte	0				// NumberOfLineNumbers  (0 for executables)
-	.4byte	0xe0500020			// Characteristics (section flags)
+	.ascii	".rodata\0"
+	.4byte	_rodata_vsize - ImageBase			// VirtualSize
+	.4byte	_rodata - ImageBase			// VirtualAddress
+	.4byte	_rodata_size - ImageBase			// SizeOfRawData
+	.4byte	_rodata - ImageBase			// PointerToRawData
+	.4byte	0			// PointerToRelocations
+	.4byte	0			// PointerToLineNumbers
+	.2byte	0			// NumberOfRelocations
+	.2byte	0			// NumberOfLineNumbers
+	.4byte	0x40000040		// Characteristics (section flags)
 
-	.align	12
+	.text
 	.globl _start
 	.type _start,%function
 _start:
@@ -145,6 +168,19 @@ _start:
 	ld		ra, 16(sp)
 0:	addi		sp, sp, 24
 	ret
+
+// hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:
+ 
+ 	.data
+dummy:	.4byte	0
+
+#define IMAGE_REL_ABSOLUTE	0
+ 	.section .reloc, "a"
+label1:
+	.4byte	dummy-label1				// Page RVA
+	.4byte	12					// Block Size (2*4+2*2), must be aligned by 32 Bits
+	.2byte	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
+	.2byte	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
 
 #if defined(__ELF__) && defined(__linux__)
 	.section .note.GNU-stack,"",%progbits
