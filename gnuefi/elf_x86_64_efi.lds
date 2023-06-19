@@ -19,6 +19,7 @@ SECTIONS
    *(.text)
    *(.text.*)
    *(.gnu.linkonce.t.*)
+   *(.plt)
    . = ALIGN(16);
   }
   _etext = .;
