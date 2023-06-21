@@ -81,8 +81,7 @@ EFI_STATUS EFIAPI _relocate(long ldbase, Elf_Dyn *dyn)
 			*addr = ldbase + rel->r_addend;
 			break;
 		default:
-			/* Panic */
-			while (1) ;
+				break;
 		}
 		rel = (Elf_Rela *)((char *)rel + relent);
 		relsz -= relent;
