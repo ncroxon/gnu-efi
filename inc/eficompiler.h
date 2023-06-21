@@ -29,6 +29,16 @@ Abstract:
 #endif
 
 #ifdef _MSC_EXTENSIONS
+#define EFI_OPTNONE
+#else
+#ifdef __clang__
+#define EFI_OPTNONE __attribute__((optnone))
+#else
+#define EFI_OPTNONE __attribute__((__optimize__("0")))
+#endif
+#endif
+
+#ifdef _MSC_EXTENSIONS
 #define ALIGN(x) __declspec(align(x))
 #else
 #define ALIGN(x) __attribute__((__aligned__(x)))

@@ -37,13 +37,7 @@ GetVariable(CHAR16 *var, UINT8 **data, UINTN *len, EFI_GUID owner)
 EFI_GUID DUMMY_GUID =
 {0x55aad538, 0x8f82, 0x4e2a, {0xa4,0xf0,0xbe, 0x59, 0x13, 0xb6, 0x5f, 0x1e}};
 
-#if defined(__clang__)
-# define _OPTNONE __attribute__((optnone))
-#else
-# define _OPTNONE __attribute__((__optimize__("0")))
-#endif
-
-static _OPTNONE void
+static EFI_OPTNONE void
 DebugHook(void)
 {
 	EFI_GUID guid = DUMMY_GUID;
