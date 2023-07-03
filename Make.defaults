@@ -195,7 +195,6 @@ else
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
            -funsigned-char -fshort-wchar -fno-strict-aliasing \
 	   -ffreestanding -fno-stack-protector -fno-stack-check \
-           -fno-stack-check \
            $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
 endif
 
