@@ -172,7 +172,7 @@ ifeq ($(ARCH),arm)
 CFLAGS += -marm
 endif
 
-ifeq ($(ARCH),aarch64)
+ifneq (,$(filter $(ARCH),aarch64 arm))
 LDFLAGS += -z common-page-size=4096
 LDFLAGS += -z max-page-size=4096
 endif
