@@ -55,12 +55,17 @@ ErrorCodeTable_Type ErrorCodeTable[] = {
 	{  EFI_END_OF_FILE,            L"End of File"},
 	{  EFI_INVALID_LANGUAGE,       L"Invalid Languages"},
 	{  EFI_COMPROMISED_DATA,       L"Compromised Data"},
+	{  EFI_IP_ADDRESS_CONFLICT,    L"IP Address Conflict"},
+	{  EFI_HTTP_ERROR,             L"HTTP Error"},
 
 	// warnings
 	{  EFI_WARN_UNKNOWN_GLYPH,     L"Warning Unknown Glyph"},
 	{  EFI_WARN_DELETE_FAILURE,    L"Warning Delete Failure"},
 	{  EFI_WARN_WRITE_FAILURE,     L"Warning Write Failure"},
 	{  EFI_WARN_BUFFER_TOO_SMALL,  L"Warning Buffer Too Small"},
+	{  EFI_WARN_STALE_DATA,        L"Warning Stale Data"},
+	{  EFI_WARN_FILE_SYSTEM,       L"Warning File System"},
+	{  EFI_WARN_RESET_REQUIRED,    L"Warning Reset Required"},
 	{  0, NULL}
 } ;
 
