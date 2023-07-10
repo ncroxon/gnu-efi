@@ -249,5 +249,10 @@ typedef CHAR8 ISO_639_2;
                                                 0x0000000000000008
 #define EFI_OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED \
                                                 0x0000000000000010
+#define EFI_OS_INDICATIONS_START_OS_RECOVERY    0x0000000000000020
+#define EFI_OS_INDICATIONS_START_PLATFORM_RECOVERY \
+                                                0x0000000000000040
+#define EFI_OS_INDICATIONS_JSON_CONFIG_DATA_REFRESH \
+                                                0x0000000000000080
 
 #endif
