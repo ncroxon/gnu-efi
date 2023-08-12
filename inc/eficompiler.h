@@ -48,6 +48,12 @@ Abstract:
 #define ALIGN(x) EFI_ALIGN(x)
 #endif
 
+#ifdef _MSC_EXTENSIONS
+#define EFI_NORETURN __declspec(noreturn)
+#else
+#define EFI_NORETURN __attribute__((noreturn))
+#endif
+
 /* Also add a catch-all on __attribute__() for MS compilers */
 #ifdef _MSC_EXTENSIONS
 #define __attribute__(x)
