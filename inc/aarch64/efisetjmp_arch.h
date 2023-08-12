@@ -29,6 +29,6 @@ typedef struct {
 	UINT64	D13;
 	UINT64	D14;
 	UINT64	D15;
-} ALIGN(JMPBUF_ALIGN) jmp_buf[1];
+} EFI_ALIGN(JMPBUF_ALIGN) jmp_buf[1];
 
 #endif /* GNU_EFI_AARCH64_SETJMP_H */

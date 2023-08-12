@@ -39,9 +39,13 @@ Abstract:
 #endif
 
 #ifdef _MSC_EXTENSIONS
-#define ALIGN(x) __declspec(align(x))
+#define EFI_ALIGN(x) __declspec(align(x))
 #else
-#define ALIGN(x) __attribute__((__aligned__(x)))
+#define EFI_ALIGN(x) __attribute__((__aligned__(x)))
+#endif
+
+#ifndef ALIGN
+#define ALIGN(x) EFI_ALIGN(x)
 #endif
 
 /* Also add a catch-all on __attribute__() for MS compilers */

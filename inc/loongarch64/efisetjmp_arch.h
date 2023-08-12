@@ -18,6 +18,6 @@ typedef struct {
 	UINT64	S6;
 	UINT64	S7;
 	UINT64	S8;
-} ALIGN(JMPBUF_ALIGN) jmp_buf[1];
+} EFI_ALIGN(JMPBUF_ALIGN) jmp_buf[1];
 
 #endif /* GNU_EFI_LOONGARCH64_SETJMP_H */

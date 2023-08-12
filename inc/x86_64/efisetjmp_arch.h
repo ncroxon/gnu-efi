@@ -17,6 +17,6 @@ typedef struct {
 	UINT64	Rip;
 	UINT64	MxCsr;
 	UINT8	XmmBuffer[160]; // XMM6 - XMM15
-} ALIGN(JMPBUF_ALIGN) jmp_buf[1];
+} EFI_ALIGN(JMPBUF_ALIGN) jmp_buf[1];
 
 #endif /* GNU_EFI_X86_64_SETJMP_H */
