@@ -3,7 +3,24 @@
 
 extern EFI_GUID GraphicsOutputProtocol;
 
+#ifdef _MSC_VER
+#if defined(_M_X64) || defined (_M_ARM64)
+#define __SIZEOF_POINTER__ 8
+#elif defined(_M_IX86) || defined(_M_ARM)
+#define __SIZEOF_POINTER__ 4
+#else
+#error "Unknown arch"
+#endif
+#endif
+
+#ifdef __GNUC__
 #define be32_to_cpu(x) __builtin_bswap32(x)
+#else
+static inline UINT32 be32_to_cpu(const UINT32 x) {
+	return ((x >> 24) & 0x000000FFUL) | ((x << 24) & 0xFF000000UL) |
+			((x >> 8) & 0x0000FF00UL) | ((x << 8) & 0x00FF0000UL);
+}
+#endif
 
 static void
 fill_boxes(UINT32 *PixelBuffer, UINT32 Width, UINT32 Height, UINT32 Pitch,
@@ -90,12 +107,12 @@ draw_boxes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 
 		NumPixels = (UINTN)info->VerticalResolution
                             * (UINTN)info->PixelsPerScanLine;
-		BufferSize = NumPixels * sizeof(UINT32);
+		BufferSize = (UINT32)(NumPixels * sizeof(UINT32));
 		if (BufferSize == gop->Mode->FrameBufferSize) {
 			CopySize = BufferSize;
 		} else {
 			CopySize = BufferSize < gop->Mode->FrameBufferSize ?
-				BufferSize : gop->Mode->FrameBufferSize;
+				BufferSize : (UINT32)gop->Mode->FrameBufferSize;
 			Print(L"height * pitch * pixelsize = %lu buf fb size is %lu; using %lu\n",
 			      BufferSize, gop->Mode->FrameBufferSize, CopySize);
 		}
