@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.vs\apps\common.props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5D8EA8B2-C75F-4E3A-B0BC-E6B77AC77FF5}</ProjectGuid>
+    <RootNamespace>setdbg</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>setdbg</ProjectName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\apps\setdbg.c" />
+  </ItemGroup>
+</Project>

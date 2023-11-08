@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.vs\apps\common.props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8E407F19-F112-4630-B879-CFF982791261}</ProjectGuid>
+    <RootNamespace>tpause</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>tpause</ProjectName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\apps\tpause.c" />
+  </ItemGroup>
+</Project>
