@@ -158,8 +158,10 @@ extern EFI_GUID EfiPartTypeLegacyMbrGuid;
 
 extern EFI_GUID MpsTableGuid;
 extern EFI_GUID AcpiTableGuid;
-extern EFI_GUID SMBIOSTableGuid;
-extern EFI_GUID SMBIOS3TableGuid;
+extern EFI_GUID gEfiSmbiosTableGuid;
+#define SMBIOSTableGuid gEfiSmbiosTableGuid  
+extern EFI_GUID gEfiSmbios3TableGuid;
+#define SMBIOSTableGuid gEfiSmbiosTableGuid
 extern EFI_GUID SalSystemTableGuid;
 extern EFI_GUID EfiDtbTableGuid;
 
@@ -398,22 +400,29 @@ StrDuplicate (
     );
 
 UINTN
-strlena (
+AsciiStrLen (
     IN CONST CHAR8    *s1
     );
 
 UINTN
-strcmpa (
+AsciiStrCmp (
     IN CONST CHAR8    *s1,
     IN CONST CHAR8    *s2
     );
 
 UINTN
-strncmpa (
+AsciiStrnCmp (
     IN CONST CHAR8    *s1,
     IN CONST CHAR8    *s2,
-    IN UINTN    len
+    IN UINTN          len
     );
+
+//
+// For compatibility with previous gnu-efi versions
+//
+#define strlena AsciiStrLen
+#define strcmpa AsciiStrCmp
+#define strncmpa AsciiStrnCmp
 
 UINTN
 xtoi (
