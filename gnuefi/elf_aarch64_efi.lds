@@ -22,12 +22,12 @@ SECTIONS
   }
   _etext = .;
   _text_size = _etext - _text;
-  . = ALIGN(4096);
+  . = ALIGN(65536);
   .reloc :
   {
     KEEP (*(.reloc))
   }
-  . = ALIGN(65536);
+  . = ALIGN(4096);
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .data :
