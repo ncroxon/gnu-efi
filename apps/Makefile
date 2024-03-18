@@ -37,12 +37,10 @@
 SRCDIR = .
 
 VPATH = $(SRCDIR)
+TOPDIR = $(SRCDIR)/..
 
 include $(SRCDIR)/../Make.defaults
 
-TOPDIR = $(SRCDIR)/..
-
-CDIR=$(TOPDIR)/..
 LINUX_HEADERS	= /usr/src/sys/build
 APPSDIR		= $(LIBDIR)/gnuefi/apps
 CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include

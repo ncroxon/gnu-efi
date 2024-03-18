@@ -1,12 +1,9 @@
 SRCDIR = .
 
 VPATH = $(SRCDIR)
-
-include $(SRCDIR)/../Make.defaults
-
 TOPDIR = $(SRCDIR)/..
 
-CDIR=$(TOPDIR)/..
+include $(SRCDIR)/../Make.defaults
 
 all:
 

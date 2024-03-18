@@ -34,7 +34,7 @@
 #    SUCH DAMAGE.
 #
 
-TOPDIR := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
+TOPDIR ?= $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
 #
 # Variables below overridable from command-line:

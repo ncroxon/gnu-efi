@@ -37,12 +37,10 @@
 SRCDIR = .
 
 VPATH = $(SRCDIR)
+TOPDIR = $(SRCDIR)/..
 
 include $(SRCDIR)/../Make.defaults
 
-TOPDIR = $(SRCDIR)/..
-
-CDIR=$(TOPDIR)/..
 PKGCONFIGDIR ?= $(LIBDIR)/pkgconfig
 FILES	= reloc_$(ARCH)  
 
