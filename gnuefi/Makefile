@@ -69,7 +69,7 @@ gnu-efi.pc:
 
 
 clean:
-	rm -f $(TARGETS) *~ *.o $(OBJS)
+	@rm -vf $(TARGETS) *~ *.o $(OBJS)
 
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)

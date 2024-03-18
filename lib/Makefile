@@ -80,7 +80,7 @@ libefi.a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 clean:
-	rm -f libefi.a *~ $(OBJS) */*.o
+	@rm -vf libefi.a *~ $(OBJS) */*.o
 
 $(LIBDIRINSTALL):
 	mkdir -p $@

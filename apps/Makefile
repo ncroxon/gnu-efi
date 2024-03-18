@@ -92,7 +92,7 @@ all:	$(TARGETS)
 ctors_test.so : ctors_fns.o ctors_test.o
 
 clean:
-	rm -f $(TARGETS) *~ *.o *.so
+	@rm -vf $(TARGETS) *~ *.o *.so
 
 install:
 	mkdir -p $(INSTALLROOT)$(APPSDIR)
