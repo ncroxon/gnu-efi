@@ -34,7 +34,7 @@
 #    SUCH DAMAGE.
 #
 
-export VERSION = 3.0.17
+export VERSION = 3.0.18
 
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 SRCDIR = $(dir $(MKFILE_PATH))
