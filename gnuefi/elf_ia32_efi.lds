@@ -9,6 +9,7 @@ SECTIONS
   .hash : { *(.hash) }
   .gnu.hash : { *(.gnu.hash) }
   .eh_frame : { *(.eh_frame) }
+  .eh_frame_hdr : { *(.eh_frame_hdr) }
   .gcc_except_table : { *(.gcc_except_table*) }
   . = ALIGN(4096);
   .text :
