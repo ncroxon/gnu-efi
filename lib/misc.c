@@ -54,11 +54,12 @@ AllocateZeroPool (
 }
 
 VOID *
-ReallocatePool (
-    IN VOID                 *OldPool,
-    IN UINTN                OldSize,
-    IN UINTN                NewSize
-    )
+EFIAPI
+ReallocatePool_1 (
+        IN UINTN  OldSize,
+        IN UINTN  NewSize,
+        IN VOID   *OldPool  OPTIONAL
+)
 {
     VOID                    *NewPool;
 
