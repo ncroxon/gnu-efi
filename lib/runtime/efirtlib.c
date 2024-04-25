@@ -42,6 +42,7 @@ RtZeroMem (
 #pragma RUNTIME_CODE(RtSetMem)
 #endif
 VOID
+EFIAPI
 RUNTIMEFUNCTION
 RtSetMem (
     IN VOID     *Buffer,
@@ -61,10 +62,11 @@ RtSetMem (
 #pragma RUNTIME_CODE(RtCopyMem)
 #endif
 VOID
+EFIAPI
 RUNTIMEFUNCTION
 RtCopyMem (
     IN VOID        *Dest,
-    IN CONST VOID  *Src,
+    IN VOID  *Src,
     IN UINTN       len
     )
 {
