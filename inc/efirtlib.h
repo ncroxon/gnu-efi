@@ -45,6 +45,7 @@ RtZeroMem (
     );
 
 VOID
+EFIAPI
 RUNTIMEFUNCTION
 RtSetMem (
     IN VOID     *Buffer,
@@ -53,10 +54,11 @@ RtSetMem (
     );
 
 VOID
+EFIAPI
 RUNTIMEFUNCTION
 RtCopyMem (
     IN VOID     *Dest,
-    IN CONST VOID     *Src,
+    IN VOID     *Src,
     IN UINTN    len
     );
 

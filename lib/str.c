@@ -201,11 +201,13 @@ StrDuplicate (
 {
     CHAR16      *Dest;
     UINTN       Size;
+    CHAR16      CopySrc = *Src;
+    CHAR16      *PCopySrc = &CopySrc;
 
     Size = StrSize(Src);
     Dest = AllocatePool (Size);
     if (Dest) {
-        CopyMem (Dest, (void *)Src, Size);
+        CopyMem (Dest, PCopySrc, Size);
     }
     return Dest;
 }
