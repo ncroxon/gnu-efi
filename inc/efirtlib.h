@@ -62,6 +62,15 @@ RtCopyMem (
     IN UINTN    len
     );
 
+VOID
+EFIAPI
+RUNTIMEFUNCTION
+RtCopyMemC (
+    IN VOID     *Dest,
+    IN CONST VOID     *Src,
+    IN UINTN    len
+    );
+
 INTN
 RUNTIMEFUNCTION
 RtCompareMem (

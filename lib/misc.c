@@ -118,6 +118,16 @@ CopyMem (
     RtCopyMem (Dest, Src, len);
 }
 
+VOID EFIAPI
+CopyMemC (
+    IN VOID     *Dest,
+    IN CONST VOID     *Src,
+    IN UINTN    len
+    )
+{
+    RtCopyMemC (Dest, Src, len);
+}
+
 INTN
 CompareMem (
     IN CONST VOID     *Dest,

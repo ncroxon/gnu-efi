@@ -303,6 +303,13 @@ CopyMem (
     IN UINTN    len
     );
 
+VOID EFIAPI
+CopyMemC (
+    IN VOID     *Dest,
+    IN CONST VOID     *Src,
+    IN UINTN    len
+    );
+
 INTN
 CompareMem (
     IN CONST VOID     *Dest,
