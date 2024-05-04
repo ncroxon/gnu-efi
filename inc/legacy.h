@@ -41,5 +41,20 @@ ReallocatePool_0 (
 
 /* end ReallocatePool */
 
+/* CopyMem */
+/* CopyMemC isn't deprecated - serves different purpose to CopyMem */
+
+#ifndef GNU_EFI_USE_COPYMEM_ABI
+#define GNU_EFI_USE_COPYMEM_ABI 1
+#endif
+
+#if GNU_EFI_USE_COPYMEM_ABI == 0
+#define CopyMem CopyMemC
+#else
+#define CopyMem CopyMem_1
+#endif
+
+/* end CopyMem */
+
 #endif
 

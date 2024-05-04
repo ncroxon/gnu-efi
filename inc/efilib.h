@@ -297,7 +297,7 @@ SetMem (
     );
 
 VOID EFIAPI
-CopyMem (
+CopyMem_1 (
     IN VOID     *Dest,
     IN VOID     *Src,
     IN UINTN    len
