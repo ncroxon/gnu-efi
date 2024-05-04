@@ -378,9 +378,9 @@ _PoolPrint (
         newlen += PRINT_STRING_LEN;
         spc->maxlen = newlen;
         spc->str = ReallocatePool (
-                        spc->str,
                         spc->len * sizeof(CHAR16),
-                        spc->maxlen * sizeof(CHAR16)
+                        spc->maxlen * sizeof(CHAR16),
+                        spc->str
                         );
 
         if (!spc->str) {
