@@ -1,8 +1,8 @@
 /*
  * crt0-efi-mips64el.S - PE/COFF header for MIPS64 EFI applications
  *
- * Copright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
- * Copright (C) 2017 Heiher <r@hev.cc>
+ * Copyright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
+ * Copyright (C) 2017 Heiher <r@hev.cc>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

@@ -1,7 +1,7 @@
 /*
  * crt0-efi-arm.S - PE/COFF header for ARM EFI applications
  *
- * Copright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
+ * Copyright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
