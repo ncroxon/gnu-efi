@@ -1,9 +1,9 @@
 /*
- * Copright (C) 2014 - 2015 Linaro Ltd.
+ * Copyright (C) 2014 - 2015 Linaro Ltd.
  * Author: Ard Biesheuvel <ard.biesheuvel@linaro.org>
- * Copright (C) 2017 Lemote Co.
+ * Copyright (C) 2017 Lemote Co.
  * Author: Heiher <r@hev.cc>
- * Copright (C) 2021 Loongson Technology Corporation Limited.
+ * Copyright (C) 2021 Loongson Technology Corporation Limited.
  * Author: zhoumingtao <zhoumingtao@loongson.cn>
  *
  * Redistribution and use in source and binary forms, with or without

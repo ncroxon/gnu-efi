@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2006 - 2008, Intel Corporation. All rights reserved.
- * Copright (c) 2017 Lemote Co.
+ * Copyright (c) 2017 Lemote Co.
  * Author: Heiher <r@hev.cc>
  *
  * This program and the accompanying materials are licensed and made
