@@ -35,7 +35,9 @@ typedef struct {
     UINT32  TableAddress;
     UINT16  NumberOfSmbiosStructures;
     UINT8   SmbiosBcdRevision;
-} SMBIOS_STRUCTURE_TABLE;
+} SMBIOS_TABLE_ENTRY_POINT;
+
+#define SMBIOS_STRUCTURE_TABLE SMBIOS_TABLE_ENTRY_POINT 
 
 typedef struct {
     UINT8   AnchorString[5];
@@ -48,18 +50,22 @@ typedef struct {
     UINT8   Reserved;
     UINT32  TableMaximumSize;
     UINT64  TableAddress;
-} SMBIOS3_STRUCTURE_TABLE;
+} SMBIOS_TABLE_3_0_ENTRY_POINT;
+
+#define SMBIOS3_STRUCTURE_TABLE SMBIOS_TABLE_3_0_ENTRY_POINT 
 
 //
 // Please note that SMBIOS structures can be odd byte aligned since the
-//  unformated section of each record is a set of arbitrary size strings.
+// unformated section of each record is a set of arbitrary size strings.
 //
 
 typedef struct {
     UINT8   Type;
     UINT8   Length;
     UINT8   Handle[2];
-} SMBIOS_HEADER;
+} SMBIOS_STRUCTURE;
+
+#define SMBIOS_HEADER SMBIOS_STRUCTURE
 
 typedef UINT8   SMBIOS_STRING;
 

@@ -1,0 +1,39 @@
+name: Linux, gcc
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - { arch: ia32, gcc: multilib, cross_compile: }
+          - { arch: x86_64, gcc: multilib, cross_compile: }
+          - { arch: aa64, gcc: aarch64-linux-gnu, cross_compile: aarch64-linux-gnu- }
+          - { arch: arm, gcc: arm-linux-gnueabihf, cross_compile: arm-linux-gnueabihf- }
+          - { arch: riscv64, gcc: riscv64-linux-gnu, cross_compile: riscv64-linux-gnu- }
+#          - { arch: mips64el, gcc: mips64el-linux-gnuabi64, cross_compile: mips64el-linux-gnuabi64- }
+#          - { arch: loongarch64, gcc: loongarch64-linux-gnu, cross_compile: loongarch64-linux-gnu- }
+
+    steps:
+    - name: Install toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc-${{ matrix.gcc }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Build
+      run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }}

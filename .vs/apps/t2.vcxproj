@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.vs\apps\common.props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DCB81D4D-15B8-440D-A757-5B0036C0F4F6}</ProjectGuid>
+    <RootNamespace>t2</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>t2</ProjectName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\apps\t2.c" />
+  </ItemGroup>
+</Project>

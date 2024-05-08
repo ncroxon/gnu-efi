@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.vs\apps\common.props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{06089797-265A-4FF5-838E-25374C1F0159}</ProjectGuid>
+    <RootNamespace>unsetdbg</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>unsetdbg</ProjectName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\apps\unsetdbg.c" />
+  </ItemGroup>
+</Project>

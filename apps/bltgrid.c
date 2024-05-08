@@ -66,7 +66,7 @@ draw_boxes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 
 		NumPixels = (UINTN)info->VerticalResolution
                             * (UINTN)info->HorizontalResolution;
-		BufferSize = NumPixels * sizeof(UINT32);
+		BufferSize = (UINT32)(NumPixels * sizeof(UINT32));
 
 		PixelBuffer = AllocatePool(BufferSize);
 		if (!PixelBuffer) {
