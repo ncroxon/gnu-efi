@@ -1,0 +1,37 @@
+name: Windows, VS2022
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+env:
+  SOLUTION_FILE_PATH: ./gnu-efi.sln
+
+jobs:
+  VS2022-Build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        TARGET_PLATFORM: [x64, ia32, aa64, arm]
+        CONFIGURATION: [Debug, Release]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64
+
+    - name: Build
+      shell: cmd
+      run: msbuild ${{ env.SOLUTION_FILE_PATH }} /m /p:Configuration=${{ matrix.CONFIGURATION }},Platform=${{ matrix.TARGET_PLATFORM }}
