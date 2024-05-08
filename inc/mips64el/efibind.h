@@ -158,7 +158,7 @@ typedef uint64_t   UINTN;
 
 static inline UINT64 swap_uint64 (UINT64 v)
 {
-	asm volatile (
+	__asm__ volatile (
 		"dsbh	%[v], %[v] \n\t"
 		"dshd	%[v], %[v] \n\t"
 		:[v]"+r"(v)

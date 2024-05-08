@@ -20,7 +20,7 @@ jobs:
           - { arch: aa64, gcc: aarch64-linux-gnu, cross_compile: aarch64-linux-gnu- }
           - { arch: arm, gcc: arm-linux-gnueabihf, cross_compile: arm-linux-gnueabihf- }
           - { arch: riscv64, gcc: riscv64-linux-gnu, cross_compile: riscv64-linux-gnu- }
-#          - { arch: mips64el, gcc: mips64el-linux-gnuabi64, cross_compile: mips64el-linux-gnuabi64- }
+          - { arch: mips64el, gcc: mips64el-linux-gnuabi64, cross_compile: mips64el-linux-gnuabi64- }
 #          - { arch: loongarch64, gcc: loongarch64-linux-gnu, cross_compile: loongarch64-linux-gnu- }
 
     steps:
