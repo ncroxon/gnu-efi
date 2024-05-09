@@ -1,0 +1,42 @@
+name: Windows, MinGW
+
+on: [push, pull_request]
+
+jobs:
+  MinGW-Build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        arch: [x64, ia32]
+        include:
+          - arch: x64
+            sys: mingw64
+            env: x86_64
+          - arch: ia32
+            sys: mingw32
+            env: i686
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - name: Install MinGW
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.sys }}
+        update: true
+        install: >-
+          mingw-w64-${{ matrix.env }}-toolchain
+          base-devel
+          git
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Build
+      run: make lib
