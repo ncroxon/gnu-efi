@@ -1,0 +1,31 @@
+name: Linux, MinGW
+
+on: [push, pull_request]
+
+jobs:
+  MinGW-Build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        arch: [x64, ia32]
+        include:
+        - arch: x64
+          pkg: gcc-mingw-w64-x86-64
+          tuple: x86_64-w64-mingw32-
+        - arch: ia32
+          pkg: gcc-mingw-w64-i686
+          tuple: i686-w64-mingw32-
+
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Install gcc toolchain
+      run: sudo apt install ${{ matrix.pkg }}
+
+    - name: Build
+      run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.tuple }} lib
