@@ -89,6 +89,14 @@ ifeq ($(ARCH),amd64)
   override ARCH := x86_64
 endif
 
+# Allow UEFI shorthands to be specified for the arch
+ifeq ($(ARCH),x64)
+  override ARCH := x86_64
+endif
+ifeq ($(ARCH),mips64)
+  override ARCH := mips64el
+endif
+
 GCCVERSION   := $(shell $(CC) -dumpversion | cut -f1 -d.)
 GCCMINOR     := $(shell $(CC) -dumpversion | cut -f2 -d.)
 USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang)
