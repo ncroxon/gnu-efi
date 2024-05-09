@@ -97,8 +97,8 @@ ifeq ($(ARCH),mips64)
   override ARCH := mips64el
 endif
 
-GCCVERSION   := $(shell $(CC) -dumpversion | cut -f1 -d.)
-GCCMINOR     := $(shell $(CC) -dumpversion | cut -f2 -d.)
+GCCVERSION   := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f1 -d.)
+GCCMINOR     := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f2 -d.)
 USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang)
 
 # Rely on GCC MS ABI support?
