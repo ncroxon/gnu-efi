@@ -159,9 +159,9 @@ extern EFI_GUID EfiPartTypeLegacyMbrGuid;
 extern EFI_GUID MpsTableGuid;
 extern EFI_GUID AcpiTableGuid;
 extern EFI_GUID gEfiSmbiosTableGuid;
-#define SMBIOSTableGuid gEfiSmbiosTableGuid  
-extern EFI_GUID gEfiSmbios3TableGuid;
 #define SMBIOSTableGuid gEfiSmbiosTableGuid
+extern EFI_GUID gEfiSmbios3TableGuid;
+#define SMBIOS3TableGuid gEfiSmbios3TableGuid
 extern EFI_GUID SalSystemTableGuid;
 extern EFI_GUID EfiDtbTableGuid;
 
