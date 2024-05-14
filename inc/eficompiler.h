@@ -1,6 +1,6 @@
 /*++
 
-Copyright (c) 2016 Pete Batard <pete@akeo.ie>
+Copyright (c) 2016-2024 Pete Batard <pete@akeo.ie>
 
 Module Name:
 
@@ -12,49 +12,58 @@ Abstract:
 
 --*/
 
-#ifdef _MSC_EXTENSIONS
-#define EFI_UNUSED
-#else
+#if defined(__GNUC__)
 #define EFI_UNUSED __attribute__((__unused__))
+#else
+#define EFI_UNUSED
 #endif
 
-#ifdef _MSC_EXTENSIONS
-#define EFI_NO_TAIL_CALL
-#else
-#ifdef __clang__
+#if defined(__clang__)
 #define EFI_NO_TAIL_CALL __attribute__((disable_tail_calls))
-#else
+#elif defined(__GNUC__)
 #define EFI_NO_TAIL_CALL __attribute__((optimize("no-optimize-sibling-calls")))
-#endif
+#else
+#define EFI_NO_TAIL_CALL
 #endif
 
-#ifdef _MSC_EXTENSIONS
-#define EFI_OPTNONE
-#else
-#ifdef __clang__
+#if defined(__clang__)
 #define EFI_OPTNONE __attribute__((optnone))
-#else
+#elif defined(__GNUC__)
 #define EFI_OPTNONE __attribute__((__optimize__("0")))
-#endif
+#else
+#define EFI_OPTNONE
 #endif
 
-#ifdef _MSC_EXTENSIONS
+#if defined(__GNUC__)
+#define EFI_ALIGN(x) __attribute__((__aligned__(x)))
+#elif defined(_MSC_VER)
 #define EFI_ALIGN(x) __declspec(align(x))
 #else
-#define EFI_ALIGN(x) __attribute__((__aligned__(x)))
+// Not being able to align is likely to break executables, so report it
+#error "No alignement directive is defined for this platform"
 #endif
 
-#ifndef ALIGN
+#if !defined(ALIGN)
 #define ALIGN(x) EFI_ALIGN(x)
 #endif
 
-#ifdef _MSC_EXTENSIONS
+#if defined(__GNUC__)
+#define EFI_NORETURN __attribute__((noreturn))
+#elif defined(_MSC_VER)
 #define EFI_NORETURN __declspec(noreturn)
 #else
-#define EFI_NORETURN __attribute__((noreturn))
+#define EFI_NORETURN
+#endif
+
+#if defined(__GNUC__)
+#define EFI_NOINLINE __attribute__((noinline))
+#elif defined(_MSC_VER)
+#define EFI_NOINLINE __declspec(noinline)
+#else
+#define EFI_NOINLINE
 #endif
 
 /* Also add a catch-all on __attribute__() for MS compilers */
-#ifdef _MSC_EXTENSIONS
+#if defined(_MSC_VER)
 #define __attribute__(x)
 #endif
