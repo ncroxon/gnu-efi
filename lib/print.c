@@ -1403,6 +1403,11 @@ ValueToString (
     *p2 = 0;
 }
 
+// Having this call inlined by VS2022 on Release builds produces an
+// "Undefined OpCode Exception" on ARM32 whenever Print() is invoked,
+// even when no part of the code below is actually being executed...
+// For safety, add an explicit clause to prevent inlining on all platforms.
+EFI_NOINLINE
 VOID
 FloatToString (
     IN CHAR16   *Buffer,
