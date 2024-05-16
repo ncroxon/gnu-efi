@@ -44,25 +44,36 @@ include $(SRCDIR)/../Make.defaults
 LINUX_HEADERS	= /usr/src/sys/build
 APPSDIR		= $(LIBDIR)/gnuefi/apps
 CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
+ifeq ($(IS_MINGW32),)
+# The CRT0 libs are only needed for non MinGW platforms
+CRT0_LIBS	= -lgnuefi
+endif
+
+ifneq ($(CRT0_LIBS),)
 CRTOBJS		= $(TOPDIR)/$(ARCH)/gnuefi/crt0-efi-$(ARCH).o
 
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi.lds
 ifneq (,$(findstring FreeBSD,$(OS)))
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
 endif
-
-LDFLAGS		+= -shared -Bsymbolic -L$(TOPDIR)/$(ARCH)/lib -L$(TOPDIR)/$(ARCH)/gnuefi $(CRTOBJS)
-
-LOADLIBES	+= -lefi -lgnuefi
-LOADLIBES	+= $(LIBGCC)
+LDFLAGS		+= -L$(TOPDIR)/$(ARCH)/lib -L$(TOPDIR)/$(ARCH)/gnuefi $(CRTOBJS)
 LOADLIBES	+= -T $(LDSCRIPT)
+endif
 
-TARGET_APPS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi \
-	      printenv.efi t7.efi t8.efi tcc.efi modelist.efi \
-	      route80h.efi drv0_use.efi AllocPages.efi exit.efi \
-	      FreePages.efi setjmp.efi debughook.efi debughook.efi.debug \
-	      bltgrid.efi lfbgrid.efi setdbg.efi unsetdbg.efi \
-	      ctors_test.efi ctors_dtors_priority_test.efi
+LDFLAGS		+= -shared -Bsymbolic -L$(TOPDIR)/$(ARCH)/lib
+
+LOADLIBES	+= -lefi $(CRT0_LIBS)
+LOADLIBES	+= $(LIBGCC)
+
+TARGET_APPS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi t7.efi t8.efi \
+	      tcc.efi printenv.efi modelist.efi route80h.efi route80h.efi \
+	      drv0_use.efi AllocPages.efi exit.efi FreePages.efi bltgrid.efi \
+	      lfbgrid.efi setdbg.efi unsetdbg.efi ctors_test.efi \
+	      ctors_dtors_priority_test.efi
+ifeq ($(IS_MINGW32),)
+TARGET_APPS += setjmp.efi debughook.efi debughook.efi.debug
+endif
+
 TARGET_BSDRIVERS = drv0.efi
 TARGET_RTDRIVERS =
 

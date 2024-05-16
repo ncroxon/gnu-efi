@@ -28,4 +28,4 @@ jobs:
       run: sudo apt install ${{ matrix.pkg }}
 
     - name: Build
-      run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.tuple }} lib
+      run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.tuple }}

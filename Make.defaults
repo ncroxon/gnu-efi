@@ -189,8 +189,11 @@ INCDIR  += -I$(SRCDIR) -I$(TOPDIR)/inc -I$(TOPDIR)/inc/$(ARCH) \
 
 # Only enable -fPIE for non MinGW compilers (unneeded on MinGW)
 GCCMACHINE := $(shell $(CC) -dumpmachine)
-ifneq (mingw32,$(findstring mingw32, $(GCCMACHINE)))
+IS_MINGW32 := $(findstring mingw32, $(GCCMACHINE))
+ifeq ($(IS_MINGW32),)
   CFLAGS += -fPIE
+else
+  CFLAGS += -DGNU_EFI_USE_MS_ABI
 endif
 
 ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
@@ -207,7 +210,10 @@ endif
 ARFLAGS := rDv
 ASFLAGS += $(ARCH3264)
 LDFLAGS	+= -nostdlib --warn-common --no-undefined --fatal-warnings \
-	   --build-id=sha1 -z nocombreloc -z norelro
+	   --build-id=sha1
+ifeq ($(IS_MINGW32),)
+  LDFLAGS += -z nocombreloc -z norelro
+endif
 
 ifneq ($(ARCH),arm)
 export LIBGCC=$(shell $(CC) $(CFLAGS) $(ARCH3264) -print-libgcc-file-name)
