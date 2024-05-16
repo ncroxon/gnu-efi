@@ -216,7 +216,7 @@ extern EFI_MEMORY_TYPE PoolAllocationType;
 // BOOTSERVCE - Name of a boot service function
 //
 
-#define STATIC
+#define STATIC      static
 #define INTERNAL
 #define BOOTSERVICE
 
