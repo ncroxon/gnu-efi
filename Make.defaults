@@ -192,8 +192,6 @@ GCCMACHINE := $(shell $(CC) -dumpmachine)
 IS_MINGW32 := $(findstring mingw32, $(GCCMACHINE))
 ifeq ($(IS_MINGW32),)
   CFLAGS += -fPIE
-else
-  CFLAGS += -DGNU_EFI_USE_MS_ABI
 endif
 
 ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
@@ -203,16 +201,19 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
 else
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
            -funsigned-char -fshort-wchar -fno-strict-aliasing \
-	   -ffreestanding -fno-stack-protector -fno-stack-check \
+           -ffreestanding -fno-stack-protector -fno-stack-check \
            $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
 endif
 
 ARFLAGS := rDv
 ASFLAGS += $(ARCH3264)
-LDFLAGS	+= -nostdlib --warn-common --no-undefined --fatal-warnings \
-	   --build-id=sha1
+LDFLAGS	+= -nostdlib 
 ifeq ($(IS_MINGW32),)
-  LDFLAGS += -z nocombreloc -z norelro
+  LDFLAGS += --warn-common --no-undefined --fatal-warnings \
+             --build-id=sha1 -z nocombreloc -z norelro
+else
+  LDFLAGS += -Wl,--warn-common -Wl,--no-undefined -Wl,--fatal-warnings \
+             -Wl,--build-id=sha1
 endif
 
 ifneq ($(ARCH),arm)

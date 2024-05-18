@@ -36,6 +36,7 @@
 
 .SECONDARY:
 
+ifeq ($(IS_MINGW32),)
 %.efi: %.so
 	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .rodata -j .rel \
 		    -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
@@ -49,6 +50,10 @@
 
 %.so: %.o
 	$(LD) $(LDFLAGS) $^ -o $@ $(LOADLIBES)
+else
+%.efi: %.o
+	$(CC) $(LDFLAGS) $< -o $@ $(LOADLIBES)
+endif
 
 %.o: %.c
 	$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@

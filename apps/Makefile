@@ -68,14 +68,18 @@ LOADLIBES	+= $(LIBGCC)
 TARGET_APPS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi t7.efi t8.efi \
 	      tcc.efi printenv.efi modelist.efi route80h.efi route80h.efi \
 	      drv0_use.efi AllocPages.efi exit.efi FreePages.efi bltgrid.efi \
-	      lfbgrid.efi setdbg.efi unsetdbg.efi ctors_test.efi \
-	      ctors_dtors_priority_test.efi
+	      lfbgrid.efi setdbg.efi unsetdbg.efi
 ifeq ($(IS_MINGW32),)
-TARGET_APPS += setjmp.efi debughook.efi debughook.efi.debug
+TARGET_APPS += setjmp.efi debughook.efi debughook.efi.debug \
+	      ctors_test.efi ctors_dtors_priority_test.efi
 endif
 
 TARGET_BSDRIVERS = drv0.efi
 TARGET_RTDRIVERS =
+
+SUBSYSTEM	:= 0xa
+$(TARGET_BSDRIVERS): SUBSYSTEM = 0xb
+$(TARGET_RTDRIVERS): SUBSYSTEM = 0xc
 
 ifneq ($(HAVE_EFI_OBJCOPY),)
 
@@ -83,11 +87,16 @@ FORMAT		:= --target efi-app-$(ARCH)
 $(TARGET_BSDRIVERS): FORMAT=--target efi-bsdrv-$(ARCH)
 $(TARGET_RTDRIVERS): FORMAT=--target efi-rtdrv-$(ARCH)
 
+ifneq ($(IS_MINGW32),)
+LDFLAGS     += -s -Wl,-dll -Wl,--subsystem,$(SUBSYSTEM) 
+ifeq ($(ARCH),ia32)
+LDFLAGS     += -e _efi_main
 else
+LDFLAGS     += -e efi_main
+endif
+endif
 
-SUBSYSTEM	:= 0xa
-$(TARGET_BSDRIVERS): SUBSYSTEM = 0xb
-$(TARGET_RTDRIVERS): SUBSYSTEM = 0xc
+else
 
 FORMAT		:= -O binary
 LDFLAGS		+= --defsym=EFI_SUBSYSTEM=$(SUBSYSTEM)
