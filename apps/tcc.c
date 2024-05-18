@@ -328,12 +328,12 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 	__asm__ volatile("out %0,%1" : : "a" ((uint8_t)0x14), "dN" (0x80));
 #endif
 
-	Print(L"Hello\r\n");
+	Print(L"Hello\n");
 	rc = test_failure();
 	if (EFI_ERROR(rc)) {
 		Print(L"Returning Failure works\n");
 	} else {
-		Print(L"Returning failure doesn't work.\r\n");
+		Print(L"Returning failure doesn't work.\n");
 		Print(L"%%rax was 0x%016x, should have been 0x%016x\n",
 			rc, EFI_UNSUPPORTED);
 		return EFI_INVALID_PARAMETER;
@@ -341,7 +341,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call0();
 	if (!EFI_ERROR(rc)) {
-		Print(L"0 args works just fine here.\r\n");
+		Print(L"0 args works just fine here.\n");
 	} else {
 		Print(L"0 args failed: 0x%016x\n", rc);
 		return rc;
@@ -349,7 +349,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call1();
 	if (!EFI_ERROR(rc)) {
-		Print(L"1 arg works just fine here.\r\n");
+		Print(L"1 arg works just fine here.\n");
 	} else {
 		Print(L"1 arg failed: 0x%016x\n", rc);
 		return rc;
@@ -357,7 +357,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call2();
 	if (!EFI_ERROR(rc)) {
-		Print(L"2 args works just fine here.\r\n");
+		Print(L"2 args works just fine here.\n");
 	} else {
 		Print(L"2 args failed: 0x%016x\n", rc);
 		return rc;
@@ -365,7 +365,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call3();
 	if (!EFI_ERROR(rc)) {
-		Print(L"3 args works just fine here.\r\n");
+		Print(L"3 args works just fine here.\n");
 	} else {
 		Print(L"3 args failed: 0x%016x\n", rc);
 		return rc;
@@ -373,7 +373,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call4();
 	if (!EFI_ERROR(rc)) {
-		Print(L"4 args works just fine here.\r\n");
+		Print(L"4 args works just fine here.\n");
 	} else {
 		Print(L"4 args failed: 0x%016x\n", rc);
 		return rc;
@@ -381,7 +381,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call5();
 	if (!EFI_ERROR(rc)) {
-		Print(L"5 args works just fine here.\r\n");
+		Print(L"5 args works just fine here.\n");
 	} else {
 		Print(L"5 args failed: 0x%016x\n", rc);
 		return rc;
@@ -389,7 +389,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call6();
 	if (!EFI_ERROR(rc)) {
-		Print(L"6 args works just fine here.\r\n");
+		Print(L"6 args works just fine here.\n");
 	} else {
 		Print(L"6 args failed: 0x%016x\n", rc);
 		return rc;
@@ -397,7 +397,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call7();
 	if (!EFI_ERROR(rc)) {
-		Print(L"7 args works just fine here.\r\n");
+		Print(L"7 args works just fine here.\n");
 	} else {
 		Print(L"7 args failed: 0x%016x\n", rc);
 		return rc;
@@ -405,7 +405,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call8();
 	if (!EFI_ERROR(rc)) {
-		Print(L"8 args works just fine here.\r\n");
+		Print(L"8 args works just fine here.\n");
 	} else {
 		Print(L"8 args failed: 0x%016x\n", rc);
 		return rc;
@@ -413,7 +413,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call9();
 	if (!EFI_ERROR(rc)) {
-		Print(L"9 args works just fine here.\r\n");
+		Print(L"9 args works just fine here.\n");
 	} else {
 		Print(L"9 args failed: 0x%016x\n", rc);
 		return rc;
@@ -421,7 +421,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 
 	rc = test_call10();
 	if (!EFI_ERROR(rc)) {
-		Print(L"10 args works just fine here.\r\n");
+		Print(L"10 args works just fine here.\n");
 	} else {
 		Print(L"10 args failed: 0x%016x\n", rc);
 		return rc;

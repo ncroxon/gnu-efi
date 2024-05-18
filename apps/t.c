@@ -20,8 +20,8 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 
 	InitializeLib(image_handle, systab);
 	conout = systab->ConOut;
-	uefi_call_wrapper(conout->OutputString, 2, conout, (CHAR16 *)L"Hello World!\n\r");
-	uefi_call_wrapper(conout->OutputString, 2, conout, a2u("Hello World!\n\r"));
+	uefi_call_wrapper(conout->OutputString, 2, conout, (CHAR16 *)L"Hello World!\r\n");
+	uefi_call_wrapper(conout->OutputString, 2, conout, a2u("Hello World!\r\n"));
 
 	return EFI_SUCCESS;
 }
