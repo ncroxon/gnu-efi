@@ -3,7 +3,7 @@ name: Linux, MinGW
 on: [push, pull_request]
 
 jobs:
-  MinGW-Build:
+  build:
     runs-on: ubuntu-latest
     
     strategy:
@@ -11,9 +11,11 @@ jobs:
         arch: [x64, ia32]
         include:
         - arch: x64
+          dir: x86_64
           pkg: gcc-mingw-w64-x86-64
           tuple: x86_64-w64-mingw32-
         - arch: ia32
+          dir: ia32
           pkg: gcc-mingw-w64-i686
           tuple: i686-w64-mingw32-
 
@@ -22,10 +24,15 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        submodules: recursive
 
     - name: Install gcc toolchain
       run: sudo apt install ${{ matrix.pkg }}
 
     - name: Build
       run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.tuple }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.arch }}
+        path: ./${{ matrix.dir }}/apps/*.efi

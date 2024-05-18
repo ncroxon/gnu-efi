@@ -3,7 +3,7 @@ name: Windows, MinGW
 on: [push, pull_request]
 
 jobs:
-  MinGW-Build:
+  build:
     runs-on: windows-latest
 
     strategy:
@@ -11,9 +11,11 @@ jobs:
         arch: [x64, ia32]
         include:
           - arch: x64
+            dir: x86_64 
             sys: mingw64
             env: x86_64
           - arch: ia32
+            dir: ia32
             sys: mingw32
             env: i686
 
@@ -36,7 +38,12 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        submodules: recursive
 
     - name: Build
       run: make
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.arch }}
+        path: ./${{ matrix.dir }}/apps/*.efi

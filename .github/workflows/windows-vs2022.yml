@@ -2,24 +2,20 @@ name: Windows, VS2022
 
 on: [push, pull_request]
 
-env:
-  SOLUTION_FILE_PATH: ./gnu-efi.sln
-
 jobs:
-  VS2022-Build:
+  build:
     runs-on: windows-latest
 
     strategy:
       matrix:
-        TARGET_PLATFORM: [x64, ia32, aa64, arm]
-        CONFIGURATION: [Debug, Release]
+        arch: [x64, ia32, aa64, arm]
+        conf: [Debug, Release]
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        submodules: recursive
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
@@ -28,4 +24,11 @@ jobs:
 
     - name: Build
       shell: cmd
-      run: msbuild ${{ env.SOLUTION_FILE_PATH }} /m /p:Configuration=${{ matrix.CONFIGURATION }},Platform=${{ matrix.TARGET_PLATFORM }}
+      run: msbuild ./gnu-efi.sln /m /p:Configuration=${{ matrix.conf }},Platform=${{ matrix.arch }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      if: ${{ matrix.conf == 'Release' }}
+      with:
+        name: ${{ matrix.arch }}
+        path: ./${{ matrix.arch }}/${{ matrix.conf }}/*.efi
