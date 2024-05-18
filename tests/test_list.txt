@@ -1,0 +1,40 @@
+# ConOut text output
+> cp t.efi $UEFI_DIR
+> echo "@echo -off" > $UEFI_DIR/startup.nsh
+> echo "FS0:\t.efi" >> $UEFI_DIR/startup.nsh
+> echo "reset -s" >> $UEFI_DIR/startup.nsh
+Hello World!
+Hello World!
+< rm $UEFI_DIR/t.efi
+
+# Test args
+> cp tcc.efi $UEFI_DIR
+> echo "@echo -off" > $UEFI_DIR/startup.nsh
+> echo "FS0:\tcc.efi" >> $UEFI_DIR/startup.nsh
+> echo "reset -s" >> $UEFI_DIR/startup.nsh
+Hello
+Returning Failure works
+0 args works just fine here.
+1 arg works just fine here.
+2 args works just fine here.
+3 args works just fine here.
+4 args works just fine here.
+5 args works just fine here.
+6 args works just fine here.
+7 args works just fine here.
+8 args works just fine here.
+9 args works just fine here.
+10 args works just fine here.
+< rm $UEFI_DIR/tcc.efi
+
+# Print args
+> cp t8.efi $UEFI_DIR
+> echo "@echo -off" > $UEFI_DIR/startup.nsh
+> echo "FS0:\t8.efi Test1 Test2" >> $UEFI_DIR/startup.nsh
+> echo "reset -s" >> $UEFI_DIR/startup.nsh
+Hello World, started with Argc=3
+  Argv[0] = 'FS0:\t8.efi'
+  Argv[1] = 'Test1'
+  Argv[2] = 'Test2'
+Bye.
+< rm $UEFI_DIR/t8.efi
