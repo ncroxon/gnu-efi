@@ -85,10 +85,12 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
 all:	$(TARGETS) gnu-efi.pc
 
 libgnuefi.a: $(OBJS)
-	$(AR) $(ARFLAGS) $@ $^
+	@$(ECHO) "  AR       $(notdir $@)"
+	$(HIDE)$(AR) $(ARFLAGS) $@ $^
 
 gnu-efi.pc:
-	sed \
+	@$(ECHO) "  GEN      $(notdir $@)"
+	$(HIDE)sed \
 		-e 's:@PREFIX@:$(PREFIX):g' \
 		-e 's:@EXEC_PREFIX@:$(EXEC_PREFIX):g' \
 		-e 's:@INCLUDEDIR@:$(INCLUDEDIR):g' \

@@ -38,34 +38,43 @@
 
 ifeq ($(IS_MINGW32),)
 %.efi: %.so
-	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .rodata -j .rel \
+	@$(ECHO) "  OBJCOPY  $(notdir $@)"
+	$(HIDE)$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .rodata -j .rel \
 		    -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
 		    -j .areloc -j .reloc $(FORMAT) $*.so $@
 
 %.efi.debug: %.so
-	$(OBJCOPY) -j .debug_info -j .debug_abbrev -j .debug_aranges \
+	@$(ECHO) "  OBJCOPY  $(notdir $@)"
+	$(HIDE)$(OBJCOPY) -j .debug_info -j .debug_abbrev -j .debug_aranges \
 		-j .debug_line -j .debug_str -j .debug_ranges \
 		-j .note.gnu.build-id \
 		$(FORMAT) $*.so $@
 
 %.so: %.o
-	$(LD) $(LDFLAGS) $^ -o $@ $(LOADLIBES)
+	@$(ECHO) "  LD       $(notdir $@)"
+	$(HIDE)$(LD) $(LDFLAGS) $^ -o $@ $(LOADLIBES)
 else
 %.efi: %.o
-	$(CC) $(LDFLAGS) $< -o $@ $(LOADLIBES)
+	@$(ECHO) "  CCLD     $(notdir $@)"
+	$(HIDE)$(CC) $(LDFLAGS) $< -o $@ $(LOADLIBES)
 endif
 
 %.o: %.c
-	$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@$(ECHO) "  CC       $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 %.s: %.c
-	$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -S $< -o $@
+	@$(ECHO) "  CC       $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -S $< -o $@
 
 %.i: %.c
-	$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
+	@$(ECHO) "  CPP      $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
 
 %.o: %.S
-	$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@$(ECHO) "  CC       $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 %.s: %.S
-	$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
+	@$(ECHO) "  CPP      $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
