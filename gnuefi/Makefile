@@ -46,6 +46,37 @@ FILES	= reloc_$(ARCH)
 
 OBJS	= $(FILES:%=%.o)
 
+ifneq ($(HAVE_EFI_OBJCOPY),)
+  gnu_efi_default_is_objcopy=true
+else
+  gnu_efi_default_is_objcopy=false
+endif
+# https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#uefi-image-types
+ifeq ($(ARCH),x86_64)
+  efi_machine_type_name=x64
+endif
+ifeq ($(ARCH),ia32)
+  efi_machine_type_name=ia32
+endif
+ifeq ($(ARCH),arm)
+  efi_machine_type_name=arm
+endif
+ifeq ($(ARCH),aarch64)
+  efi_machine_type_name=aa64
+endif
+ifeq ($(ARCH),ia64)
+  efi_machine_type_name=ia64
+endif
+ifeq ($(ARCH),riscv64)
+  efi_machine_type_name=riscv64
+endif
+ifeq ($(ARCH),loongarch64)
+  efi_machine_type_name=loongarch64
+endif
+ifeq ($(ARCH),mips64el)
+  efi_machine_type_name=mips64
+endif
+
 # on aarch64, avoid jump tables before all relocations have been processed
 reloc_aarch64.o: CFLAGS += -fno-jump-tables
 
@@ -63,6 +94,9 @@ gnu-efi.pc:
 		-e 's:@INCLUDEDIR@:$(INCLUDEDIR):g' \
 		-e 's:@LIBDIR@:$(LIBDIR):g' \
 		-e 's:@VERSION@:$(VERSION):g' \
+		-e 's:@efi_machine_type_name@:$(efi_machine_type_name):g' \
+		-e 's:@gnu_efi_arch@:$(ARCH):g' \
+		-e 's:@gnu_efi_default_is_objcopy@:$(gnu_efi_default_is_objcopy):g' \
 	$(SRCDIR)/gnu-efi.pc.in > gnu-efi.pc
 
 

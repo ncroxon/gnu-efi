@@ -297,9 +297,16 @@ SetMem (
     );
 
 VOID EFIAPI
-CopyMem (
+CopyMem_1 (
     IN VOID     *Dest,
     IN VOID     *Src,
+    IN UINTN    len
+    );
+
+VOID EFIAPI
+CopyMemC (
+    IN VOID     *Dest,
+    IN CONST VOID     *Src,
     IN UINTN    len
     );
 
@@ -505,11 +512,12 @@ AllocateZeroPool (
     );
 
 VOID *
-ReallocatePool (
-    IN VOID                 *OldPool,
-    IN UINTN                OldSize,
-    IN UINTN                NewSize
-    );
+EFIAPI
+ReallocatePool_1 (
+        IN UINTN  OldSize,
+        IN UINTN  NewSize,
+        IN VOID   *OldPool  OPTIONAL
+);
 
 VOID
 FreePool (

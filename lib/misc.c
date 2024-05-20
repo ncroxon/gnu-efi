@@ -54,11 +54,12 @@ AllocateZeroPool (
 }
 
 VOID *
-ReallocatePool (
-    IN VOID                 *OldPool,
-    IN UINTN                OldSize,
-    IN UINTN                NewSize
-    )
+EFIAPI
+ReallocatePool_1 (
+        IN UINTN  OldSize,
+        IN UINTN  NewSize,
+        IN VOID   *OldPool  OPTIONAL
+)
 {
     VOID                    *NewPool;
 
@@ -109,13 +110,23 @@ SetMem (
 }
 
 VOID EFIAPI
-CopyMem (
+CopyMem_1 (
     IN VOID     *Dest,
     IN VOID     *Src,
     IN UINTN    len
     )
 {
     RtCopyMem (Dest, Src, len);
+}
+
+VOID EFIAPI
+CopyMemC (
+    IN VOID     *Dest,
+    IN CONST VOID     *Src,
+    IN UINTN    len
+    )
+{
+    RtCopyMemC (Dest, Src, len);
 }
 
 INTN

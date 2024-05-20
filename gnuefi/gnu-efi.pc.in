@@ -2,6 +2,9 @@ prefix=@PREFIX@
 exec_prefix=@EXEC_PREFIX@
 includedir=@INCLUDEDIR@
 libdir=@LIBDIR@
+efi_machine_type_name=@efi_machine_type_name@
+gnu_efi_arch=@gnu_efi_arch@
+gnu_efi_default_is_objcopy=@gnu_efi_default_is_objcopy@
 
 Name: gnu-efi
 Description: EFI development toolkit

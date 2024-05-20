@@ -1202,7 +1202,7 @@ DevicePathToStr (
 
     FreePool (DevPath);
     NewSize = (Str.len + 1) * sizeof(CHAR16);
-    Str.str = ReallocatePool (Str.str, NewSize, NewSize);
+    Str.str = ReallocatePool (NewSize, NewSize, Str.str);
     Str.str[Str.len] = 0;
     return Str.str;
 }

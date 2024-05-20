@@ -89,6 +89,30 @@ RtCopyMem (
 }
 
 #ifndef __GNUC__
+#pragma RUNTIME_CODE(RtCopyMemC)
+#endif
+VOID
+EFIAPI
+RUNTIMEFUNCTION
+RtCopyMemC (
+    IN VOID        *Dest,
+    IN CONST VOID  *Src,
+    IN UINTN       len
+    )
+{
+    CHAR8 *d = (CHAR8*)Dest;
+    CONST CHAR8 *s = (CONST CHAR8*)Src;
+
+    if (d == NULL || s == NULL || s == d)
+        return;
+
+    /* CONST Src: UB if Src and Dest overlap */
+
+    while (len--) 
+        *d++ = *s++;
+}
+
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareMem)
 #endif
 INTN
