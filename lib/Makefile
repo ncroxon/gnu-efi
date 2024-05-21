@@ -43,9 +43,9 @@ include $(SRCDIR)/../Make.defaults
 
 FILES = boxdraw smbios console crc data debug dpath \
         entry error event exit guid hand hw init lock \
-        misc pause print sread str cmdline\
-	runtime/rtlock runtime/efirtlib runtime/rtstr runtime/vm runtime/rtdata  \
-	$(ARCH)/initplat $(ARCH)/math $(ARCH)/setjmp
+        misc pause print sread str cmdline runtime/rtlock \
+        runtime/efirtlib runtime/rtstr runtime/vm runtime/rtdata \
+        $(ARCH)/initplat $(ARCH)/math $(ARCH)/setjmp
 
 ifeq ($(ARCH),ia64)
 FILES += $(ARCH)/salpal $(ARCH)/palproc
@@ -75,7 +75,8 @@ libsubdirs:
 $(OBJS): libsubdirs
 
 libefi.a: $(OBJS)
-	$(AR) $(ARFLAGS) $@ $^
+	@$(ECHO) "  AR       $(notdir $@)"
+	$(HIDE)$(AR) $(ARFLAGS) $@ $^
 
 clean:
 	@rm -vf libefi.a *~ $(OBJS) */*.o

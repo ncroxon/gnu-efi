@@ -60,12 +60,12 @@ jobs:
         path: ./${{ matrix.dir }}/apps/*.efi
 
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
 
     strategy:
       matrix:
-        arch: [x64, ia32, aa64, arm]
+        arch: [x64, ia32, aa64, arm, riscv64]
         include:
         - arch: x64
           pkg: qemu-system-x86
@@ -87,6 +87,11 @@ jobs:
           qemu_arch: arm
           qemu_opts: -M virt -cpu cortex-a15
           fw_base: AAVMF
+        - arch: riscv64
+          pkg: qemu-system-riscv64
+          qemu_arch: riscv64
+          qemu_opts: -M virt,pflash0=pflash0
+          fw_base: QEMU_EFI
 
     steps:
     - name: Set up Linux environment
@@ -121,8 +126,12 @@ jobs:
 
     - name: Run tests
       run: |
-         export UEFI_ARCH=${{ matrix.arch }}
-         export UEFI_DIR=./image
-         export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -L . -drive if=pflash,format=raw,unit=0,file=${{ matrix.fw_base }}.fd,readonly=on -drive format=raw,file=fat:rw:image -nodefaults -nographic -serial stdio -net none"
-         ./tests/gen_tests.sh ./tests/test_list.txt
-         ./tests/run_tests.sh
+        export UEFI_ARCH=${{ matrix.arch }}
+        export UEFI_DIR=./image
+        if [ "$UEFI_ARCH" = "riscv64" ]; then\
+          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -blockdev node-name=pflash0,driver=file,read-only=on,filename=${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image,id=drv1 -device virtio-blk-device,drive=drv1"
+        else \
+          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -drive if=pflash,format=raw,unit=0,file=${{ matrix.fw_base }}.fd,readonly=on -drive format=raw,file=fat:rw:image"
+        fi
+        ./tests/gen_tests.sh ./tests/test_list.txt
+        ./tests/run_tests.sh

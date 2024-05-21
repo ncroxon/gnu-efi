@@ -60,9 +60,9 @@ override INSTALLROOT:=$(if $(call is_absolute,$(INSTALLROOT)),,$(TOPDIR)/)$(INST
 
 PREFIX       := /usr/local
 EXEC_PREFIX  := $(PREFIX)
-LIBDIR 	 := $(EXEC_PREFIX)/lib
+LIBDIR       := $(EXEC_PREFIX)/lib
 INCLUDEDIR   := $(PREFIX)/include
-INSTALL	 := install
+INSTALL      := install
 
 # Compilation tools
 HOSTCC       := $(prefix)gcc
@@ -73,6 +73,16 @@ AR           := $(prefix)$(CROSS_COMPILE)ar
 RANLIB       := $(prefix)$(CROSS_COMPILE)ranlib
 OBJCOPY      := $(prefix)$(CROSS_COMPILE)objcopy
 
+# Set verbose or nonverbose output similarly to automake's silent rules.
+# Default is nonverbose, but, just like with automake, it can be disabled
+# with: 'make V=1'
+ifneq ($(V),1)
+  HIDE=@
+  ECHO=echo
+else
+  HIDE=
+  ECHO=true
+endif
 
 # Host/target identification
 OS           := $(shell uname -s)
@@ -205,9 +215,13 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
            $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
 endif
 
+ifeq ($(V),1)
 ARFLAGS := rDv
+else
+ARFLAGS := rD
+endif
 ASFLAGS += $(ARCH3264)
-LDFLAGS	+= -nostdlib 
+LDFLAGS += -nostdlib 
 ifeq ($(IS_MINGW32),)
   LDFLAGS += --warn-common --no-undefined --fatal-warnings \
              --build-id=sha1 -z nocombreloc -z norelro
