@@ -5,7 +5,7 @@
 > echo "reset -s" >> $UEFI_DIR/startup.nsh
 Hello World!
 Hello World!
-< rm $UEFI_DIR/t.efi
+< rm $UEFI_DIR/*.efi
 
 # Test args
 > cp tcc.efi $UEFI_DIR
@@ -25,7 +25,7 @@ Returning Failure works
 8 args works just fine here.
 9 args works just fine here.
 10 args works just fine here.
-< rm $UEFI_DIR/tcc.efi
+< rm $UEFI_DIR/*.efi
 
 # Print args
 > cp t8.efi $UEFI_DIR
@@ -37,4 +37,15 @@ Hello World, started with Argc=3
   Argv[1] = 'Test1'
   Argv[2] = 'Test2'
 Bye.
-< rm $UEFI_DIR/t8.efi
+< rm $UEFI_DIR/*.efi
+
+# Test driver
+> cp drv0.efi drv0_use.efi $UEFI_DIR
+> echo "@echo -off" > $UEFI_DIR/startup.nsh
+> echo "load FS0:\drv0.efi" >> $UEFI_DIR/startup.nsh
+> echo "FS0:\drv0_use.efi" >> $UEFI_DIR/startup.nsh
+> echo "reset -s" >> $UEFI_DIR/startup.nsh
+Playing with driver instance 0...
+Hello Sample UEFI Driver!
+Hello was called 1 time(s).
+< rm $UEFI_DIR/*.efi
