@@ -16,10 +16,6 @@
  * either version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef EFI_SUBSYSTEM
-#define EFI_SUBSYSTEM 10
-#endif
-
 	.section	.text.head
 
 	/*
@@ -71,7 +67,7 @@ extra_header_fields:
 	// Everything before the kernel image is considered part of the header
 	.4byte	_text - ImageBase		// SizeOfHeaders
 	.4byte	0				// CheckSum
-	.2byte	EFI_SUBSYSTEM			// Subsystem
+	.2byte	0				// Subsystem
 	.2byte	0				// DllCharacteristics
 	.8byte	0				// SizeOfStackReserve
 	.8byte	0				// SizeOfStackCommit

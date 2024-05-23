@@ -36,12 +36,17 @@
 
 .SECONDARY:
 
+CHAR_SUBSYSTEM=$(subst 0x,\x,$(SUBSYSTEM))
+
 ifeq ($(IS_MINGW32),)
 %.efi: %.so
 	@$(ECHO) "  OBJCOPY  $(notdir $@)"
 	$(HIDE)$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .rodata -j .rel \
 		    -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
 		    -j .areloc -j .reloc $(FORMAT) $*.so $@
+ifeq ($(ARCH),riscv64)
+	$(HIDE)/bin/echo -ne "$(CHAR_SUBSYSTEM)" | dd of=$@ bs=1 seek=156 count=1 conv=notrunc status=none
+endif
 
 %.efi.debug: %.so
 	@$(ECHO) "  OBJCOPY  $(notdir $@)"
