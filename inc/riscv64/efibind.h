@@ -31,7 +31,7 @@ typedef uint16_t                UINT16;
 typedef int16_t                 INT16;
 typedef uint8_t                 UINT8;
 typedef int8_t                  INT8;
-typedef char                    CHAR8;
+typedef unsigned char                    CHAR8;
 typedef uint16_t                 CHAR16;
 #define WCHAR                   CHAR16
 #undef VOID
