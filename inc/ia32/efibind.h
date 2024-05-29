@@ -87,7 +87,7 @@ Revision History
 
 #include <stddef.h>
 
-typedef wchar_t CHAR16;
+typedef uint16_t CHAR16;
 #define WCHAR CHAR16
 
 

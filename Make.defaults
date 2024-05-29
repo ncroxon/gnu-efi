@@ -206,11 +206,11 @@ endif
 
 ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
-           -funsigned-char -fshort-wchar -fno-strict-aliasing \
+           -funsigned-char -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
-           -funsigned-char -fshort-wchar -fno-strict-aliasing \
+           -funsigned-char -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector -fno-stack-check \
            $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
 endif
