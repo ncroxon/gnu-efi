@@ -111,7 +111,7 @@ Drv0SayHello(
   if (! HelloWho)
     return EFI_INVALID_PARAMETER;
 
-  Print(L"Hello %s!\n", HelloWho);
+  Print(u"Hello %s!\n", HelloWho);
   InternalGnuEfiAppsDrv0ProtocolData.Counter ++;
   return EFI_SUCCESS;
 }
@@ -141,7 +141,7 @@ Drv0Unload(IN EFI_HANDLE ImageHandle)
                                  &GnuEfiAppsDrv0ProtocolGuid,
                                  &InternalGnuEfiAppsDrv0ProtocolData.Proto,
                                  NULL);
-  Print(L"Driver instance unloaded.\n", ImageHandle);
+  Print(u"Driver instance unloaded.\n", ImageHandle);
   return EFI_SUCCESS;
 }
 
@@ -167,7 +167,7 @@ efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SysTab)
                              (void**)&LoadedImage, ImageHandle,
                              NULL, EFI_OPEN_PROTOCOL_GET_PROTOCOL);
   if (EFI_ERROR(Status)) {
-    Print(L"Could not open loaded image protocol: %d\n", Status);
+    Print(u"Could not open loaded image protocol: %d\n", Status);
     return Status;
   }
 
@@ -176,7 +176,7 @@ efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SysTab)
       &ImageHandle, &GnuEfiAppsDrv0ProtocolGuid,
       &InternalGnuEfiAppsDrv0ProtocolData.Proto, NULL);
   if (EFI_ERROR(Status)) {
-    Print(L"Error registering driver instance: %d\n", Status);
+    Print(u"Error registering driver instance: %d\n", Status);
     return Status;
   }
 
@@ -184,7 +184,7 @@ efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SysTab)
    * instance from system */
   LoadedImage->Unload = (EFI_IMAGE_UNLOAD)Drv0Unload;
 
-  Print(L"Driver instance loaded successfully.\n");
+  Print(u"Driver instance loaded successfully.\n");
   return EFI_SUCCESS;  /* at this point, this instance stays resident
                         * until image is unloaded, eg. with shell's unload,
                         * ExitBootServices() */

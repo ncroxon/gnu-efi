@@ -18,15 +18,15 @@ void dump_stack_helper(uint64_t rsp_val)
 	uint64_t *rsp = (uint64_t *)rsp_val;
 	int x;
 
-	Print(L"%%rsp: 0x%08x%08x stack:\r\n",
+	Print(u"%%rsp: 0x%08x%08x stack:\r\n",
 					(rsp_val & 0xffffffff00000000) >>32,
 					 rsp_val & 0xffffffff);
 	for (x = 0; x < 8; x++) {
-		Print(L"%08x: ", ((uint64_t)rsp) & 0xffffffff);
-		Print(L"%016x ", *rsp++);
-		Print(L"%016x ", *rsp++);
-		Print(L"%016x ", *rsp++);
-		Print(L"%016x\r\n", *rsp++);
+		Print(u"%08x: ", ((uint64_t)rsp) & 0xffffffff);
+		Print(u"%016x ", *rsp++);
+		Print(u"%016x ", *rsp++);
+		Print(u"%016x ", *rsp++);
+		Print(u"%016x\r\n", *rsp++);
 	}
 }
 #endif
@@ -328,102 +328,102 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 	__asm__ volatile("out %0,%1" : : "a" ((uint8_t)0x14), "dN" (0x80));
 #endif
 
-	Print(L"Hello\n");
+	Print(u"Hello\n");
 	rc = test_failure();
 	if (EFI_ERROR(rc)) {
-		Print(L"Returning Failure works\n");
+		Print(u"Returning Failure works\n");
 	} else {
-		Print(L"Returning failure doesn't work.\n");
-		Print(L"%%rax was 0x%016x, should have been 0x%016x\n",
+		Print(u"Returning failure doesn't work.\n");
+		Print(u"%%rax was 0x%016x, should have been 0x%016x\n",
 			rc, EFI_UNSUPPORTED);
 		return EFI_INVALID_PARAMETER;
 	}
 
 	rc = test_call0();
 	if (!EFI_ERROR(rc)) {
-		Print(L"0 args works just fine here.\n");
+		Print(u"0 args works just fine here.\n");
 	} else {
-		Print(L"0 args failed: 0x%016x\n", rc);
+		Print(u"0 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call1();
 	if (!EFI_ERROR(rc)) {
-		Print(L"1 arg works just fine here.\n");
+		Print(u"1 arg works just fine here.\n");
 	} else {
-		Print(L"1 arg failed: 0x%016x\n", rc);
+		Print(u"1 arg failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call2();
 	if (!EFI_ERROR(rc)) {
-		Print(L"2 args works just fine here.\n");
+		Print(u"2 args works just fine here.\n");
 	} else {
-		Print(L"2 args failed: 0x%016x\n", rc);
+		Print(u"2 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call3();
 	if (!EFI_ERROR(rc)) {
-		Print(L"3 args works just fine here.\n");
+		Print(u"3 args works just fine here.\n");
 	} else {
-		Print(L"3 args failed: 0x%016x\n", rc);
+		Print(u"3 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call4();
 	if (!EFI_ERROR(rc)) {
-		Print(L"4 args works just fine here.\n");
+		Print(u"4 args works just fine here.\n");
 	} else {
-		Print(L"4 args failed: 0x%016x\n", rc);
+		Print(u"4 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call5();
 	if (!EFI_ERROR(rc)) {
-		Print(L"5 args works just fine here.\n");
+		Print(u"5 args works just fine here.\n");
 	} else {
-		Print(L"5 args failed: 0x%016x\n", rc);
+		Print(u"5 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call6();
 	if (!EFI_ERROR(rc)) {
-		Print(L"6 args works just fine here.\n");
+		Print(u"6 args works just fine here.\n");
 	} else {
-		Print(L"6 args failed: 0x%016x\n", rc);
+		Print(u"6 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call7();
 	if (!EFI_ERROR(rc)) {
-		Print(L"7 args works just fine here.\n");
+		Print(u"7 args works just fine here.\n");
 	} else {
-		Print(L"7 args failed: 0x%016x\n", rc);
+		Print(u"7 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call8();
 	if (!EFI_ERROR(rc)) {
-		Print(L"8 args works just fine here.\n");
+		Print(u"8 args works just fine here.\n");
 	} else {
-		Print(L"8 args failed: 0x%016x\n", rc);
+		Print(u"8 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call9();
 	if (!EFI_ERROR(rc)) {
-		Print(L"9 args works just fine here.\n");
+		Print(u"9 args works just fine here.\n");
 	} else {
-		Print(L"9 args failed: 0x%016x\n", rc);
+		Print(u"9 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 
 	rc = test_call10();
 	if (!EFI_ERROR(rc)) {
-		Print(L"10 args works just fine here.\n");
+		Print(u"10 args works just fine here.\n");
 	} else {
-		Print(L"10 args failed: 0x%016x\n", rc);
+		Print(u"10 args failed: 0x%016x\n", rc);
 		return rc;
 	}
 

@@ -50,16 +50,16 @@ DebugHook(void)
 	if (x)
 		return;
 
-	efi_status = GetVariable(L"DUMMY_DEBUG", &data, &dataSize, guid);
+	efi_status = GetVariable(u"DUMMY_DEBUG", &data, &dataSize, guid);
 	if (EFI_ERROR(efi_status)) {
 		return;
 	}
 
-	Print(L"add-symbol-file /usr/lib/debug/boot/efi/debughook.debug "
-	      L"0x%08x -s .data 0x%08x\n", &_text, &_data);
+	Print(u"add-symbol-file /usr/lib/debug/boot/efi/debughook.debug "
+	      u"0x%08x -s .data 0x%08x\n", &_text, &_data);
 
-	Print(L"Pausing for debugger attachment.\n");
-	Print(L"To disable this, remove the EFI variable DUMMY_DEBUG-%g .\n",
+	Print(u"Pausing for debugger attachment.\n");
+	Print(u"To disable this, remove the EFI variable DUMMY_DEBUG-%g .\n",
 	      &guid);
 	x = 1;
 	while (x++) {

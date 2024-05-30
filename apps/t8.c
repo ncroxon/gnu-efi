@@ -10,10 +10,10 @@ efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
   InitializeLib(ImageHandle, SystemTable);
   Argc = GetShellArgcArgv(ImageHandle, &Argv);
 
-  Print(L"Hello World, started with Argc=%d\n", Argc);
+  Print(u"Hello World, started with Argc=%d\n", Argc);
   for (i = 0 ; i < Argc ; ++i)
-    Print(L"  Argv[%d] = '%s'\n", i, Argv[i]);
+    Print(u"  Argv[%d] = '%s'\n", i, Argv[i]);
 
-  Print(L"Bye.\n");
+  Print(u"Bye.\n");
   return EFI_SUCCESS;
 }

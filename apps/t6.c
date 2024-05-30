@@ -25,19 +25,19 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 				&LoadedImageProtocol, 
 				(void **) &loaded_image);
 	if (EFI_ERROR(status)) {
-		Print(L"handleprotocol: %r\n", status);
+		Print(u"handleprotocol: %r\n", status);
 	}
 
 #if 0
 	BS->HandleProtocol(loaded_image->DeviceHandle, &DevicePathProtocol, (void **) &dev_path);
 
-	Print(L"Image device      : %s\n", DevicePathToStr(dev_path));
-	Print(L"Image file        : %s\n", DevicePathToStr(loaded_image->FilePath));
+	Print(u"Image device      : %s\n", DevicePathToStr(dev_path));
+	Print(u"Image file        : %s\n", DevicePathToStr(loaded_image->FilePath));
 #endif
-	Print(L"Image base        : %lx\n", loaded_image->ImageBase);
-	Print(L"Image size        : %lx\n", loaded_image->ImageSize);
-	Print(L"Load options size : %lx\n", loaded_image->LoadOptionsSize);
-	Print(L"Load options      : %s\n", loaded_image->LoadOptions);
+	Print(u"Image base        : %lx\n", loaded_image->ImageBase);
+	Print(u"Image size        : %lx\n", loaded_image->ImageSize);
+	Print(u"Load options size : %lx\n", loaded_image->LoadOptionsSize);
+	Print(u"Load options      : %s\n", loaded_image->LoadOptions);
 
 	return EFI_SUCCESS;
 }

@@ -12,7 +12,7 @@ extern int constructed_value;
 EFI_STATUS
 efi_main (EFI_HANDLE image EFI_UNUSED, EFI_SYSTEM_TABLE *systab EFI_UNUSED)
 {
-	Print(L"%a:%d:%a() constructed_value:%d\n", __FILE__, __LINE__, __func__, constructed_value);
+	Print(u"%a:%d:%a() constructed_value:%d\n", __FILE__, __LINE__, __func__, constructed_value);
 
 	return EFI_SUCCESS;
 }

@@ -11,9 +11,9 @@ print_modes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 
 	if (gop->Mode) {
 		imax = gop->Mode->MaxMode;
-		Print(L"GOP reports MaxMode %d\n", imax);
+		Print(u"GOP reports MaxMode %d\n", imax);
 	} else {
-		Print(L"gop->Mode is NULL\n");
+		Print(u"gop->Mode is NULL\n");
 		imax = 1;
 	}
 
@@ -23,8 +23,8 @@ print_modes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 		rc = uefi_call_wrapper(gop->QueryMode, 4, gop, i, &SizeOfInfo,
 					&info);
 		if (rc == EFI_NOT_STARTED) {
-			Print(L"gop->QueryMode() returned %r\n", rc);
-			Print(L"Trying to start GOP with SetMode().\n");
+			Print(u"gop->QueryMode() returned %r\n", rc);
+			Print(u"Trying to start GOP with SetMode().\n");
 			rc = uefi_call_wrapper(gop->SetMode, 2, gop,
 				gop->Mode ? gop->Mode->Mode : 0);
 			rc = uefi_call_wrapper(gop->QueryMode, 4, gop, i,
@@ -32,37 +32,37 @@ print_modes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 		}
 
 		if (EFI_ERROR(rc)) {
-			Print(L"%d: Bad response from QueryMode: %r (%d)\n",
+			Print(u"%d: Bad response from QueryMode: %r (%d)\n",
 			      i, rc, rc);
 			continue;
 		}
-		Print(L"%c%d: %dx%d ",
+		Print(u"%c%d: %dx%d ",
 		      (gop->Mode &&
 		       CompareMem(info,gop->Mode->Info,sizeof(*info)) == 0
 		       ) ? '*' : ' ',
 		      i, info->HorizontalResolution, info->VerticalResolution);
 		switch(info->PixelFormat) {
 			case PixelRedGreenBlueReserved8BitPerColor:
-				Print(L"RGBR");
+				Print(u"RGBR");
 				break;
 			case PixelBlueGreenRedReserved8BitPerColor:
-				Print(L"BGRR");
+				Print(u"BGRR");
 				break;
 			case PixelBitMask:
-				Print(L"R:%08x G:%08x B:%08x X:%08x",
+				Print(u"R:%08x G:%08x B:%08x X:%08x",
 					info->PixelInformation.RedMask,
 					info->PixelInformation.GreenMask,
 					info->PixelInformation.BlueMask,
 					info->PixelInformation.ReservedMask);
 				break;
 			case PixelBltOnly:
-				Print(L"(blt only)");
+				Print(u"(blt only)");
 				break;
 			default:
-				Print(L"(Invalid pixel format)");
+				Print(u"(Invalid pixel format)");
 				break;
 		}
-		Print(L" pitch %d\n", info->PixelsPerScanLine);
+		Print(u" pitch %d\n", info->PixelsPerScanLine);
 	}
 }
 
@@ -75,7 +75,7 @@ SetWatchdog(UINTN seconds)
 	if (EFI_ERROR(rc)) {
 		CHAR16 Buffer[64];
 		StatusToString(Buffer, rc);
-		Print(L"Bad response from QueryMode: %s (%d)\n", Buffer, rc);
+		Print(u"Bad response from QueryMode: %s (%d)\n", Buffer, rc);
 	}
 	return rc;
 }
@@ -92,12 +92,12 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 
 	rc = LibLocateProtocol(&GraphicsOutputProtocol, (void **)&gop);
 	if (EFI_ERROR(rc)) {
-		Print(L"Could not locate GOP: %r\n", rc);
+		Print(u"Could not locate GOP: %r\n", rc);
 		return rc;
 	}
 
 	if (!gop) {
-		Print(L"LocateProtocol(GOP, &gop) returned %r but GOP is NULL\n", rc);
+		Print(u"LocateProtocol(GOP, &gop) returned %r but GOP is NULL\n", rc);
 		return EFI_UNSUPPORTED;
 	}
 

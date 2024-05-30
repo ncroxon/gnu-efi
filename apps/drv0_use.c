@@ -28,20 +28,20 @@ PlayWithGnuEfiAppsDrv0Protocol(IN EFI_HANDLE DrvHandle) {
                              NULL,
                              EFI_OPEN_PROTOCOL_GET_PROTOCOL);
   if (EFI_ERROR(Status)) {
-    Print(L"Cannot open proto: %d\n", Status);
+    Print(u"Cannot open proto: %d\n", Status);
     return Status;
   }
 
-  Status = uefi_call_wrapper(drv->SayHello, 2, L"Sample UEFI Driver");
+  Status = uefi_call_wrapper(drv->SayHello, 2, u"Sample UEFI Driver");
   if (EFI_ERROR(Status)) {
-    Print(L"Cannot call SayHello: %d\n", Status);
+    Print(u"Cannot call SayHello: %d\n", Status);
   }
 
   Status = uefi_call_wrapper(drv->GetNumberOfHello, 2, &NumberOfHello);
   if (EFI_ERROR(Status)) {
-    Print(L"Cannot call GetNumberOfHello: %d\n", Status);
+    Print(u"Cannot call GetNumberOfHello: %d\n", Status);
   } else {
-    Print(L"Hello was called %d time(s).\n", NumberOfHello);
+    Print(u"Hello was called %d time(s).\n", NumberOfHello);
   }
 
   return EFI_SUCCESS;
@@ -60,16 +60,16 @@ efi_main (EFI_HANDLE Image, EFI_SYSTEM_TABLE *SysTab)
   Status = LibLocateHandle(ByProtocol, &GnuEfiAppsDrv0ProtocolGuid,
                            NULL, &NoHandles, &Handles);
   if (EFI_ERROR(Status)) {
-    Print(L"Error looking up handles for proto: %d\n", Status);
+    Print(u"Error looking up handles for proto: %d\n", Status);
     return Status;
   }
 
   for (i = 0 ; i < NoHandles ; ++i)
   {
-    Print(L"Playing with driver instance %d...\n", i);
+    Print(u"Playing with driver instance %d...\n", i);
     Status = PlayWithGnuEfiAppsDrv0Protocol(Handles[i]);
     if (EFI_ERROR(Status))
-      Print(L"Error playing with instance %d, skipping\n", i);
+      Print(u"Error playing with instance %d, skipping\n", i);
   }
 
   if (Handles)

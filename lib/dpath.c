@@ -479,7 +479,7 @@ _DevPathPci (
     PCI_DEVICE_PATH         *Pci;
 
     Pci = DevPath;
-    CatPrint(Str, L"Pci(0x%x,0x%x)", Pci->Device, Pci->Function);
+    CatPrint(Str, u"Pci(0x%x,0x%x)", Pci->Device, Pci->Function);
 }
 
 static VOID
@@ -491,7 +491,7 @@ _DevPathPccard (
     PCCARD_DEVICE_PATH      *Pccard;
 
     Pccard = DevPath;
-    CatPrint(Str, L"Pccard(0x%x)", Pccard-> FunctionNumber );
+    CatPrint(Str, u"Pccard(0x%x)", Pccard-> FunctionNumber );
 }
 
 static VOID
@@ -503,7 +503,7 @@ _DevPathMemMap (
     MEMMAP_DEVICE_PATH      *MemMap;
 
     MemMap = DevPath;
-    CatPrint(Str, L"MemMap(%d,0x%x,0x%x)",
+    CatPrint(Str, u"MemMap(%d,0x%x,0x%x)",
         MemMap->MemoryType,
         MemMap->StartingAddress,
         MemMap->EndingAddress
@@ -519,7 +519,7 @@ _DevPathController (
     CONTROLLER_DEVICE_PATH  *Controller;
 
     Controller = DevPath;
-    CatPrint(Str, L"Ctrl(%d)",
+    CatPrint(Str, u"Ctrl(%d)",
         Controller->Controller
         );
 }
@@ -536,21 +536,21 @@ _DevPathVendor (
 
     Vendor = DevPath;
     switch (DevicePathType(&Vendor->Header)) {
-    case HARDWARE_DEVICE_PATH:  Type = L"Hw";        break;
-    case MESSAGING_DEVICE_PATH: Type = L"Msg";       break;
-    case MEDIA_DEVICE_PATH:     Type = L"Media";     break;
-    default:                    Type = L"?";         break;
+    case HARDWARE_DEVICE_PATH:  Type = u"Hw";        break;
+    case MESSAGING_DEVICE_PATH: Type = u"Msg";       break;
+    case MEDIA_DEVICE_PATH:     Type = u"Media";     break;
+    default:                    Type = u"?";         break;
     }
 
-    CatPrint(Str, L"Ven%s(%g", Type, &Vendor->Guid);
+    CatPrint(Str, u"Ven%s(%g", Type, &Vendor->Guid);
     if (CompareGuid (&Vendor->Guid, &UnknownDevice) == 0) {
         //
         // GUID used by EFI to enumerate an EDD 1.1 device
         //
         UnknownDevPath = (UNKNOWN_DEVICE_VENDOR_DEVICE_PATH *)Vendor;
-        CatPrint(Str, L":%02x)", UnknownDevPath->LegacyDriveLetter);
+        CatPrint(Str, u":%02x)", UnknownDevPath->LegacyDriveLetter);
     } else {
-        CatPrint(Str, L")");
+        CatPrint(Str, u")");
     }
 }
 
@@ -570,40 +570,40 @@ _DevPathAcpi (
     if ((Acpi->HID & PNP_EISA_ID_MASK) == PNP_EISA_ID_CONST) {
         switch ( EISA_ID_TO_NUM( Acpi-> HID ) ) {
             case 0x301 : {
-                CatPrint( Str , L"Keyboard(%d)" , Acpi-> UID ) ;
+                CatPrint( Str , u"Keyboard(%d)" , Acpi-> UID ) ;
                 break ;
             }
             case 0x401 : {
-                CatPrint( Str , L"ParallelPort(%d)" , Acpi-> UID ) ;
+                CatPrint( Str , u"ParallelPort(%d)" , Acpi-> UID ) ;
                 break ;
             }
             case 0x501 : {
-                CatPrint( Str , L"Serial(%d)" , Acpi-> UID ) ;
+                CatPrint( Str , u"Serial(%d)" , Acpi-> UID ) ;
                 break ;
             }
             case 0x604 : {
-                CatPrint( Str , L"Floppy(%d)" , Acpi-> UID ) ;
+                CatPrint( Str , u"Floppy(%d)" , Acpi-> UID ) ;
                 break ;
             }
             case 0xa03 : {
-                CatPrint( Str , L"PciRoot(%d)" , Acpi-> UID ) ;
+                CatPrint( Str , u"PciRoot(%d)" , Acpi-> UID ) ;
                 break ;
             }
             case 0xa08 : {
-                CatPrint( Str , L"PcieRoot(%d)" , Acpi-> UID ) ;
+                CatPrint( Str , u"PcieRoot(%d)" , Acpi-> UID ) ;
                 break ;
             }
             default : {
-                CatPrint( Str , L"Acpi(PNP%04x" , EISA_ID_TO_NUM( Acpi-> HID ) ) ;
-                if ( Acpi-> UID ) CatPrint( Str , L",%d" , Acpi-> UID ) ;
-                CatPrint( Str , L")" ) ;
+                CatPrint( Str , u"Acpi(PNP%04x" , EISA_ID_TO_NUM( Acpi-> HID ) ) ;
+                if ( Acpi-> UID ) CatPrint( Str , u",%d" , Acpi-> UID ) ;
+                CatPrint( Str , u")" ) ;
                 break ;
             }
 	}
     } else {
-        CatPrint( Str , L"Acpi(0x%X" , Acpi-> HID ) ;
-        if ( Acpi-> UID ) CatPrint( Str , L",%d" , Acpi-> UID ) ;
-        CatPrint( Str , L")" , Acpi-> HID , Acpi-> UID ) ;
+        CatPrint( Str , u"Acpi(0x%X" , Acpi-> HID ) ;
+        if ( Acpi-> UID ) CatPrint( Str , u",%d" , Acpi-> UID ) ;
+        CatPrint( Str , u")" , Acpi-> HID , Acpi-> UID ) ;
     }
 }
 
@@ -617,9 +617,9 @@ _DevPathAtapi (
     ATAPI_DEVICE_PATH       *Atapi;
 
     Atapi = DevPath;
-    CatPrint(Str, L"Ata(%s,%s)",
-        Atapi->PrimarySecondary ? L"Secondary" : L"Primary",
-        Atapi->SlaveMaster ? L"Slave" : L"Master"
+    CatPrint(Str, u"Ata(%s,%s)",
+        Atapi->PrimarySecondary ? u"Secondary" : u"Primary",
+        Atapi->SlaveMaster ? u"Slave" : u"Master"
         );
 }
 
@@ -632,7 +632,7 @@ _DevPathScsi (
     SCSI_DEVICE_PATH        *Scsi;
 
     Scsi = DevPath;
-    CatPrint(Str, L"Scsi(%d,%d)", Scsi->Pun, Scsi->Lun);
+    CatPrint(Str, u"Scsi(%d,%d)", Scsi->Pun, Scsi->Lun);
 }
 
 
@@ -645,8 +645,8 @@ _DevPathFibre (
     FIBRECHANNEL_DEVICE_PATH    *Fibre;
 
     Fibre = DevPath;
-    CatPrint( Str , L"Fibre%s(0x%016lx,0x%016lx)" ,
-        DevicePathType( & Fibre-> Header ) == MSG_FIBRECHANNEL_DP ? L"" : L"Ex" ,
+    CatPrint( Str , u"Fibre%s(0x%016lx,0x%016lx)" ,
+        DevicePathType( & Fibre-> Header ) == MSG_FIBRECHANNEL_DP ? u"" : u"Ex" ,
         Fibre-> WWN , Fibre-> Lun ) ;
 }
 
@@ -660,7 +660,7 @@ _DevPath1394 (
 
     F1394 = DevPath;
     // Guid has format of IEEE-EUI64
-    CatPrint(Str, L"I1394(%016lx)", F1394->Guid);
+    CatPrint(Str, u"I1394(%016lx)", F1394->Guid);
 }
 
 
@@ -674,7 +674,7 @@ _DevPathUsb (
     USB_DEVICE_PATH         *Usb;
 
     Usb = DevPath;
-    CatPrint( Str , L"Usb(0x%x,0x%x)" , Usb-> Port , Usb-> Endpoint ) ;
+    CatPrint( Str , u"Usb(0x%x,0x%x)" , Usb-> Port , Usb-> Endpoint ) ;
 }
 
 
@@ -687,7 +687,7 @@ _DevPathI2O (
     I2O_DEVICE_PATH         *I2O;
 
     I2O = DevPath;
-    CatPrint(Str, L"I2O(0x%X)", I2O->Tid);
+    CatPrint(Str, u"I2O(0x%X)", I2O->Tid);
 }
 
 static VOID
@@ -710,15 +710,15 @@ _DevPathMacAddr (
         HwAddressSize = 6;
     }
 
-    CatPrint(Str, L"Mac(");
+    CatPrint(Str, u"Mac(");
 
     for(Index = 0; Index < HwAddressSize; Index++) {
-        CatPrint(Str, L"%02x",MAC->MacAddress.Addr[Index]);
+        CatPrint(Str, u"%02x",MAC->MacAddress.Addr[Index]);
     }
     if ( MAC-> IfType != 0 ) {
-        CatPrint(Str, L",%d" , MAC-> IfType ) ;
+        CatPrint(Str, u",%d" , MAC-> IfType ) ;
     }
-    CatPrint(Str, L")");
+    CatPrint(Str, u")");
 }
 
 static VOID
@@ -727,7 +727,7 @@ CatPrintIPv4(
     IN EFI_IPv4_ADDRESS * Address
     )
 {
-    CatPrint( Str , L"%d.%d.%d.%d" , Address-> Addr[ 0 ] , Address-> Addr[ 1 ] ,
+    CatPrint( Str , u"%d.%d.%d.%d" , Address-> Addr[ 0 ] , Address-> Addr[ 1 ] ,
         Address-> Addr[ 2 ] , Address-> Addr[ 3 ] ) ;
 }
 
@@ -749,11 +749,11 @@ CatPrintNetworkProtocol(
     )
 {
     if ( Proto == 6 ) {
-        CatPrint( Str , L"TCP" ) ;
+        CatPrint( Str , u"TCP" ) ;
     } else if ( Proto == 17 ) {
-        CatPrint( Str , L"UDP" ) ;
+        CatPrint( Str , u"UDP" ) ;
     } else {
-        CatPrint( Str , L"%d" , Proto ) ;
+        CatPrint( Str , u"%d" , Proto ) ;
     }
 }
 
@@ -767,11 +767,11 @@ _DevPathIPv4 (
     BOOLEAN show ;
 
     IP = DevPath;
-    CatPrint( Str , L"IPv4(") ;
+    CatPrint( Str , u"IPv4(") ;
     CatPrintIPv4( Str , & IP-> RemoteIpAddress ) ;
-    CatPrint( Str , L",") ;
+    CatPrint( Str , u",") ;
     CatPrintNetworkProtocol( Str , IP-> Protocol ) ;
-    CatPrint( Str , L",%s" , IP-> StaticIpAddress ? L"Static" : L"DHCP" ) ;
+    CatPrint( Str , u",%s" , IP-> StaticIpAddress ? u"Static" : u"DHCP" ) ;
     show = IsNotNullIPv4( & IP-> LocalIpAddress ) ;
     if ( ! show && DevicePathNodeLength( & IP-> Header ) == sizeof( IPv4_DEVICE_PATH ) ) {
         /* only version 2 includes gateway and netmask */
@@ -779,23 +779,23 @@ _DevPathIPv4 (
         show |= IsNotNullIPv4( & IP-> SubnetMask  ) ;
     }
     if ( show ) {
-        CatPrint( Str , L"," ) ;
+        CatPrint( Str , u"," ) ;
         CatPrintIPv4( Str , & IP-> LocalIpAddress ) ;
         if ( DevicePathNodeLength( & IP-> Header ) == sizeof( IPv4_DEVICE_PATH ) ) {
             /* only version 2 includes gateway and netmask */
             show = IsNotNullIPv4( & IP-> GatewayIpAddress ) ;
             show |= IsNotNullIPv4( & IP-> SubnetMask ) ;
             if ( show ) {
-                CatPrint( Str , L",") ;
+                CatPrint( Str , u",") ;
                 CatPrintIPv4( Str , & IP-> GatewayIpAddress ) ;
                 if ( IsNotNullIPv4( & IP-> SubnetMask ) ) {
-                    CatPrint( Str , L",") ;
+                    CatPrint( Str , u",") ;
                     CatPrintIPv4( Str , & IP-> SubnetMask ) ;
                 }
             }
         }
     }
-    CatPrint( Str , L")") ;
+    CatPrint( Str , u")") ;
 }
 
 #define CatPrintIPv6_ADD( x , y ) ( ( (UINT16) ( x ) ) << 8 | ( y ) )
@@ -805,7 +805,7 @@ CatPrintIPv6(
     IN EFI_IPv6_ADDRESS * Address
     )
 {
-    CatPrint( Str , L"%x:%x:%x:%x:%x:%x:%x:%x" ,
+    CatPrint( Str , u"%x:%x:%x:%x:%x:%x:%x:%x" ,
         CatPrintIPv6_ADD( Address-> Addr[ 0 ] , Address-> Addr[ 1 ] ) ,
         CatPrintIPv6_ADD( Address-> Addr[ 2 ] , Address-> Addr[ 3 ] ) ,
         CatPrintIPv6_ADD( Address-> Addr[ 4 ] , Address-> Addr[ 5 ] ) ,
@@ -825,21 +825,21 @@ _DevPathIPv6 (
     IPv6_DEVICE_PATH     *IP;
 
     IP = DevPath;
-    CatPrint( Str , L"IPv6(") ;
+    CatPrint( Str , u"IPv6(") ;
     CatPrintIPv6( Str , & IP-> RemoteIpAddress ) ;
-    CatPrint( Str , L",") ;
+    CatPrint( Str , u",") ;
     CatPrintNetworkProtocol( Str, IP-> Protocol ) ;
-    CatPrint( Str , L",%s," , IP-> IPAddressOrigin ?
-        ( IP-> IPAddressOrigin == 1 ? L"StatelessAutoConfigure" :
-        L"StatefulAutoConfigure" ) : L"Static" ) ;
+    CatPrint( Str , u",%s," , IP-> IPAddressOrigin ?
+        ( IP-> IPAddressOrigin == 1 ? u"StatelessAutoConfigure" :
+        u"StatefulAutoConfigure" ) : u"Static" ) ;
     CatPrintIPv6( Str , & IP-> LocalIpAddress ) ;
     if ( DevicePathNodeLength( & IP-> Header ) == sizeof( IPv6_DEVICE_PATH ) ) {
-        CatPrint( Str , L",") ;
+        CatPrint( Str , u",") ;
         CatPrintIPv6( Str , & IP-> GatewayIpAddress ) ;
-        CatPrint( Str , L",") ;
-        CatPrint( Str , L"%d" , & IP-> PrefixLength ) ;
+        CatPrint( Str , u",") ;
+        CatPrint( Str , u"%d" , & IP-> PrefixLength ) ;
     }
-    CatPrint( Str , L")") ;
+    CatPrint( Str , u")") ;
 }
 
 static VOID
@@ -852,7 +852,7 @@ _DevPathUri (
 
     Uri = DevPath;
 
-    CatPrint( Str, L"Uri(%a)", Uri->Uri );
+    CatPrint( Str, u"Uri(%a)", Uri->Uri );
 }
 
 static VOID
@@ -864,7 +864,7 @@ _DevPathInfiniBand (
     INFINIBAND_DEVICE_PATH  *InfiniBand;
 
     InfiniBand = DevPath;
-    CatPrint(Str, L"Infiniband(0x%x,%g,0x%lx,0x%lx,0x%lx)",
+    CatPrint(Str, u"Infiniband(0x%x,%g,0x%lx,0x%lx,0x%lx)",
         InfiniBand->ResourceFlags, InfiniBand->PortGid, InfiniBand->ServiceId,
         InfiniBand->TargetPortId, InfiniBand->DeviceId);
 }
@@ -890,25 +890,25 @@ _DevPathUart (
     }
 
     if (Uart->BaudRate == 0) {
-        CatPrint(Str, L"Uart(DEFAULT,");
+        CatPrint(Str, u"Uart(DEFAULT,");
     } else {
-        CatPrint(Str, L"Uart(%ld,", Uart->BaudRate);
+        CatPrint(Str, u"Uart(%ld,", Uart->BaudRate);
     }
 
     if (Uart->DataBits == 0) {
-        CatPrint(Str, L"DEFAULT,");
+        CatPrint(Str, u"DEFAULT,");
     } else {
-        CatPrint(Str, L"%d,", Uart->DataBits);
+        CatPrint(Str, u"%d,", Uart->DataBits);
     }
 
-    CatPrint(Str, L"%c,", Parity);
+    CatPrint(Str, u"%c,", Parity);
 
     switch (Uart->StopBits) {
-        case 0  : CatPrint(Str, L"D)");   break;
-        case 1  : CatPrint(Str, L"1)");   break;
-        case 2  : CatPrint(Str, L"1.5)"); break;
-        case 3  : CatPrint(Str, L"2)");   break;
-        default : CatPrint(Str, L"x)");   break;
+        case 0  : CatPrint(Str, u"D)");   break;
+        case 1  : CatPrint(Str, u"1)");   break;
+        case 2  : CatPrint(Str, u"1.5)"); break;
+        case 3  : CatPrint(Str, u"2)");   break;
+        default : CatPrint(Str, u"x)");   break;
     }
 }
 
@@ -921,7 +921,7 @@ _DevPathSata (
     SATA_DEVICE_PATH * Sata ;
 
     Sata = DevPath;
-    CatPrint( Str , L"Sata(0x%x,0x%x,0x%x)" , Sata-> HBAPortNumber ,
+    CatPrint( Str , u"Sata(0x%x,0x%x,0x%x)" , Sata-> HBAPortNumber ,
         Sata-> PortMultiplierPortNumber , Sata-> Lun ) ;
 }
 
@@ -936,19 +936,19 @@ _DevPathHardDrive (
     Hd = DevPath;
     switch (Hd->SignatureType) {
         case SIGNATURE_TYPE_MBR:
-            CatPrint(Str, L"HD(%d,MBR,0x%08x)",
+            CatPrint(Str, u"HD(%d,MBR,0x%08x)",
                 Hd->PartitionNumber,
                 *((UINT32 *)(&(Hd->Signature[0])))
                 );
             break;
         case SIGNATURE_TYPE_GUID:
-            CatPrint(Str, L"HD(%d,GPT,%g)",
+            CatPrint(Str, u"HD(%d,GPT,%g)",
                 Hd->PartitionNumber,
                 (EFI_GUID *) &(Hd->Signature[0])
                 );
             break;
         default:
-            CatPrint(Str, L"HD(%d,%d,0)",
+            CatPrint(Str, u"HD(%d,%d,0)",
                 Hd->PartitionNumber,
                 Hd->SignatureType
                 );
@@ -965,7 +965,7 @@ _DevPathCDROM (
     CDROM_DEVICE_PATH       *Cd;
 
     Cd = DevPath;
-    CatPrint( Str , L"CDROM(0x%x)" , Cd-> BootEntry ) ;
+    CatPrint( Str , u"CDROM(0x%x)" , Cd-> BootEntry ) ;
 }
 
 static VOID
@@ -977,7 +977,7 @@ _DevPathFilePath (
     FILEPATH_DEVICE_PATH    *Fp;
 
     Fp = DevPath;
-    CatPrint(Str, L"%s", Fp->PathName);
+    CatPrint(Str, u"%s", Fp->PathName);
 }
 
 static VOID
@@ -989,7 +989,7 @@ _DevPathMediaProtocol (
     MEDIA_PROTOCOL_DEVICE_PATH  *MediaProt;
 
     MediaProt = DevPath;
-    CatPrint(Str, L"%g", &MediaProt->Protocol);
+    CatPrint(Str, u"%g", &MediaProt->Protocol);
 }
 
 static VOID
@@ -1003,16 +1003,16 @@ _DevPathBssBss (
 
     Bss = DevPath;
     switch (Bss->DeviceType) {
-    case BBS_TYPE_FLOPPY:               Type = L"Floppy";       break;
-    case BBS_TYPE_HARDDRIVE:            Type = L"Harddrive";    break;
-    case BBS_TYPE_CDROM:                Type = L"CDROM";        break;
-    case BBS_TYPE_PCMCIA:               Type = L"PCMCIA";       break;
-    case BBS_TYPE_USB:                  Type = L"Usb";          break;
-    case BBS_TYPE_EMBEDDED_NETWORK:     Type = L"Net";          break;
-    default:                            Type = L"?";            break;
+    case BBS_TYPE_FLOPPY:               Type = u"Floppy";       break;
+    case BBS_TYPE_HARDDRIVE:            Type = u"Harddrive";    break;
+    case BBS_TYPE_CDROM:                Type = u"CDROM";        break;
+    case BBS_TYPE_PCMCIA:               Type = u"PCMCIA";       break;
+    case BBS_TYPE_USB:                  Type = u"Usb";          break;
+    case BBS_TYPE_EMBEDDED_NETWORK:     Type = u"Net";          break;
+    default:                            Type = u"?";            break;
     }
 
-    CatPrint(Str, L"Bss-%s(%a)", Type, Bss->String);
+    CatPrint(Str, u"Bss-%s(%a)", Type, Bss->String);
 }
 
 
@@ -1022,7 +1022,7 @@ _DevPathEndInstance (
     IN VOID                 *DevPath EFI_UNUSED
     )
 {
-    CatPrint(Str, L",");
+    CatPrint(Str, u",");
 }
 
 /**
@@ -1044,37 +1044,37 @@ _DevPathNodeUnknown (
     value += 4 ;
     switch ( Path-> Type ) {
         case HARDWARE_DEVICE_PATH : { /* Unknown Hardware Device Path */
-            CatPrint( Str , L"HardwarePath(%d" , Path-> SubType ) ;
+            CatPrint( Str , u"HardwarePath(%d" , Path-> SubType ) ;
             break ;
         }
         case ACPI_DEVICE_PATH : { /* Unknown ACPI Device Path */
-            CatPrint( Str , L"AcpiPath(%d" , Path-> SubType ) ;
+            CatPrint( Str , u"AcpiPath(%d" , Path-> SubType ) ;
             break ;
         }
         case MESSAGING_DEVICE_PATH : { /* Unknown Messaging Device Path */
-            CatPrint( Str , L"Msg(%d" , Path-> SubType ) ;
+            CatPrint( Str , u"Msg(%d" , Path-> SubType ) ;
             break ;
         }
         case MEDIA_DEVICE_PATH : { /* Unknown Media Device Path */
-            CatPrint( Str , L"MediaPath(%d" , Path-> SubType ) ;
+            CatPrint( Str , u"MediaPath(%d" , Path-> SubType ) ;
             break ;
         }
         case BBS_DEVICE_PATH : { /* Unknown BIOS Boot Specification Device Path */
-            CatPrint( Str , L"BbsPath(%d" , Path-> SubType ) ;
+            CatPrint( Str , u"BbsPath(%d" , Path-> SubType ) ;
             break ;
         }
         default : { /* Unknown Device Path */
-            CatPrint( Str , L"Path(%d,%d" , Path-> Type , Path-> SubType ) ;
+            CatPrint( Str , u"Path(%d,%d" , Path-> Type , Path-> SubType ) ;
             break ;
         }
     }
     length = DevicePathNodeLength( Path ) ;
     for ( index = 0 ; index < length ; index ++ ) {
-        if ( index == 0 ) CatPrint( Str , L",0x" ) ;
-        CatPrint( Str , L"%02x" , * value ) ;
+        if ( index == 0 ) CatPrint( Str , u",0x" ) ;
+        CatPrint( Str , u"%02x" , * value ) ;
 	value ++ ;
     }
-    CatPrint( Str , L")" ) ;
+    CatPrint( Str , u")" ) ;
 }
 
 
@@ -1180,7 +1180,7 @@ DevicePathToStr (
         //
 
         if (Str.len  &&  DumpNode != _DevPathEndInstance) {
-            CatPrint (&Str, L"/");
+            CatPrint (&Str, u"/");
         }
 
         //

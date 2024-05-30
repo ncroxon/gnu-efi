@@ -16,19 +16,19 @@ efi_main(
 	InitializeLib(image_handle, systab);
 	PoolAllocationType = 2; /* klooj */
 
-	Print(L"Hello World! (0xd=0x%x, 13=%d)\n", 13, 13);
+	Print(u"Hello World! (0xd=0x%x, 13=%d)\n", 13, 13);
 
-	Print(L"before InitializeLib(): PoolAllocationType=%d\n",
+	Print(u"before InitializeLib(): PoolAllocationType=%d\n",
 		pat);
 
-	Print(L" after InitializeLib(): PoolAllocationType=%d\n",
+	Print(u" after InitializeLib(): PoolAllocationType=%d\n",
 		PoolAllocationType);
 
 	/*
 	 * Locate loaded_image_handle instance.
 	 */
 
-	Print(L"BS->HandleProtocol()  ");
+	Print(u"BS->HandleProtocol()  ");
 
 	efi_status = uefi_call_wrapper(
 		BS->HandleProtocol,
@@ -38,31 +38,31 @@ efi_main(
 		&void_li_p);
 	li = void_li_p;
 
-	Print(L"%xh (%r)\n", efi_status, efi_status);
+	Print(u"%xh (%r)\n", efi_status, efi_status);
 
 	if (efi_status != EFI_SUCCESS) {
 		return efi_status;
 	}
 
-	Print(L"  li: %xh\n", li);
+	Print(u"  li: %xh\n", li);
 
 	if (!li) {
 		return EFI_UNSUPPORTED;
 	}
 
-	Print(L"  li->Revision:        %xh\n", li->Revision);
-	Print(L"  li->ParentHandle:    %xh\n", li->ParentHandle);
-	Print(L"  li->SystemTable:     %xh\n", li->SystemTable);
-	Print(L"  li->DeviceHandle:    %xh\n", li->DeviceHandle);
-	Print(L"  li->FilePath:        %xh\n", li->FilePath);
-	Print(L"  li->Reserved:        %xh\n", li->Reserved);
-	Print(L"  li->LoadOptionsSize: %xh\n", li->LoadOptionsSize);
-	Print(L"  li->LoadOptions:     %xh\n", li->LoadOptions);
-	Print(L"  li->ImageBase:       %xh\n", li->ImageBase);
-	Print(L"  li->ImageSize:       %xh\n", li->ImageSize);
-	Print(L"  li->ImageCodeType:   %xh\n", li->ImageCodeType);
-	Print(L"  li->ImageDataType:   %xh\n", li->ImageDataType);
-	Print(L"  li->Unload:          %xh\n", li->Unload);
+	Print(u"  li->Revision:        %xh\n", li->Revision);
+	Print(u"  li->ParentHandle:    %xh\n", li->ParentHandle);
+	Print(u"  li->SystemTable:     %xh\n", li->SystemTable);
+	Print(u"  li->DeviceHandle:    %xh\n", li->DeviceHandle);
+	Print(u"  li->FilePath:        %xh\n", li->FilePath);
+	Print(u"  li->Reserved:        %xh\n", li->Reserved);
+	Print(u"  li->LoadOptionsSize: %xh\n", li->LoadOptionsSize);
+	Print(u"  li->LoadOptions:     %xh\n", li->LoadOptions);
+	Print(u"  li->ImageBase:       %xh\n", li->ImageBase);
+	Print(u"  li->ImageSize:       %xh\n", li->ImageSize);
+	Print(u"  li->ImageCodeType:   %xh\n", li->ImageCodeType);
+	Print(u"  li->ImageDataType:   %xh\n", li->ImageDataType);
+	Print(u"  li->Unload:          %xh\n", li->Unload);
 
 #if 0
 typedef struct {

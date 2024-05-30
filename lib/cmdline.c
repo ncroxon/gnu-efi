@@ -54,20 +54,20 @@ GetShellArgcArgvFromLoadedImage(
     BufLen = sizeof(ArgvContents);
 
   CopyMem(ArgvContents, ((EFI_LOADED_IMAGE *)LoadedImage)->LoadOptions, BufLen);
-  ArgvContents[MAX_CMDLINE_SIZE - 1] = L'\0';
+  ArgvContents[MAX_CMDLINE_SIZE - 1] = u'\0';
 
-  for (c = ArgStart = ArgvContents ; *c != L'\0' ; ++c) {
-    if (*c == L' ') {
-      *c = L'\0';
+  for (c = ArgStart = ArgvContents ; *c != u'\0' ; ++c) {
+    if (*c == u' ') {
+      *c = u'\0';
       if (Argc < MAX_CMDLINE_ARGC) Argv[Argc++] = ArgStart;
       ArgStart = c + 1;
     }
   }
 
-  if ((*ArgStart != L'\0') && (Argc < MAX_CMDLINE_ARGC))
+  if ((*ArgStart != u'\0') && (Argc < MAX_CMDLINE_ARGC))
     Argv[Argc++] = ArgStart;
 
-  // Print(L"Got argc/argv from loaded image proto\n");
+  // Print(u"Got argc/argv from loaded image proto\n");
   *ResultArgv = Argv;
   return Argc;
 }
@@ -93,7 +93,7 @@ INTN GetShellArgcArgv(EFI_HANDLE ImageHandle, CHAR16 **Argv[])
   if (!EFI_ERROR(Status))
   {
     // use shell 2.0 interface
-    // Print(L"Got argc/argv from shell intf proto\n");
+    // Print(u"Got argc/argv from shell intf proto\n");
     *Argv = EfiShellParametersProtocol->Argv;
     return EfiShellParametersProtocol->Argc;
   }
@@ -109,7 +109,7 @@ INTN GetShellArgcArgv(EFI_HANDLE ImageHandle, CHAR16 **Argv[])
                              );
   if (!EFI_ERROR(Status))
   {
-    // Print(L"Got argc/argv from shell params proto\n");
+    // Print(u"Got argc/argv from shell params proto\n");
     *Argv = EfiShellInterfaceProtocol->Argv;
     return EfiShellInterfaceProtocol->Argc;
   }

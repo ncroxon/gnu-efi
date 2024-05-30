@@ -27,17 +27,17 @@ typedef struct {
 static inline void set_bit(volatile uint32_t *flag, int bit, int value)
 {
 	uint32_t val = *flag;
-	Print(L"current value is 0x%2x\n", val);
+	Print(u"current value is 0x%2x\n", val);
 
 	if (value) {
 		val |= (1 << bit);
 	} else {
 		val &= ~(1 << bit);
 	}
-	Print(L"setting value to 0x%2x\n", val);
+	Print(u"setting value to 0x%2x\n", val);
 	*flag = val;
 	val = *flag;
-	Print(L"new value is 0x%2x\n", val);
+	Print(u"new value is 0x%2x\n", val);
 }
 
 static int is_device(EFI_PCI_IO *pciio, uint16_t vendor_id, uint16_t device_id)
@@ -112,7 +112,7 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 	}
 
 	if (rc == EFI_NOT_FOUND) {
-		Print(L"Device not found.\n");
+		Print(u"Device not found.\n");
 		return rc;
 	} else if (EFI_ERROR(rc)) {
 		return rc;
@@ -123,12 +123,12 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 	if (EFI_ERROR(rc))
 		return rc;
 	if (!(lpcif.rcba & 1)) {
-		Print(L"rcrb is not mapped, cannot route port 80h\n");
+		Print(u"rcrb is not mapped, cannot route port 80h\n");
 		return EFI_UNSUPPORTED;
 	}
 	lpcif.rcba &= ~1UL;
 
-	Print(L"rcba: 0x%8x\n", lpcif.rcba, lpcif.rcba);
+	Print(u"rcba: 0x%8x\n", lpcif.rcba, lpcif.rcba);
 	set_bit((uint32_t *)(intptr_t)(lpcif.rcba + GCS_OFFSET_ADDR),
 		     GCS_RPR_SHIFT, GCS_RPR_PCI);
 

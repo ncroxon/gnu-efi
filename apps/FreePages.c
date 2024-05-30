@@ -93,27 +93,27 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 
 	InitializeLib(image, systab);
 
-	Print(L"FreePages: __PhysAddr__ __PgCnt__\n");
-	Print(L"__PhysAddr__   0... %llx\n", MAX_ADDR);
-	Print(L"__PgCnt__     [0..%lx]\n", MAX_NUM_PAGES);
-	Print(L"All numbers hex w/ no leading 0x\n");
-	Print(L"\n");
+	Print(u"FreePages: __PhysAddr__ __PgCnt__\n");
+	Print(u"__PhysAddr__   0... %llx\n", MAX_ADDR);
+	Print(u"__PgCnt__     [0..%lx]\n", MAX_NUM_PAGES);
+	Print(u"All numbers hex w/ no leading 0x\n");
+	Print(u"\n");
 
 #if DEBUG
-	Print(L"Now parse argc/argv\n");
+	Print(u"Now parse argc/argv\n");
 #endif
 	argc = GetShellArgcArgv(image, &argv);
 #if DEBUG
-	Print(L"argc = %d\n", argc);
+	Print(u"argc = %d\n", argc);
 #endif
 
 #if DEBUG
 	for (c = 0;  c < argc;  c++ ) {
-		Print(L"argv[%d] = <%s>\n", c, argv[c]);
+		Print(u"argv[%d] = <%s>\n", c, argv[c]);
 	}
 #endif
 	if (argc != 3) {
-		Print(L"Invalid argument count\n");
+		Print(u"Invalid argument count\n");
 		return EFI_SUCCESS;
 	}
 
@@ -121,23 +121,23 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	PgCnt	 = xtoi(argv[2]);
 
 	if ( (PgCnt < 0) || (PgCnt > MAX_NUM_PAGES) ) {
-		Print(L"Inavlid PgCnt\n");
+		Print(u"Inavlid PgCnt\n");
 		err++;
 	}
 	if ( PhysAddr > MAX_ADDR ) {
-		Print(L"Inavlid Address\n");
+		Print(u"Inavlid Address\n");
 		err++;
 	}
 	if ( err ) {
 		return EFI_SUCCESS;
 	}
 
-	Print(L"FreePages(%lx,%d)\n", PhysAddr, PgCnt);
+	Print(u"FreePages(%lx,%d)\n", PhysAddr, PgCnt);
 
 	efi_status = uefi_call_wrapper(BS->FreePages, 2, PhysAddr, PgCnt);
 
 	if ( EFI_ERROR(efi_status) ) {
-		Print(L"Free Pages Failed: %d\n", efi_status);
+		Print(u"Free Pages Failed: %d\n", efi_status);
 		return efi_status;
 	}
 
