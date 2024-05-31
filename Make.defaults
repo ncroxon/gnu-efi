@@ -109,7 +109,7 @@ endif
 
 GCCVERSION   := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f1 -d.)
 GCCMINOR     := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f2 -d.)
-USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang)
+USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang || echo 0)
 
 # Rely on GCC MS ABI support?
 GCCNEWENOUGH := $(shell ( [ $(GCCVERSION) -gt "4" ]           \
@@ -212,7 +212,8 @@ else
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector -fno-stack-check \
-           $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
+           $(if $(findstring 0,$(USING_CLANG)),-Wno-error=maybe-uninitialized,) \
+           $(if $(findstring 0,$(USING_CLANG)),-fno-merge-all-constants,)
 endif
 
 ifeq ($(V),1)
