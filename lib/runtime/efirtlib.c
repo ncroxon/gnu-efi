@@ -100,16 +100,11 @@ RtCopyMemC (
     IN UINTN       len
     )
 {
-    CHAR8 *d = (CHAR8*)Dest;
-    CONST CHAR8 *s = (CONST CHAR8*)Src;
-
-    if (d == NULL || s == NULL || s == d)
-        return;
-
-    /* CONST Src: UB if Src and Dest overlap */
-
-    while (len--) 
-        *d++ = *s++;
+    /* CopyMem matches ISO C apart from the change to NON-CONST Src
+       Overwriting Src is an intended outcome if overlapping occurs (per memmove)
+       This function is useful to avoid GCC dying in changing pointer setup
+    */
+    RtCopyMem(Dest, (VOID*)Src, len);
 }
 
 #ifndef __GNUC__
