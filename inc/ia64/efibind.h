@@ -64,7 +64,7 @@ Revision History
     #endif
     typedef uint64_t            uintptr_t;
     typedef int64_t             intptr_t;
-#elif defined(__GNUC__)
+#else
     #include <stdint.h>
 #endif
 

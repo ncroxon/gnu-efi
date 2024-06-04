@@ -35,6 +35,9 @@ typedef bool BOOLEAN;
 #endif
 #ifndef TRUE
 #if defined(__cplusplus) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
+#if defined(_MSC_VER)
+#include <stdbool.h>
+#endif
     #define TRUE    true
     #define FALSE   false
 #else
