@@ -33,12 +33,16 @@ jobs:
           ln -s /usr/bin/${i} $HOME/.local/bin/${{ matrix.cross_compile }}${i};
         done
         make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }}
+    
+    - name: Generate binary information
+      run: readelf -a ./${{ matrix.dir }}/apps/ctors_dtors_priority_test.so > ./${{ matrix.dir }}/apps/readelf.txt
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.arch }}
-        path: ./${{ matrix.dir }}/apps/*.efi
+        path: |
+          ./${{ matrix.dir }}/apps/*
 
   tests:
     runs-on: ubuntu-24.04
