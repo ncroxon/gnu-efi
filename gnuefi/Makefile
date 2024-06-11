@@ -80,7 +80,7 @@ endif
 # on aarch64, avoid jump tables before all relocations have been processed
 reloc_aarch64.o: CFLAGS += -fno-jump-tables
 
-ifneq (,$(filter $(ARCH),aarch64))
+ifneq (,$(filter $(ARCH),aarch64 riscv64))
 CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
 endif
 
@@ -116,7 +116,7 @@ ifneq (,$(findstring FreeBSD,$(OS)))
  ifeq ($(ARCH),x86_64)
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_fbsd_efi.lds $(INSTALLROOT)$(LIBDIR)
  else
-    ifneq (,$(filter $(ARCH),aarch64))
+    ifneq (,$(filter $(ARCH),aarch64 riscv64))
         $(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi_local.lds $(INSTALLROOT)$(LIBDIR)
     endif
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)

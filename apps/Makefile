@@ -44,15 +44,23 @@ include $(SRCDIR)/../Make.defaults
 LINUX_HEADERS	= /usr/src/sys/build
 APPSDIR		= $(LIBDIR)/gnuefi/apps
 CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
+
+ifneq ($(HAVE_EFI_OBJCOPY),)
+ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),0)
+CRT0_LOCAL = -local
+LDS_LOCAL = _local
+endif
+endif
+
 ifeq ($(IS_MINGW32),)
 # The CRT0 libs are only needed for non MinGW platforms
 CRT0_LIBS	= -lgnuefi
 endif
 
 ifneq ($(CRT0_LIBS),)
-CRTOBJS		= $(TOPDIR)/$(ARCH)/gnuefi/crt0-efi-$(ARCH).o
+CRTOBJS		= $(TOPDIR)/$(ARCH)/gnuefi/crt0-efi-$(ARCH)$(CRT0_LOCAL).o
 
-LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi.lds
+LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi$(LDS_LOCAL).lds
 ifneq (,$(findstring FreeBSD,$(OS)))
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
 endif
@@ -81,7 +89,7 @@ SUBSYSTEM	:= 0xa
 $(TARGET_BSDRIVERS): SUBSYSTEM = 0xb
 $(TARGET_RTDRIVERS): SUBSYSTEM = 0xc
 
-ifneq ($(HAVE_EFI_OBJCOPY),)
+ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),1)
 
 FORMAT		:= --target efi-app-$(ARCH)
 $(TARGET_BSDRIVERS): FORMAT=--target efi-bsdrv-$(ARCH)

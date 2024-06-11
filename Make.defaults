@@ -178,11 +178,21 @@ endif
 #
 ifneq ($(ARCH),arm)
 ifneq ($(ARCH),mips64el)
-ifneq ($(ARCH),riscv64)
 export HAVE_EFI_OBJCOPY=y
 endif
 endif
+
+ifeq ($(ARCH),riscv64)
+export SYSTEM_HAS_EFI_OBJCOPY ?= 0
 endif
+
+ifeq ($(HAVE_EFI_OBJCOPY),y)
+export SYSTEM_HAS_EFI_OBJCOPY ?= 1
+else
+export SYSTEM_HAS_EFI_OBJCOPY ?= 0
+endif
+
+
 
 ifeq ($(ARCH),arm)
 CFLAGS += -marm
