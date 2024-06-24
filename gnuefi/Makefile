@@ -107,7 +107,7 @@ gnu-efi.pc:
 
 
 clean:
-	@rm -vf $(TARGETS) *~ *.o $(OBJS)
+	@rm -vf $(TARGETS) *~ *.o $(OBJS) gnu-efi.pc
 
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
