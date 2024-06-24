@@ -117,6 +117,14 @@ GCCNEWENOUGH := $(shell ( [ $(GCCVERSION) -gt "4" ]           \
                           && [ $(GCCMINOR) -ge "7" ] ) ) \
                           && echo 1)
 
+PART_ONE = $(shell echo "$(1)" | cut -f1 -d.)
+PART_TWO = $(shell echo "$(1)" | cut -f2 -d.)
+
+IS_NEW_ENOUGH = $(shell ( [ $(call PART_ONE,$(1)) -gt "$(2)" ] \
+                          || ( [ $(call PART_ONE,$(1)) -eq "$(2)" ] \
+                          && [ $(call PART_TWO,$(1)) -ge "$(3)" ] ) ) \
+                          && echo 1)
+
 #
 # Where to build the package
 #
@@ -176,6 +184,9 @@ endif
 # Set HAVE_EFI_OBJCOPY if objcopy understands --target efi-[app|bsdrv|rtdrv],
 # otherwise we need to compose the PE/COFF header using the assembler
 #
+
+OBJCOPY_VERSION := $(shell $(OBJCOPY) --version | head -n 1 | awk '{print $$(NF)}')
+
 ifneq ($(ARCH),arm)
 ifneq ($(ARCH),mips64el)
 export HAVE_EFI_OBJCOPY=y
@@ -183,7 +194,15 @@ endif
 endif
 
 ifeq ($(ARCH),riscv64)
+ifneq ($(call IS_NEW_ENOUGH,$(OBJCOPY_VERSION),2,42),1)
 export SYSTEM_HAS_EFI_OBJCOPY ?= 0
+endif
+endif
+
+ifeq ($(ARCH),aarch64)
+ifneq ($(call IS_NEW_ENOUGH,$(OBJCOPY_VERSION),2,38),1)
+export SYSTEM_HAS_EFI_OBJCOPY ?= 0
+endif
 endif
 
 ifeq ($(HAVE_EFI_OBJCOPY),y)
