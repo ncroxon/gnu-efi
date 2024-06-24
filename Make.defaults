@@ -245,6 +245,12 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
            $(if $(findstring 0,$(USING_CLANG)),-fno-merge-all-constants,)
 endif
 
+# Force DWARF 4 on LLVM
+# Otherwise readelf becomes very unhappy
+ifeq ($(USING_CLANG),clang)
+CFLAGS += -gdwarf-4
+endif
+
 ifeq ($(V),1)
 ARFLAGS := rDv
 else
