@@ -172,7 +172,7 @@ EFIDebugVariable (
     UINTN           NewEFIDebug;
 
     DataSize = sizeof(EFIDebug);
-    Status = uefi_call_wrapper(RT->GetVariable, 5, L"EFIDebug", &EfiGlobalVariable, &Attributes, &DataSize, &NewEFIDebug);
+    Status = uefi_call_wrapper(RT->GetVariable, 5, u"EFIDebug", &EfiGlobalVariable, &Attributes, &DataSize, &NewEFIDebug);
     if (!EFI_ERROR(Status)) {
         EFIDebug = NewEFIDebug;
     }

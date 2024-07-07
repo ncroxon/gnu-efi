@@ -4,6 +4,6 @@
 EFI_STATUS
 efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 {
-	Print(L"Press `q' to quit, any other key to continue:\n");
+	Print(u"Press `q' to quit, any other key to continue:\n");
 	return EFI_SUCCESS;
 }

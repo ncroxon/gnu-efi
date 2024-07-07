@@ -881,7 +881,7 @@ Returns:
     if (!UnicodeStr)
         return 0;
 
-    UnicodeFmt = PoolPrint(L"%a", fmt);
+    UnicodeFmt = PoolPrint(u"%a", fmt);
     if (!UnicodeFmt) {
         FreePool(UnicodeStr);
         return 0;
@@ -1261,7 +1261,7 @@ Returns:
             case 's':
                 Item.Item.pw = va_arg(ps->args, CHAR16 *);
                 if (!Item.Item.pw) {
-                    Item.Item.pw = L"(null)";
+                    Item.Item.pw = u"(null)";
                 }
                 break;
 
@@ -1484,7 +1484,7 @@ TimeToString (
     Year = Time->Year % 100;
 
     // bugbug: for now just print it any old way
-    UnicodeSPrint (Buffer, 0, L"%02d/%02d/%02d  %02d:%02d%c",
+    UnicodeSPrint (Buffer, 0, u"%02d/%02d/%02d  %02d:%02d%c",
         Time->Month,
         Time->Day,
         Year,
@@ -1535,7 +1535,7 @@ DumpHex (
 
         Val[Index*3] = 0;
         Str[Index] = 0;
-        Print (L"%*a%X: %-.48a *%a*\n", Indent, "", Offset, Val, Str);
+        Print (u"%*a%X: %-.48a *%a*\n", Indent, "", Offset, Val, Str);
 
         Data += Size;
         Offset += Size;
@@ -1548,9 +1548,9 @@ DumpHex (
             //  block updates
             //
             ScreenCount = 0;
-            Print (L"Press Enter to continue :");
-            Input (L"", ReturnStr, sizeof(ReturnStr)/sizeof(CHAR16));
-            Print (L"\n");
+            Print (u"Press Enter to continue :");
+            Input (u"", ReturnStr, sizeof(ReturnStr)/sizeof(CHAR16));
+            Print (u"\n");
         }
 
     }

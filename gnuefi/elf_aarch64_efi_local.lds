@@ -1,48 +1,46 @@
-/* SPDX-License-Identifier: GPL-2.0+ OR BSD-2-Clause */
-
-OUTPUT_FORMAT("elf64-littleriscv", "elf64-littleriscv", "elf64-littleriscv")
-OUTPUT_ARCH(riscv)
+OUTPUT_FORMAT("elf64-littleaarch64", "elf64-littleaarch64", "elf64-littleaarch64")
+OUTPUT_ARCH(aarch64)
 ENTRY(_start)
 SECTIONS
 {
-  . = 0;
-  ImageBase = .;
-  /* .hash and/or .gnu.hash MUST come first! */
-  .hash : { *(.hash) }
-  .gnu.hash : { *(.gnu.hash) }
-  . = ALIGN(4096);
-  .eh_frame : { *(.eh_frame) }
-  .eh_frame_hdr : { *(.eh_frame_hdr) }
-  .gcc_except_table : { *(.gcc_except_table*) }
-  . = ALIGN(4096);
-  .text : {
+  .text 0 : {
+    *(.text.head)
+    . = ALIGN(4096);
     _text = .;
     *(.text)
     *(.text.*)
     *(.gnu.linkonce.t.*)
     *(.plt)
     . = ALIGN(16);
-  }
-  _etext = .;
+    _evtext = .;
+    . = ALIGN(4096);
+    _etext = .;
+  } =0
+  _text_vsize = _evtext - _text;
   _text_size = _etext - _text;
   . = ALIGN(65536);
-  .reloc :
-  {
-    KEEP (*(.reloc))
-  }
+  _reloc = .;
+  .reloc : {
+    *(.reloc)
+    _evreloc = .;
+    . = ALIGN(4096);
+    _ereloc = .;
+  } =0
+  _reloc_vsize = _evreloc - _reloc;
+  _reloc_size = _ereloc - _reloc;
   . = ALIGN(4096);
+  _data = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .data :
   {
-   _data = .;
    *(.sdata)
    *(.data)
    *(.data1)
    *(.data.*)
    *(.got.plt)
    *(.got)
-
+   
    /*
     * Note that these aren't the using the GNU "CONSTRUCTOR" output section
     * command, so they don't start with a size.  Because of p2align and the
@@ -77,15 +75,20 @@ SECTIONS
    *(.sbss)
    *(.scommon)
    *(.dynbss)
-   *(.bss*)
+   *(.bss)
+   *(.bss.*)
    *(COMMON)
-   *(.rel.local)
    . = ALIGN(16);
-
    _bss_end = .;
-  }
+   _evdata = .;
+   . = ALIGN(4096);
+   _edata = .;
+  } =0
+  _data_vsize = _evdata - _data;
+  _data_size = _edata - _data;
 
   . = ALIGN(4096);
+  _rodata = .;
   .rela :
   {
     *(.rela.text*)
@@ -102,10 +105,16 @@ SECTIONS
   . = ALIGN(4096);
   .rela.plt : { *(.rela.plt) }
   . = ALIGN(4096);
-  .rodata : { *(.rodata*) }
-  . = ALIGN(512);
-  _edata = .;
-  _data_size = _edata - _data;
+  .rodata : {
+    *(.rodata*)
+    _evrodata = .;
+    . = ALIGN(4096);
+    _erodata = .;
+  } =0
+  _rodata_vsize = _evrodata - _rodata;
+  _rodata_size = _erodata - _rodata;
+  _image_end = .;
+  _alldata_size = _image_end - _reloc;
 
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }
@@ -113,7 +122,16 @@ SECTIONS
   .dynstr   : { *(.dynstr) }
   . = ALIGN(4096);
   .note.gnu.build-id : { *(.note.gnu.build-id) }
-  .ignored.reloc :
+  . = ALIGN(4096);
+  .hash : { *(.hash) }
+  . = ALIGN(4096);
+  .gnu.hash : { *(.gnu.hash) }
+  . = ALIGN(4096);
+  .eh_frame : { *(.eh_frame) }
+  .eh_frame_hdr : { *(.eh_frame_hdr) }
+  . = ALIGN(4096);
+  .gcc_except_table : { *(.gcc_except_table*) }
+  /DISCARD/ :
   {
     *(.rela.reloc)
     *(.note.GNU-stack)

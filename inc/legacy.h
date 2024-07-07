@@ -27,6 +27,7 @@ ReallocatePool_1 (
         IN VOID   *OldPool  OPTIONAL
 );
 
+static
 inline
 VOID *
 EFIAPI

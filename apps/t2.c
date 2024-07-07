@@ -8,7 +8,7 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 
         InitializeLib(image, systab);
 	conout = systab->ConOut;
-	uefi_call_wrapper(conout->OutputString, 2, conout, L"Hello World!\r\n");
+	uefi_call_wrapper(conout->OutputString, 2, conout, u"Hello World!\r\n");
 
 	return EFI_SUCCESS;
 }

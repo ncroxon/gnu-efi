@@ -14,10 +14,10 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	name[0] = 0;
 	vendor = NullGuid;
 
-	Print(L"GUID                                Variable Name        Value\n");
-	Print(L"=================================== ==================== ========\n");
+	Print(u"GUID                                Variable Name        Value\n");
+	Print(u"=================================== ==================== ========\n");
 
-	StrCpy(fmt, L"%.-35g %.-20s %s\n");
+	StrCpy(fmt, u"%.-35g %.-20s %s\n");
 	while (1) {
 		size = sizeof(name);
 		status = uefi_call_wrapper(RT->GetNextVariableName, 3, &size, name, &vendor);

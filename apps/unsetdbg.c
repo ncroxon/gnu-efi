@@ -15,22 +15,22 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	UINT8 data = 1;
 	InitializeLib(image, systab);
 
-	status = RT->SetVariable(L"SHIM_DEBUG", &SHIM_GUID,
+	status = RT->SetVariable(u"SHIM_DEBUG", &SHIM_GUID,
 				 EFI_VARIABLE_NON_VOLATILE |
 				 EFI_VARIABLE_BOOTSERVICE_ACCESS |
 				 EFI_VARIABLE_RUNTIME_ACCESS,
 				 0, &data);
 	if (EFI_ERROR(status))
-		Print(L"SetVariable failed: %r\n", status);
+		Print(u"SetVariable failed: %r\n", status);
 
 #if 0
-	status = RT->SetVariable(L"GRUB_ENV", &SHIM_GUID,
+	status = RT->SetVariable(u"GRUB_ENV", &SHIM_GUID,
 				 EFI_VARIABLE_NON_VOLATILE |
 				 EFI_VARIABLE_BOOTSERVICE_ACCESS |
 				 EFI_VARIABLE_RUNTIME_ACCESS,
 				 sizeof(grubenv)-1, grubenv);
 	if (EFI_ERROR(status))
-		Print(L"SetVariable(GRUB_ENV) failed: %r\n", status);
+		Print(u"SetVariable(GRUB_ENV) failed: %r\n", status);
 #endif
 
 	return EFI_SUCCESS;

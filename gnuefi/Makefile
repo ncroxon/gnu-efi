@@ -80,7 +80,11 @@ endif
 # on aarch64, avoid jump tables before all relocations have been processed
 reloc_aarch64.o: CFLAGS += -fno-jump-tables
 
-TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
+ifneq (,$(filter $(ARCH),aarch64 riscv64))
+CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
+endif
+
+TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET)
 
 all:	$(TARGETS) gnu-efi.pc
 
@@ -103,7 +107,7 @@ gnu-efi.pc:
 
 
 clean:
-	@rm -vf $(TARGETS) *~ *.o $(OBJS)
+	@rm -vf $(TARGETS) *~ *.o $(OBJS) gnu-efi.pc
 
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
@@ -112,6 +116,9 @@ ifneq (,$(findstring FreeBSD,$(OS)))
  ifeq ($(ARCH),x86_64)
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_fbsd_efi.lds $(INSTALLROOT)$(LIBDIR)
  else
+    ifneq (,$(filter $(ARCH),aarch64 riscv64))
+        $(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi_local.lds $(INSTALLROOT)$(LIBDIR)
+    endif
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
  endif
 else

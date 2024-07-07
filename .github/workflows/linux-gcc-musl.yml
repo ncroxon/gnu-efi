@@ -1,0 +1,98 @@
+name: Linux, gcc+musl
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        arch: [x64]
+        include:
+          - arch: x64
+            dir: x86_64
+            musl: musl-dev
+            cross_compile: x86_64-linux-musl-
+
+    steps:
+    - name: Install toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get install ${{ matrix.musl }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Build
+      run: |
+        mkdir -p $HOME/.local/bin
+        for i in ld as ar ranlib objcopy; do
+          ln -s /usr/bin/${i} $HOME/.local/bin/${{ matrix.cross_compile }}${i};
+        done
+        make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }}
+    
+    - name: Generate binary information
+      run: readelf -a ./${{ matrix.dir }}/apps/ctors_dtors_priority_test.so > ./${{ matrix.dir }}/apps/readelf.txt
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.arch }}
+        path: |
+          ./${{ matrix.dir }}/apps/*
+
+  tests:
+    runs-on: ubuntu-24.04
+    needs: build
+
+    strategy:
+      matrix:
+        arch: [x64]
+        include:
+        - arch: x64
+          pkg: qemu-system-x86
+          qemu_arch: x86_64
+          qemu_opts: -M q35
+          fw_base: OVMF
+
+    steps:
+    - name: Set up Linux environment
+      run: |
+        sudo apt-get update
+        sudo apt-get -y --no-install-recommends install ${{ matrix.pkg }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ matrix.arch }}
+
+    - name: Download UEFI firmware
+      run: |
+        fw_arch=$(echo ${{ matrix.arch }} | tr a-z A-Z)
+        fw_zip=${{ matrix.fw_base }}-${fw_arch}.zip
+        curl -O https://efi.akeo.ie/${{ matrix.fw_base }}/${fw_zip}
+        7z x ${fw_zip}
+        rm ${fw_zip}
+
+    - name: Download UEFI Shell
+      run: |
+        curl -L -O https://github.com/pbatard/UEFI-Shell/releases/download/23H2/UEFI-Shell-2.2-23H2-RELEASE.iso
+        mkdir ./image
+        7z x -o./image *.iso
+        rm *.iso
+
+    - name: Run tests
+      run: |
+        export UEFI_ARCH=${{ matrix.arch }}
+        export UEFI_DIR=./image
+        export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -drive if=pflash,format=raw,unit=0,file=${{ matrix.fw_base }}.fd,readonly=on -drive format=raw,file=fat:rw:image"
+        ./tests/gen_tests.sh ./tests/test_list.txt
+        ./tests/run_tests.sh
