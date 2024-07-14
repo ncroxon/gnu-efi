@@ -264,7 +264,10 @@ ASFLAGS += $(ARCH3264)
 LDFLAGS += -nostdlib 
 ifeq ($(IS_MINGW32),)
   LDFLAGS += --warn-common --no-undefined --fatal-warnings \
-             --build-id=sha1 -z nocombreloc -z norelro
+             --build-id=sha1 -z nocombreloc
+  ifeq ($(USING_APPLE),0)
+  LDFLAGS += -z norelro
+  endif
 else
   LDFLAGS += -Wl,--warn-common -Wl,--no-undefined -Wl,--fatal-warnings \
              -Wl,--build-id=sha1
