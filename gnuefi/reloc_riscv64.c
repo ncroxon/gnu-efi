@@ -38,7 +38,7 @@
 
 #include <efi.h>
 
-#include <elf.h>
+#include "subst/elf.h"
 
 #define Elf_Dyn		Elf64_Dyn
 #define Elf_Rela	Elf64_Rela

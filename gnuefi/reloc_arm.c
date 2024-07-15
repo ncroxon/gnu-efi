@@ -37,7 +37,7 @@
 #include <efi.h>
 #include <efilib.h>
 
-#include <elf.h>
+#include "subst/elf.h"
 
 EFI_STATUS _relocate (long ldbase, Elf32_Dyn *dyn,
 		      EFI_HANDLE image EFI_UNUSED,
