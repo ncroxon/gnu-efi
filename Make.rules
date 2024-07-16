@@ -45,7 +45,9 @@ ifeq ($(IS_MINGW32),)
 		    -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
 		    -j .areloc -j .reloc $(FORMAT) $*.so $@
 ifeq ($(ARCH),riscv64)
+ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),0)
 	$(HIDE)/bin/echo -ne "$(CHAR_SUBSYSTEM)" | dd of=$@ bs=1 seek=156 count=1 conv=notrunc status=none
+endif
 endif
 
 %.efi.debug: %.so
