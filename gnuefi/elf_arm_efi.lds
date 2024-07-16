@@ -29,6 +29,7 @@ SECTIONS
   _reloc_size = _ereloc - _reloc;
   . = ALIGN(4096);
   _data = .;
+  _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .data :

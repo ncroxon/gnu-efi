@@ -29,6 +29,7 @@ SECTIONS
     KEEP (*(.reloc))
   }
   . = ALIGN(65536);
+  _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .data :

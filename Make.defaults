@@ -206,6 +206,12 @@ export SYSTEM_HAS_EFI_OBJCOPY ?= 0
 endif
 endif
 
+ifeq ($(ARCH),ia32)
+ifeq ($(USING_APPLE),1)
+export SYSTEM_HAS_EFI_OBJCOPY ?= 0
+endif
+endif
+
 ifeq ($(HAVE_EFI_OBJCOPY),y)
 export SYSTEM_HAS_EFI_OBJCOPY ?= 1
 else
@@ -255,6 +261,13 @@ ifeq ($(USING_CLANG),clang)
 CFLAGS += -gdwarf-4
 endif
 
+# Force hard float (for library mismatch)
+ifeq ($(ARCH),arm)
+ifeq ($(USING_APPLE),1)
+CFLAGS += -mfloat-abi=hard -mfpu=vfpv2
+endif
+endif
+
 ifeq ($(V),1)
 ARFLAGS := rDv
 else
@@ -264,9 +277,9 @@ ASFLAGS += $(ARCH3264)
 LDFLAGS += -nostdlib 
 ifeq ($(IS_MINGW32),)
   LDFLAGS += --warn-common --no-undefined --fatal-warnings \
-             --build-id=sha1 -z nocombreloc
+             --build-id=sha1
   ifeq ($(USING_APPLE),0)
-  LDFLAGS += -z norelro
+  LDFLAGS += -z norelro -z nocombreloc
   endif
 else
   LDFLAGS += -Wl,--warn-common -Wl,--no-undefined -Wl,--fatal-warnings \
