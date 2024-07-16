@@ -40,7 +40,7 @@ jobs:
 
     - name: Build
       run: |
-        make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }} USING_APPLE=1
+        make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }}
     
     - name: Generate binary information
       run: ${{ matrix.cross_compile }}readelf -a ./${{ matrix.dir }}/apps/ctors_dtors_priority_test.so > ./${{ matrix.dir }}/apps/readelf.txt

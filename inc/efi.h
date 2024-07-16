@@ -37,6 +37,10 @@ Revision History
 extern "C" {
 #endif
 
+#if defined(__APPLE__)
+#error "Mach-O toolchain isn't supported; please compile with an ELF toolchain from Homebrew"
+#endif
+
 #define EFI_FIRMWARE_VENDOR         L"INTEL"
 #define EFI_FIRMWARE_MAJOR_REVISION 12
 #define EFI_FIRMWARE_MINOR_REVISION 33
