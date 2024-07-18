@@ -69,6 +69,7 @@ SECTIONS
   .note.gnu.build-id : { *(.note.gnu.build-id) }
 
   . = ALIGN(4096);
+  _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .rel :

@@ -8,8 +8,12 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x64, aa64]
+        arch: [ia32, x64, aa64, arm]
         include:
+          - arch: ia32
+            dir: ia32
+            cross_compile: i686-elf-
+            toolchain: i686-elf-gcc
           - arch: x64
             dir: x86_64
             cross_compile: x86_64-elf-
@@ -18,7 +22,10 @@ jobs:
             dir: aarch64
             cross_compile: aarch64-elf-
             toolchain: aarch64-elf-gcc
-          
+          - arch: arm
+            dir: arm
+            cross_compile: arm-none-eabi-
+            toolchain: arm-none-eabi-gcc
 
 
     steps:
@@ -33,7 +40,7 @@ jobs:
 
     - name: Build
       run: |
-        make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }} USING_APPLE=1
+        make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }}
     
     - name: Generate binary information
       run: ${{ matrix.cross_compile }}readelf -a ./${{ matrix.dir }}/apps/ctors_dtors_priority_test.so > ./${{ matrix.dir }}/apps/readelf.txt
@@ -51,17 +58,27 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x64, aa64]
+        arch: [ia32, x64, aa64, arm]
         include:
         - arch: x64
           pkg: qemu-system-x86
           qemu_arch: x86_64
           qemu_opts: -M q35
           fw_base: OVMF
+        - arch: ia32
+          pkg: qemu-system-x86
+          qemu_arch: i386
+          qemu_opts: -M pc
+          fw_base: OVMF
         - arch: aa64
           pkg: qemu-system-arm
           qemu_arch: aarch64
           qemu_opts: -M virt -cpu cortex-a57
+          fw_base: AAVMF
+        - arch: arm
+          pkg: qemu-system-arm
+          qemu_arch: arm
+          qemu_opts: -M virt -cpu cortex-a15
           fw_base: AAVMF
 
     steps:

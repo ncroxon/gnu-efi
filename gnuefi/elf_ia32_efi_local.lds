@@ -1,5 +1,5 @@
-OUTPUT_FORMAT("elf64-littleaarch64", "elf64-littleaarch64", "elf64-littleaarch64")
-OUTPUT_ARCH(aarch64)
+OUTPUT_FORMAT("elf32-i386", "elf32-i386", "elf32-i386")
+OUTPUT_ARCH(i386)
 ENTRY(_start)
 SECTIONS
 {
@@ -18,7 +18,7 @@ SECTIONS
   } =0
   _text_vsize = _evtext - _text;
   _text_size = _etext - _text;
-  . = ALIGN(65536);
+  . = ALIGN(4096);
   _reloc = .;
   .reloc : {
     *(.reloc)

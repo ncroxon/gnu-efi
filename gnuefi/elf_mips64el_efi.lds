@@ -15,6 +15,7 @@ SECTIONS
   _etext = .;
   _text_size = _etext - _text;
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
+  _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .data :

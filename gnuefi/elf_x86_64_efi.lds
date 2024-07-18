@@ -81,6 +81,7 @@ SECTIONS
   _edata = .;
   _data_size = _edata - _etext;
   . = ALIGN(4096);
+  _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .rela :
