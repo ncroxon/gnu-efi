@@ -26,14 +26,14 @@ typedef uint64_t Elf64_Xword;
 
 
 typedef struct {
-               Elf32_Addr r_offset;
-               uint32_t   r_info;
+               Elf32_Addr   r_offset;
+               Elf32_Word   r_info;
            } Elf32_Rel;
 
 typedef struct {
-               Elf64_Addr r_offset;
-               uint64_t   r_info;
-               int64_t    r_addend;
+               Elf64_Addr   r_offset;
+               Elf64_Xword  r_info;
+               Elf64_Sxword r_addend;
            } Elf64_Rela;
 
 typedef struct {
