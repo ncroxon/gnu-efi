@@ -11,7 +11,7 @@ You should have received a copy of the GNU Lesser General Public License along w
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#if !defined(__GNU_EFI_IS_APPLE)
+#if !defined(__GNU_EFI_NO_GLIBC)
 #include <elf.h>
 
 #else
