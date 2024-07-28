@@ -495,10 +495,11 @@ ReleaseLock (
     );
 
 
-INTN
-CompareGuid(
-    IN EFI_GUID     *Guid1,
-    IN EFI_GUID     *Guid2
+BOOLEAN
+EFIAPI
+CompareGuid_1 (
+    IN CONST EFI_GUID     *Guid1,
+    IN CONST EFI_GUID     *Guid2
     );
 
 VOID *

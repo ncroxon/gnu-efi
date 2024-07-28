@@ -57,5 +57,39 @@ ReallocatePool_0 (
 
 /* end CopyMem */
 
+/* CompareGuid */
+
+#ifndef GNU_EFI_USE_COMPAREGUID_ABI
+#define GNU_EFI_USE_COMPAREGUID_ABI 1
 #endif
 
+#if GNU_EFI_USE_COMPAREGUID_ABI == 0
+#define CompareGuid CompareGuid_0
+#else
+#define CompareGuid CompareGuid_1
+#endif
+
+/* prevent circular headers */
+BOOLEAN
+EFIAPI
+CompareGuid_1 (
+    IN CONST EFI_GUID     *Guid1,
+    IN CONST EFI_GUID     *Guid2
+);
+
+static
+inline
+INTN
+EFIAPI
+CompareGuid_0 (
+    IN EFI_GUID     *Guid1,
+    IN EFI_GUID     *Guid2)
+{
+    if (CompareGuid_1(Guid1, Guid2)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+#endif
