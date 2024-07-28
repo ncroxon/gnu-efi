@@ -225,7 +225,7 @@ LibLocateHandleByDiskSignature (
                                             }
                                             break;
                                         case SIGNATURE_TYPE_GUID:
-                                            if (CompareGuid((EFI_GUID *)Signature,(EFI_GUID *)(&(HardDriveDevicePath->Signature[0]))) == 0) {
+                                            if (CompareGuid((EFI_GUID *)Signature,(EFI_GUID *)(&(HardDriveDevicePath->Signature[0])))) {
                                                 Match = TRUE;
                                             }
                                             break;

@@ -526,7 +526,7 @@ LibGetSystemConfigurationTable(
     UINTN Index;
 
     for(Index=0;Index<ST->NumberOfTableEntries;Index++) {
-        if (CompareGuid(TableGuid,&(ST->ConfigurationTable[Index].VendorGuid))==0) {
+        if (CompareGuid(TableGuid,&(ST->ConfigurationTable[Index].VendorGuid))) {
             *Table = ST->ConfigurationTable[Index].VendorTable;
             return EFI_SUCCESS;
         }
