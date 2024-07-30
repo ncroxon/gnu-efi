@@ -211,12 +211,10 @@ extern EFI_DEVICE_PATH EndInstanceDevicePath[];
 extern EFI_MEMORY_TYPE PoolAllocationType;
 
 //
-// STATIC - Name is internal to the module
 // INTERNAL - Name is internal to the component (i.e., directory)
 // BOOTSERVCE - Name of a boot service function
 //
 
-#define STATIC      static
 #define INTERNAL
 #define BOOTSERVICE
 
