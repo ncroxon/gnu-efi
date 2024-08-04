@@ -7,6 +7,16 @@ Default ABI will be highest number
 Older versions can be selected via compiler defines
 */
 
+/* Option to set all compat to GNU-EFI 3.0
+   To keep existing apps working without change
+   Default to current ABI
+*/
+#ifdef GNU_EFI_3_0_COMPAT
+#define GNU_EFI_USE_REALLOCATEPOOL_ABI 0
+#define GNU_EFI_USE_COPYMEM_ABI 0
+#define GNU_EFI_USE_COMPAREGUID_ABI 0
+#endif
+
 /* ReallocatePool */
 #ifndef GNU_EFI_USE_REALLOCATEPOOL_ABI
 #define GNU_EFI_USE_REALLOCATEPOOL_ABI 1

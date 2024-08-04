@@ -1,5 +1,4 @@
-#define GNU_EFI_USE_REALLOCATEPOOL_ABI 0
-#define GNU_EFI_USE_COPYMEM_ABI 0
+#define GNU_EFI_3_0_COMPAT
 
 #include <efi.h>
 #include <efilib.h>
