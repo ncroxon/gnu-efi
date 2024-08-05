@@ -80,6 +80,10 @@ typedef VOID            *EFI_EVENT;
     #define OPTIONAL
 #endif
 
+// STATIC - Name is internal to the module
+#define STATIC      static
+
+
 
 //
 // A GUID

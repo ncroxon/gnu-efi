@@ -1,4 +1,3 @@
-/* Same as elf_x86_64_efi.lds, except for OUTPUT_FORMAT below - KEEP IN SYNC */
 OUTPUT_FORMAT("elf64-x86-64-freebsd", "elf64-x86-64-freebsd", "elf64-x86-64-freebsd")
 OUTPUT_ARCH(i386:x86-64)
 ENTRY(_start)
@@ -10,23 +9,27 @@ SECTIONS
   .hash : { *(.hash) }
   .gnu.hash : { *(.gnu.hash) }
   . = ALIGN(4096);
-  .eh_frame : 
-  { 
-    *(.eh_frame)
-  }
+  .eh_frame : { *(.eh_frame) }
+  .eh_frame_hdr : { *(.eh_frame_hdr) }
+  .gcc_except_table : { *(.gcc_except_table*) }
   . = ALIGN(4096);
   .text :
   {
    _text = .;
    *(.text)
+   *(.text.*)
+   *(.gnu.linkonce.t.*)
+   *(.plt)
    . = ALIGN(16);
   }
   _etext = .;
   _text_size = _etext - _text;
+  . = ALIGN(4096);
   .reloc :
   {
-   *(.reloc)
+   KEEP (*(.reloc))
   }
+
   . = ALIGN(4096);
   .data :
   {
@@ -68,20 +71,24 @@ SECTIONS
    *(.sbss)
    *(.scommon)
    *(.dynbss)
-   *(.bss)
+   *(.bss*)
    *(COMMON)
    *(.rel.local)
   }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
 
+  _edata = .;
+  _data_size = _edata - _etext;
   . = ALIGN(4096);
   _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
   . = ALIGN(4096);
   .rela :
   {
+    *(.rela.text*)
     *(.rela.data*)
     *(.rela.got)
+    *(.rela.dyn)
     *(.rela.stab)
     *(.rela.init_array*)
     *(.rela.fini_array*)
@@ -89,9 +96,9 @@ SECTIONS
     *(.rela.dtors*)
   }
   . = ALIGN(4096);
+  .rela.plt : { *(.rela.plt) }
+  . = ALIGN(4096);
   .rodata : { *(.rodata*) }
-  _edata = .;
-  _data_size = _edata - _etext;
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }
   . = ALIGN(4096);
@@ -100,5 +107,7 @@ SECTIONS
   .ignored.reloc :
   {
     *(.rela.reloc)
+    *(.note.GNU-stack)
   }
+  .comment 0 : { *(.comment) }
 }

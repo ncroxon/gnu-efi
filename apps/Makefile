@@ -61,7 +61,7 @@ ifneq ($(CRT0_LIBS),)
 CRTOBJS		= $(TOPDIR)/$(ARCH)/gnuefi/crt0-efi-$(ARCH)$(CRT0_LOCAL).o
 
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi$(LDS_LOCAL).lds
-ifneq (,$(findstring FreeBSD,$(OS)))
+ifeq ($(USING_FREEBSD),1)
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
 endif
 LDFLAGS		+= -L$(TOPDIR)/$(ARCH)/lib -L$(TOPDIR)/$(ARCH)/gnuefi $(CRTOBJS)
@@ -82,7 +82,11 @@ TARGET_APPS += setjmp.efi debughook.efi debughook.efi.debug \
                ctors_test.efi ctors_dtors_priority_test.efi
 endif
 
+ifeq ($(USING_FREEBSD),0)
 TARGET_BSDRIVERS = drv0.efi
+else
+TARGET_BSDRIVERS =
+endif
 TARGET_RTDRIVERS =
 
 SUBSYSTEM	:= 0xa
@@ -91,9 +95,9 @@ $(TARGET_RTDRIVERS): SUBSYSTEM = 0xc
 
 ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),1)
 
-FORMAT		:= --target efi-app-$(ARCH)
-$(TARGET_BSDRIVERS): FORMAT=--target efi-bsdrv-$(ARCH)
-$(TARGET_RTDRIVERS): FORMAT=--target efi-rtdrv-$(ARCH)
+FORMAT		:= -O efi-app-$(ARCH)
+$(TARGET_BSDRIVERS): FORMAT=-O efi-bsdrv-$(ARCH)
+$(TARGET_RTDRIVERS): FORMAT=-O efi-rtdrv-$(ARCH)
 
 ifneq ($(IS_MINGW32),)
 LDFLAGS     += -s -Wl,-dll -Wl,--subsystem,$(SUBSYSTEM) 

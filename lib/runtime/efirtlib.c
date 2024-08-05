@@ -134,11 +134,12 @@ RtCompareMem (
 #ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareGuid)
 #endif
-INTN
+BOOLEAN
+EFIAPI
 RUNTIMEFUNCTION
 RtCompareGuid (
-    IN EFI_GUID     *Guid1,
-    IN EFI_GUID     *Guid2
+    IN CONST EFI_GUID     *Guid1,
+    IN CONST EFI_GUID     *Guid2
     )
 /*++
 
@@ -152,7 +153,7 @@ Arguments:
     Guid2       - guid to compare
 
 Returns:
-    = 0     if Guid1 == Guid2
+    = 1     if Guid1 == Guid2
 
 --*/
 {
@@ -170,7 +171,11 @@ Returns:
     r |= g1[2] - g2[2];
     r |= g1[3] - g2[3];
 
-    return r;
+    if (r==0) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 

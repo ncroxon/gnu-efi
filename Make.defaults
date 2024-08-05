@@ -85,9 +85,17 @@ else
 endif
 
 # Host/target identification
-OS           := $(shell uname -s)
-HOSTARCH     ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
-ARCH         ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
+OS            := $(shell uname -s)
+USING_APPLE   ?= $(shell echo $(OS) | grep -q 'Darwin' && echo 1 || echo 0)
+USING_FREEBSD ?= $(shell echo $(OS) | grep -q 'FreeBSD' && echo 1 || echo 0)
+
+# FreeBSD uses clang with no gcc symlink
+ifeq ($(USING_FREEBSD),1)
+override HOSTCC       := $(prefix)clang
+endif
+
+HOSTARCH      ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
+ARCH          ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
 
 # Get ARCH from the compiler if cross compiling 
 ifneq ($(CROSS_COMPILE),)
@@ -107,10 +115,10 @@ ifeq ($(ARCH),mips64)
   override ARCH := mips64el
 endif
 
-GCCVERSION   := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f1 -d.)
-GCCMINOR     := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f2 -d.)
-USING_CLANG  := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang || echo 0)
-USING_APPLE  ?= $(shell uname -s | grep -q 'Darwin' && echo 1 || echo 0)
+GCCVERSION    := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f1 -d.)
+GCCMINOR      := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f2 -d.)
+USING_CLANG   := $(shell $(CC) -v 2>&1 | grep -q 'clang version' && echo clang || echo 0)
+NO_GLIBC      ?= 0
 
 # Rely on GCC MS ABI support?
 GCCNEWENOUGH := $(shell ( [ $(GCCVERSION) -gt "4" ]           \
@@ -220,7 +228,11 @@ endif
 
 
 ifeq ($(USING_APPLE),1)
-CFLAGS += -D__GNU_EFI_IS_APPLE
+CFLAGS += -D__GNU_EFI_NO_GLIBC
+endif
+
+ifeq ($(NO_GLIBC),1)
+CFLAGS += -D__GNU_EFI_NO_GLIBC
 endif
 
 ifeq ($(ARCH),arm)
@@ -243,7 +255,7 @@ ifeq ($(IS_MINGW32),)
   CFLAGS += -fPIE
 endif
 
-ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
+ifeq ($(USING_FREEBSD),1)
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector

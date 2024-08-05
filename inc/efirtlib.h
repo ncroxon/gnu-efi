@@ -151,11 +151,12 @@ RtStrSize (
     IN CONST CHAR16   *s1
     );
 
-INTN
+BOOLEAN
+EFIAPI
 RUNTIMEFUNCTION
 RtCompareGuid (
-    IN EFI_GUID     *Guid1,
-    IN EFI_GUID     *Guid2
+    IN CONST EFI_GUID     *Guid1,
+    IN CONST EFI_GUID     *Guid2
     );
 
 UINT8

@@ -543,7 +543,7 @@ _DevPathVendor (
     }
 
     CatPrint(Str, u"Ven%s(%g", Type, &Vendor->Guid);
-    if (CompareGuid (&Vendor->Guid, &UnknownDevice) == 0) {
+    if (CompareGuid (&Vendor->Guid, &UnknownDevice)) {
         //
         // GUID used by EFI to enumerate an EDD 1.1 device
         //
