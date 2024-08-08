@@ -66,6 +66,8 @@ static struct {
 	{  &gEfiComponentNameProtocolGuid,                  u"CName" },
 	{  &gEfiComponentName2ProtocolGuid,                 u"CName2" },
 
+    {  &gEfiMpServicesProtocolGuid,                     u"Mp" },
+
 	{  &gEfiFileInfoGuid,                               u"FileInfo" },
 	{  &gEfiFileSystemInfoGuid,                         u"FsInfo" },
 	{  &gEfiFileSystemVolumeLabelInfoIdGuid,            u"FsVolInfo" },

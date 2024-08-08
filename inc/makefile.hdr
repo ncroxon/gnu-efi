@@ -15,6 +15,7 @@ INC_DEPS = $(INC_DEPS) \
     $(SDK_INSTALL_DIR)\include\efi\efidevp.h \
     $(SDK_INSTALL_DIR)\include\efi\efierr.h \
     $(SDK_INSTALL_DIR)\include\efi\efifs.h \
+    $(SDK_INSTALL_DIR)\include\efi\efimp.h \
     $(SDK_INSTALL_DIR)\include\efi\efilib.h \
     $(SDK_INSTALL_DIR)\include\efi\efipart.h \
     $(SDK_INSTALL_DIR)\include\efi\efipciio.h \

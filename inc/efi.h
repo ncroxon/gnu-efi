@@ -82,6 +82,7 @@ extern "C" {
 #include "efifs.h"
 #include "efierr.h"
 #include "efiui.h"
+#include "efimp.h"
 #include "efiip.h"
 #include "efiudp.h"
 #include "efitcp.h"
