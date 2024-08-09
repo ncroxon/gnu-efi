@@ -133,6 +133,11 @@ EFI_GUID gEfiFileSystemInfoGuid                     = EFI_FILE_SYSTEM_INFO_ID;
 EFI_GUID gEfiFileSystemVolumeLabelInfoIdGuid        = EFI_FILE_SYSTEM_VOLUME_LABEL_ID;
 
 //
+// Multi-Processing protocol IDs.
+//
+EFI_GUID gEfiMpServicesProtocolGuid                 = EFI_MP_SERVICES_PROTOCOL_GUID;
+
+//
 // Reference implementation public protocol IDs
 //
 

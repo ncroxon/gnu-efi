@@ -10,6 +10,7 @@ INC_DEPS = $(INC_DEPS)          \
                 efidevp.h       \
                 efierr.h        \
                 efifs.h         \
+                efimp.h         \
                 efilib.h        \
                 efipart.h       \
                 efipciio.h      \
