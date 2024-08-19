@@ -10,7 +10,7 @@
 		Copyright (c) 1999-2007 Hewlett-Packard Co.
 		Copyright (c) 2006-2010 Intel Co.
 
-Last update: 04/09/2007
+Last update (DD/MM/YYYY): 19/08/2024
 
 * Introduction
 
@@ -231,7 +231,36 @@ and page sized.These eight sections are used to group together the much
 greater number of sections that are typically present in ELF object files.
 Specifically:
 
- .hash (and/or .gnu.hash)
+ .text
+	Collects all sections containing executable code.
+
+ .data
+	Collects read-write data, literal string data,
+	global offset tables, the uninitialized data segment (bss)
+	and various other sections containing data.
+
+	The reason the uninitialized data is placed in this section is
+	that the EFI loader appears to be unable to handle sections
+	that are allocated but not loaded from the binary.
+
+.rodata
+    Collects read-only data to retain the correct memory
+	permissions
+
+	The reason read-only data is placed here instead of the in
+	.text is to make it possible to disassemble the .text section
+	without getting garbage due to read-only data.  Besides, since
+	EFI binaries execute in physical mode, differences in page
+	protection do not matter.
+
+ .dynamic, .rela, .rel, .reloc, .areloc
+	These sections contains the dynamic information necessary to
+	self-relocate the binary (see below).
+
+
+Unnecessary sections:
+
+.hash (and/or .gnu.hash)
 	Collects the ELF .hash info (this section _must_ be the first
 	section in order to build a shared object file; the section is
 	not actually loaded or used at runtime).
@@ -242,27 +271,9 @@ Specifically:
 	both. In order to generate correct output linker script preserves
 	both types of hash sections.
 
- .text
-	Collects all sections containing executable code.
+.dynsym, .symtab
+    The symbol tables used for ELF debugging
 
- .data
-	Collects read-only and read-write data, literal string data,
-	global offset tables, the uninitialized data segment (bss) and
-	various other sections containing data.
-
-	The reason read-only data is placed here instead of the in
-	.text is to make it possible to disassemble the .text section
-	without getting garbage due to read-only data.  Besides, since
-	EFI binaries execute in physical mode, differences in page
-	protection do not matter.
-
-	The reason the uninitialized data is placed in this section is
-	that the EFI loader appears to be unable to handle sections
-	that are allocated but not loaded from the binary.
-
- .dynamic, .dynsym, .rela, .rel, .reloc
-	These sections contains the dynamic information necessary to
-	self-relocate the binary (see below).
 
 A couple of more points worth noting about the linker script:
 
@@ -392,7 +403,7 @@ create the correct directory entries in the PE32+ binary.
 
 ** (4) Convenient and Portable Generation of UNICODE String Literals
 
-As of gnu-efi-3.0, we make use (and somewhat abuse) the gcc option
+From gnu-efi-3.0, we made use (and somewhat abused) the gcc option
 that forces wide characters (WCHAR_T) to use short integers (2 bytes) 
 instead of integers (4 bytes). This way we match the Unicode character
 size. By abuse, we mean that we rely on the fact that the regular ASCII
@@ -401,5 +412,8 @@ and Unicode and basically only use the first byte. This allows us
 to just use them interchangeably.
 
 The gcc option to force short wide characters is : -fshort-wchar
+
+We have since defined CHAR16 to be char16_t which allows us to use the C11
+'u' string literals instead hence avoiding abuse of short wide characters
 
 			* * * The End * * *

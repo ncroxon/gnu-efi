@@ -41,6 +41,10 @@ extern "C" {
 #error "Mach-O toolchain isn't supported; please compile with an ELF toolchain from Homebrew"
 #endif
 
+#ifndef _GNU_EFI_4_0
+#define _GNU_EFI_4_0
+#endif
+
 #define EFI_FIRMWARE_VENDOR         L"INTEL"
 #define EFI_FIRMWARE_MAJOR_REVISION 12
 #define EFI_FIRMWARE_MINOR_REVISION 33
