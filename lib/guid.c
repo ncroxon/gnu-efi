@@ -154,7 +154,7 @@ GuidToString (
     //
 
     for (Index=0; KnownGuids[Index].Guid; Index++) {
-        if (CompareGuid(Guid, KnownGuids[Index].Guid) == 0) {
+        if (CompareGuid(Guid, KnownGuids[Index].Guid)) {
             UnicodeSPrint (Buffer, 0, KnownGuids[Index].GuidName);
             return ;
         }
