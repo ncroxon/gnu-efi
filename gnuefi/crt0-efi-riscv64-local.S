@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0+ OR BSD-2-Clause */
+/* SPDX-License-Identifier: GPL-2.0-or-later OR BSD-2-Clause */
 /*
  * crt0-efi-riscv64-local.S - PE/COFF header for RISC-V 64 EFI applications (without suitable objcopy)
  *
