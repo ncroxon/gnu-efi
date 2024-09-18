@@ -73,6 +73,12 @@ subdirectories:
 
  - apps:	This directory contains a few simple EFI test apps.
 
+ - licenses: This directory contains the supplementary license files applicable to this project
+   
+   The main license is found in LICENSE
+
+ - docs: This directory contains some additional notices about building with gnu-efi
+
 ## Setup
 
 It is necessary to edit the Makefile in the directory containing this
