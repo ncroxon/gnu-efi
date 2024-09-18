@@ -28,41 +28,26 @@ environment works.
 
 ## Prerequisites:
 
- To develop x86 and x86_64 EFI applications, the following tools are needed:
+ To develop EFI applications, the following tools are needed:
 
-- gcc-3.0 or newer (gcc 2.7.2 is NOT sufficient!)
-  As of gnu-efi-3.0b, the Redhat 8.0 toolchain is known to work,
-  but the Redhat 9.0 toolchain is not currently supported.
+- A C11 compiler: gcc, clang (Supported since 4.0) or MSVC (Supported since 4.0)
 
-- A version of "objcopy" that supports EFI applications.  To
-  check if your version includes EFI support, issue the
+- A version of "objcopy" that supports EFI applications (if using a GNU based toolchain). 
+  To check if your version includes EFI support, issue the
   command: `objcopy --help`
 
   Verify that the line "supported targets" contains the string
-  "efi-app-ia32" and "efi-app-x86_64" and that the "-j" option
-  accepts wildcards. The binutils release binutils-2.24
-  supports Intel64 EFI and accepts wildcard section names.
+  "efi-app-ia32" and "efi-app-x86_64" (for x86 and x64 respectively)
+  and that the "-j" option accepts wildcards.
+  The binutils release binutils-2.24 supports Intel64 EFI and
+  accepts wildcard section names.
 
 - For debugging purposes, it's useful to have a version of
   "objdump" that supports EFI applications as well.  This
   allows inspect and disassemble EFI binaries.
-
- To develop IA-64 EFI applications, the following tools are needed:
-
-- A version of gcc newer than July 30th 1999 (older versions
-  had problems with generating position independent code).
-  As of gnu-efi-3.0b, gcc-3.1 is known to work well.
-
-- A version of "objcopy" that supports EFI applications.  To
-  check if your version includes EFI support, issue the
-  command: `objcopy --help`
-
-  Verify that the line "supported targets" contains the string
-  "efi-app-ia64" and that the "-j" option accepts wildcards.
-
-- For debugging purposes, it's useful to have a version of
-  "objdump" that supports EFI applications as well.  This
-  allows inspect and disassemble EFI binaries.
+  Alternatively, use dumpbin on Windows from Visual Studio
+  Development Tools, by launching it through Developer Command
+  Prompt for Visual Studio.
 
 
 ## Directory Structure
