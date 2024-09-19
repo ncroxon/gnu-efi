@@ -1,18 +1,19 @@
-	-------------------------------------------------
-	Building EFI Applications Using the GNU Toolchain
-	-------------------------------------------------
+-------------------------------------------------
+Building EFI Applications Using the GNU Toolchain
+-------------------------------------------------
 
-		David Mosberger <davidm@hpl.hp.com>
+David Mosberger <davidm@hpl.hp.com>
 
-			23 September 1999
+23 September 1999
 
 
-		Copyright (c) 1999-2007 Hewlett-Packard Co.
-		Copyright (c) 2006-2010 Intel Co.
+Copyright (c) 1999-2007 Hewlett-Packard Co.
 
-Last update: 04/09/2007
+Copyright (c) 2006-2010 Intel Co.
 
-* Introduction
+Last update (DD/MM/YYYY): 19/08/2024
+
+# Introduction
 
 This document has two parts: the first part describes how to develop
 EFI applications for IA-64,x86 and x86_64 using the GNU toolchain and the EFI
@@ -22,76 +23,63 @@ environment works.
 
 
 
-* Part 1: Developing EFI Applications
+# Part 1: Developing EFI Applications
 
 
-** Prerequisites:
+## Prerequisites:
 
- To develop x86 and x86_64 EFI applications, the following tools are needed:
+ To develop EFI applications, the following tools are needed:
 
-	- gcc-3.0 or newer (gcc 2.7.2 is NOT sufficient!)
-	  As of gnu-efi-3.0b, the Redhat 8.0 toolchain is known to work,
-	  but the Redhat 9.0 toolchain is not currently supported.
+- A C11 compiler: gcc, clang (Supported since 4.0) or MSVC (Supported since 4.0)
 
-	- A version of "objcopy" that supports EFI applications.  To
-	  check if your version includes EFI support, issue the
-	  command:
+- A version of "objcopy" that supports EFI applications (if using a GNU based toolchain). 
+  To check if your version includes EFI support, issue the
+  command: `objcopy --help`
 
-		objcopy --help
+  Verify that the line "supported targets" contains the string
+  "efi-app-ia32" and "efi-app-x86_64" (for x86 and x64 respectively)
+  and that the "-j" option accepts wildcards.
+  The binutils release binutils-2.24 supports Intel64 EFI and
+  accepts wildcard section names.
 
-	  Verify that the line "supported targets" contains the string
-	  "efi-app-ia32" and "efi-app-x86_64" and that the "-j" option
-	  accepts wildcards. The binutils release binutils-2.24
-	  supports Intel64 EFI and accepts wildcard section names.
-
-	- For debugging purposes, it's useful to have a version of
-	  "objdump" that supports EFI applications as well.  This
-	  allows inspect and disassemble EFI binaries.
-
- To develop IA-64 EFI applications, the following tools are needed:
-
-	- A version of gcc newer than July 30th 1999 (older versions
-	  had problems with generating position independent code).
-	  As of gnu-efi-3.0b, gcc-3.1 is known to work well.
-
-	- A version of "objcopy" that supports EFI applications.  To
-	  check if your version includes EFI support, issue the
-	  command:
-
-		objcopy --help
-
-	  Verify that the line "supported targets" contains the string
-	  "efi-app-ia64" and that the "-j" option accepts wildcards.
-
-	- For debugging purposes, it's useful to have a version of
-	  "objdump" that supports EFI applications as well.  This
-	  allows inspect and disassemble EFI binaries.
+- For debugging purposes, it's useful to have a version of
+  "objdump" that supports EFI applications as well.  This
+  allows inspect and disassemble EFI binaries.
+  Alternatively, use dumpbin on Windows from Visual Studio
+  Development Tools, by launching it through Developer Command
+  Prompt for Visual Studio.
 
 
-** Directory Structure
+## Directory Structure
 
 This EFI development environment contains the following
 subdirectories:
 
- inc:   This directory contains the EFI-related include files.  The
+ - inc:   This directory contains the EFI-related include files.  The
 	files are taken from Intel's EFI source distribution, except
 	that various fixes were applied to make it compile with the
 	GNU toolchain.
 
- lib:   This directory contains the source code for Intel's EFI library.
+ - lib:   This directory contains the source code for Intel's EFI library.
 	Again, the files are taken from Intel's EFI source
 	distribution, with changes to make them compile with the GNU
 	toolchain.
 
- gnuefi: This directory contains the glue necessary to convert ELF64
+ - gnuefi: This directory contains the glue necessary to convert ELF64
 	binaries to EFI binaries.  Various runtime code bits, such as
 	a self-relocator are included as well.  This code has been
 	contributed by the Hewlett-Packard Company and is distributed
 	under the GNU GPL.
 
- apps:	This directory contains a few simple EFI test apps.
+ - apps:	This directory contains a few simple EFI test apps.
 
-** Setup
+ - licenses: This directory contains the supplementary license files applicable to this project
+   
+   The main license is found in LICENSE
+
+ - docs: This directory contains some additional notices about building with gnu-efi
+
+## Setup
 
 It is necessary to edit the Makefile in the directory containing this
 README file before EFI applications can be built.  Specifically, you
@@ -105,7 +93,7 @@ x86_64 and "ia64" for IA-64).  For convenience, this can also be done from
 the make command line (e.g., "make ARCH=ia64").
 
 
-** Building
+## Building
 
 To build the sample EFI applications provided in subdirectory "apps",
 simply invoke "make" in the toplevel directory (the directory
@@ -114,7 +102,7 @@ gnuefi/libgnuefi.a first and then all the EFI applications such as a
 apps/t6.efi.
 
 
-** Running
+## Running
 
 Just copy the EFI application (e.g., apps/t6.efi) to the EFI
 filesystem, boot EFI, and then select "Invoke EFI application" to run
@@ -123,7 +111,7 @@ Intel-provided "nshell" application and then invoke your test binary
 via the command line interface that "nshell" provides.
 
 
-** Writing Your Own EFI Application
+## Writing Your Own EFI Application
 
 Suppose you have your own EFI application in a file called
 "apps/myefiapp.c".  To get this application built by the GNU EFI build
@@ -150,7 +138,7 @@ described in Intel's EFI documentation, except for two differences:
    ensures appropriate parameter passing for the architecture.
 
 
-* Part 2: Inner Workings
+# Part 2: Inner Workings
 
 WARNING: This part contains all the gory detail of how the GNU EFI
 toolchain works.  Normal users do not have to worry about such
@@ -175,16 +163,14 @@ and each has there own subsystem id and are identical otherwise.  At
 present, the GNU EFI build environment supports the building of EFI
 applications only, though it would be trivial to generate drivers, as
 the only difference is the subsystem id.  For more details on PE32+,
-see the spec at
-
-	http://msdn.microsoft.com/library/specs/msdn_pecoff.htm.
+see the [Specification](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format).
 
 In theory, converting a suitable ELF64 binary to PE32+ is easy and
 could be accomplished with the "objcopy" utility by specifying option
 --target=efi-app-ia32 (x86) or --target=efi-app-ia64 (IA-64).  But
 life never is that easy, so here some complicating factors:
 
- (1) COFF sections are very different from ELF sections.
+ 1. COFF sections are very different from ELF sections.
 
 	ELF binaries distinguish between program headers and sections.
 	The program headers describe the memory segments that need to
@@ -195,7 +181,7 @@ life never is that easy, so here some complicating factors:
 	(4KB for EFI), whereas ELF allows sections at arbitrary
 	addresses and with arbitrary sizes.
 
- (2) EFI binaries should be relocatable.
+ 2. EFI binaries should be relocatable.
 
 	Since EFI binaries are executed in physical mode, EFI cannot
 	guarantee that a given binary can be loaded at its preferred
@@ -204,10 +190,10 @@ life never is that easy, so here some complicating factors:
 	address and then relocate the binary using the contents of the
 	.reloc section.
 
- (3) On IA-64, the EFI entry point needs to point to a function
+ 3. On IA-64, the EFI entry point needs to point to a function
      descriptor, not to the code address of the entry point.
 
- (4) The EFI specification assumes that wide characters use UNICODE
+ 4. The EFI specification assumes that wide characters use UNICODE
      encoding.
 
 	ANSI C does not specify the size or encoding that a wide
@@ -220,7 +206,7 @@ In the following sections, we address how the GNU EFI build
 environment addresses each of these issues.
 
 
-** (1) Accommodating COFF Sections
+## (1) Accommodating COFF Sections
 
 In order to satisfy the COFF constraint of page-sized and page-aligned
 sections, the GNU EFI build environment uses the special linker script
@@ -231,7 +217,41 @@ and page sized.These eight sections are used to group together the much
 greater number of sections that are typically present in ELF object files.
 Specifically:
 
- .hash (and/or .gnu.hash)
+ - .text
+
+	Collects all sections containing executable code.
+
+ - .data
+
+	Collects read-write data, literal string data,
+	global offset tables, the uninitialized data segment (bss)
+	and various other sections containing data.
+
+	The reason the uninitialized data is placed in this section is
+	that the EFI loader appears to be unable to handle sections
+	that are allocated but not loaded from the binary.
+
+- .rodata
+
+    Collects read-only data to retain the correct memory
+	permissions
+
+	The reason read-only data is placed here instead of the in
+	.text is to make it possible to disassemble the .text section
+	without getting garbage due to read-only data.  Besides, since
+	EFI binaries execute in physical mode, differences in page
+	protection do not matter.
+
+ - .dynamic, .rela, .rel, .reloc, .areloc
+
+	These sections contains the dynamic information necessary to
+	self-relocate the binary (see below).
+
+
+### Unnecessary sections:
+
+- .hash (and/or .gnu.hash)
+
 	Collects the ELF .hash info (this section _must_ be the first
 	section in order to build a shared object file; the section is
 	not actually loaded or used at runtime).
@@ -242,31 +262,14 @@ Specifically:
 	both. In order to generate correct output linker script preserves
 	both types of hash sections.
 
- .text
-	Collects all sections containing executable code.
+- .dynsym, .symtab
 
- .data
-	Collects read-only and read-write data, literal string data,
-	global offset tables, the uninitialized data segment (bss) and
-	various other sections containing data.
+    The symbol tables used for ELF debugging
 
-	The reason read-only data is placed here instead of the in
-	.text is to make it possible to disassemble the .text section
-	without getting garbage due to read-only data.  Besides, since
-	EFI binaries execute in physical mode, differences in page
-	protection do not matter.
-
-	The reason the uninitialized data is placed in this section is
-	that the EFI loader appears to be unable to handle sections
-	that are allocated but not loaded from the binary.
-
- .dynamic, .dynsym, .rela, .rel, .reloc
-	These sections contains the dynamic information necessary to
-	self-relocate the binary (see below).
 
 A couple of more points worth noting about the linker script:
 
- o On IA-64, the global pointer symbol (__gp) needs to be placed such
+ - On IA-64, the global pointer symbol (__gp) needs to be placed such
    that the _entire_ EFI binary can be addressed using the signed
    22-bit offset that the "addl" instruction affords.  Specifically,
    this means that __gp should be placed at ImageBase + 0x200000.
@@ -276,17 +279,17 @@ A couple of more points worth noting about the linker script:
    to be addressable in this fashion, grep the assembly files in
    directory gnuefi for the string "@gprel".
 
- o The link address (ImageBase) of the binary is (arbitrarily) set to
+ - The link address (ImageBase) of the binary is (arbitrarily) set to
    zero.  This could be set to something larger to increase the chance
    of EFI being able to load the binary without requiring relocation.
    However, a start address of 0 makes debugging a wee bit easier
    (great for those of us who can add, but not subtract... ;-).
 
- o The relocation related sections (.dynamic, .rel, .rela, .reloc)
+ - The relocation related sections (.dynamic, .rel, .rela, .reloc)
    cannot be placed inside .data because some tools in the GNU
    toolchain rely on the existence of these sections.
 
- o Some sections in the ELF binary intentionally get dropped when
+ - Some sections in the ELF binary intentionally get dropped when
    building the EFI binary.  Particularly noteworthy are the dynamic
    relocation sections for the .plabel and .reloc sections.  It would
    be _wrong_ to include these sections in the EFI binary because it
@@ -297,7 +300,7 @@ A couple of more points worth noting about the linker script:
    retained in the EFI binary (see Make.rules).
 
 
-** (2) Building Relocatable Binaries
+## (2) Building Relocatable Binaries
 
 ELF binaries are normally linked for a fixed load address and are thus
 not relocatable.  The only kind of ELF object that is relocatable are
@@ -309,13 +312,13 @@ normally require relocation of the global offset table.
 The approach to building relocatable binaries in the GNU EFI build
 environment is to:
 
- (a) build an ELF shared object
+ 1. build an ELF shared object
 
- (b) link it together with a self-relocator that takes care of
+ 2. link it together with a self-relocator that takes care of
      applying the dynamic relocations that may be present in the
      ELF shared object
 
- (c) convert the resulting image to an EFI binary
+ 3. convert the resulting image to an EFI binary
 
 The self-relocator is of course architecture dependent.  The x86
 version can be found in gnuefi/reloc_ia32.c, the x86_64 version
@@ -350,12 +353,12 @@ and the application recompiled.  An easy way to count the number of
 function descriptors required by an EFI application is to run the
 command:
 
-  objdump --dynamic-reloc example.so | fgrep FPTR64 | wc -l
+`objdump --dynamic-reloc example.so | fgrep FPTR64 | wc -l`
 
 assuming "example" is the name of the desired EFI application.
 
 
-** (3) Creating the Function Descriptor for the IA-64 EFI Binaries
+## (3) Creating the Function Descriptor for the IA-64 EFI Binaries
 
 As mentioned above, the IA-64 PE32+ format assumes that the entry
 point of the binary is a function descriptor.  A function descriptors
@@ -390,9 +393,9 @@ its own section so that the objcopy program can recognize it and can
 create the correct directory entries in the PE32+ binary.
 
 
-** (4) Convenient and Portable Generation of UNICODE String Literals
+## (4) Convenient and Portable Generation of UNICODE String Literals
 
-As of gnu-efi-3.0, we make use (and somewhat abuse) the gcc option
+From gnu-efi-3.0, we made use (and somewhat abused) the gcc option
 that forces wide characters (WCHAR_T) to use short integers (2 bytes) 
 instead of integers (4 bytes). This way we match the Unicode character
 size. By abuse, we mean that we rely on the fact that the regular ASCII
@@ -402,4 +405,7 @@ to just use them interchangeably.
 
 The gcc option to force short wide characters is : -fshort-wchar
 
-			* * * The End * * *
+We have since defined CHAR16 to be char16_t which allows us to use the C11
+'u' string literals instead hence avoiding abuse of short wide characters
+
+***The End***

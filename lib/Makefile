@@ -64,8 +64,6 @@ OBJS  = $(FILES:%=%.o) ctors.o
 
 SUBDIRS = ia32 x86_64 ia64 aarch64 arm mips64el riscv64 loongarch64 runtime
 
-LIBDIRINSTALL = $(INSTALLROOT)$(LIBDIR)
-
 all: libsubdirs libefi.a
 
 .PHONY: libsubdirs
@@ -81,12 +79,8 @@ libefi.a: $(OBJS)
 clean:
 	@rm -vf libefi.a *~ $(OBJS) */*.o
 
-$(LIBDIRINSTALL):
-	mkdir -p $@
-
-$(LIBDIRINSTALL)/libefi.a: libefi.a | $(LIBDIRINSTALL)
-	$(INSTALL) -m 644 $< $(dir $@)
-
-install: $(LIBDIRINSTALL)/libefi.a
+install:
+	mkdir -p $(INSTALLROOT)$(LIBDIR)
+	$(INSTALL) -m 644 libefi.a $(INSTALLROOT)$(LIBDIR)
 
 include $(SRCDIR)/../Make.rules
