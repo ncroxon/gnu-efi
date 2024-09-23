@@ -5,8 +5,12 @@ versions
 
    This currently includes the following functions:
    - ReallocatePool
+
    - CopyMem
+
    - CompareGuid
+   
+     **Will break at runtime - likely causing opposite output to expected**
 
 2) Applications which haven't been updated in a while may also be missing the
 required `.rodata` section which contains needed read-only data which will prevent
