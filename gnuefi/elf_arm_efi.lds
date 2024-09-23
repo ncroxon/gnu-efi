@@ -5,6 +5,7 @@ SECTIONS
 {
   .text 0 : {
     *(.text.head)
+    . = 0x1000;
     _text = .;
     *(.text)
     *(.text.*)
