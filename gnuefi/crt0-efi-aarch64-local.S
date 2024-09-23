@@ -31,7 +31,7 @@ pe_header:
 	.2byte 	0
 coff_header:
 	.2byte	0xaa64				// AArch64
-	.2byte	NR_SECTIONS		        // nr_sections
+	.2byte	4		        // nr_sections
 	.4byte	0 				// TimeDateStamp
 	.4byte	0				// PointerToSymbolTable
 	.4byte	0				// NumberOfSymbols
