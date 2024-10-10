@@ -112,18 +112,13 @@ clean:
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
 	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)$(LIBDIR)
-ifeq ($(USING_FREEBSD),1)
- ifeq ($(ARCH),x86_64)
+ifneq (,$(filter $(ARCH),x86_64 ia32))
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_fbsd_efi.lds $(INSTALLROOT)$(LIBDIR)
- else
-    ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
-        $(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi_local.lds $(INSTALLROOT)$(LIBDIR)
-    endif
-	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
- endif
-else
-	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
 endif
+ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
+	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi_local.lds $(INSTALLROOT)$(LIBDIR)
+endif
+	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
 	$(INSTALL) -d $(INSTALLROOT)$(PKGCONFIGDIR)
 	$(INSTALL) -m 644 gnu-efi.pc $(INSTALLROOT)$(PKGCONFIGDIR)
 

@@ -27,7 +27,7 @@ optional_header:
 	.2byte	0x10b				// PE32+ format
 	.byte	0x02				// MajorLinkerVersion
 	.byte	0x14				// MinorLinkerVersion
-	.4byte	_etext - _start		// SizeOfCode
+	.4byte	_text_size - ImageBase		// SizeOfCode
 	.4byte	_alldata_size - ImageBase		// SizeOfInitializedData
 	.4byte	0				// SizeOfUninitializedData
 	.4byte	_start - ImageBase		// AddressOfEntryPoint
@@ -82,10 +82,10 @@ extra_header_fields:
 section_table:
 
 	.ascii	".text\0\0\0"
-	.4byte	_evtext - _start // VirtualSize
-	.4byte	_start - ImageBase	// VirtualAddress
-	.4byte	_etext - _start		// SizeOfRawData
-	.4byte	_start - ImageBase	// PointerToRawData
+	.4byte	_text_vsize - ImageBase // VirtualSize
+	.4byte	_text - ImageBase	// VirtualAddress
+	.4byte	_text_size - ImageBase		// SizeOfRawData
+	.4byte	_text - ImageBase	// PointerToRawData
 	.4byte	0		// PointerToRelocations (0 for executables)
 	.4byte	0		// PointerToLineNumbers (0 for executables)
 	.2byte	0		// NumberOfRelocations  (0 for executables)
@@ -130,6 +130,7 @@ section_table:
 	.2byte	0			// NumberOfLineNumbers
 	.4byte	0x40000040		// Characteristics (section flags)
 
+.text
 .globl	_start
 .type _start,%function
 _start:

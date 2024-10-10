@@ -134,7 +134,7 @@ Arguments:
     Guid2       - guid to compare
 
 Returns:
-    = 0     if Guid1 == Guid2
+    = 1     if Guid1 == Guid2
 
 --*/
 {
