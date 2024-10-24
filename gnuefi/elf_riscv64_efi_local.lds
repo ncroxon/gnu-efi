@@ -21,16 +21,6 @@ SECTIONS
   _text_vsize = _evtext - _text;
   _text_size = _etext - _text;
   . = ALIGN(4096);
-  _reloc = .;
-  .reloc : {
-    *(.reloc)
-    _evreloc = .;
-    . = ALIGN(4096);
-    _ereloc = .;
-  } =0
-  _reloc_vsize = _evreloc - _reloc;
-  _reloc_size = _ereloc - _reloc;
-  . = ALIGN(4096);
   _data = .;
   _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
@@ -89,6 +79,16 @@ SECTIONS
   } =0
   _data_vsize = _evdata - _data;
   _data_size = _edata - _data;
+  . = ALIGN(4096);
+  _reloc = .;
+  .reloc : {
+    *(.reloc)
+    _evreloc = .;
+    . = ALIGN(4096);
+    _ereloc = .;
+  } =0
+  _reloc_vsize = _evreloc - _reloc;
+  _reloc_size = _ereloc - _reloc;
 
   . = ALIGN(4096);
   _rodata = .;
@@ -117,7 +117,7 @@ SECTIONS
   _rodata_vsize = _evrodata - _rodata;
   _rodata_size = _erodata - _rodata;
   _image_end = .;
-  _alldata_size = _image_end - _reloc;
+  _alldata_size = _image_end - _data;
 
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }

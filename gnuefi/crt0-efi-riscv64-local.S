@@ -110,6 +110,17 @@ section_table:
 	.2byte	0		// NumberOfLineNumbers  (0 for executables)
 	.4byte	0x60000020	// Characteristics (section flags)
 
+	.ascii	".data\0\0\0"
+	.4byte	_data_vsize - ImageBase			// VirtualSize
+	.4byte	_data - ImageBase			// VirtualAddress
+	.4byte	_data_size - ImageBase			// SizeOfRawData
+	.4byte	_data - ImageBase			// PointerToRawData
+	.4byte	0			// PointerToRelocations
+	.4byte	0			// PointerToLineNumbers
+	.2byte	0			// NumberOfRelocations
+	.2byte	0			// NumberOfLineNumbers
+	.4byte	0xC0000040		// Characteristics (section flags)
+
 	/*
 	 * The EFI application loader requires a relocation section
 	 * because EFI applications must be relocatable.  This is a
@@ -125,17 +136,6 @@ section_table:
 	.2byte	0			// NumberOfRelocations
 	.2byte	0			// NumberOfLineNumbers
 	.4byte	0x42000040		// Characteristics (section flags)
-
-	.ascii	".data\0\0\0"
-	.4byte	_data_vsize - ImageBase			// VirtualSize
-	.4byte	_data - ImageBase			// VirtualAddress
-	.4byte	_data_size - ImageBase			// SizeOfRawData
-	.4byte	_data - ImageBase			// PointerToRawData
-	.4byte	0			// PointerToRelocations
-	.4byte	0			// PointerToLineNumbers
-	.2byte	0			// NumberOfRelocations
-	.2byte	0			// NumberOfLineNumbers
-	.4byte	0xC0000040		// Characteristics (section flags)
 
 	.ascii	".rodata\0"
 	.4byte	_rodata_vsize - ImageBase			// VirtualSize
