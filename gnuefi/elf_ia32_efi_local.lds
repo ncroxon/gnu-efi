@@ -19,16 +19,6 @@ SECTIONS
   _text_vsize = _evtext - _text;
   _text_size = _etext - _text;
   . = ALIGN(4096);
-  _reloc = .;
-  .reloc : {
-    *(.reloc)
-    _evreloc = .;
-    . = ALIGN(4096);
-    _ereloc = .;
-  } =0
-  _reloc_vsize = _evreloc - _reloc;
-  _reloc_size = _ereloc - _reloc;
-  . = ALIGN(4096);
   _data = .;
   _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
@@ -87,24 +77,34 @@ SECTIONS
   } =0
   _data_vsize = _evdata - _data;
   _data_size = _edata - _data;
+  . = ALIGN(4096);
+  _reloc = .;
+  .areloc : {
+    *(.areloc)
+    _evreloc = .;
+    . = ALIGN(4096);
+    _ereloc = .;
+  } =0
+  _reloc_vsize = _evreloc - _reloc;
+  _reloc_size = _ereloc - _reloc;
 
   . = ALIGN(4096);
   _rodata = .;
-  .rela :
+  .rel :
   {
-    *(.rela.text*)
-    *(.rela.data*)
-    *(.rela.got)
-    *(.rela.dyn)
-    *(.rela.stab)
-    *(.rela.init_array*)
-    *(.rela.fini_array*)
-    *(.rela.ctors*)
-    *(.rela.dtors*)
+    *(.rel.text*)
+    *(.rel.data*)
+    *(.rel.got)
+    *(.rel.dyn)
+    *(.rel.stab)
+    *(.rel.init_array*)
+    *(.rel.fini_array*)
+    *(.rel.ctors*)
+    *(.rel.dtors*)
 
   }
   . = ALIGN(4096);
-  .rela.plt : { *(.rela.plt) }
+  .rel.plt : { *(.rel.plt) }
   . = ALIGN(4096);
   .rodata : {
     *(.rodata*)
@@ -115,7 +115,7 @@ SECTIONS
   _rodata_vsize = _evrodata - _rodata;
   _rodata_size = _erodata - _rodata;
   _image_end = .;
-  _alldata_size = _image_end - _reloc;
+  _alldata_size = _image_end - _data;
 
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }

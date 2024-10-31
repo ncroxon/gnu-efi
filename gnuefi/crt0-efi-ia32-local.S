@@ -32,7 +32,7 @@ optional_header:
 	.4byte	0				// SizeOfUninitializedData
 	.4byte	_start - ImageBase		// AddressOfEntryPoint
 	.4byte	_start - ImageBase		// BaseOfCode
-	.4byte	_reloc - ImageBase		// BaseOfData
+	.4byte	_data - ImageBase		// BaseOfData
 
 extra_header_fields:
 	.4byte	0				// ImageBase
@@ -92,6 +92,17 @@ section_table:
 	.2byte	0		// NumberOfLineNumbers  (0 for executables)
 	.4byte	0x60000020	// Characteristics (section flags)
 
+	.ascii	".data\0\0\0"
+	.4byte	_data_vsize - ImageBase			// VirtualSize
+	.4byte	_data - ImageBase			// VirtualAddress
+	.4byte	_data_size - ImageBase			// SizeOfRawData
+	.4byte	_data - ImageBase			// PointerToRawData
+	.4byte	0			// PointerToRelocations
+	.4byte	0			// PointerToLineNumbers
+	.2byte	0			// NumberOfRelocations
+	.2byte	0			// NumberOfLineNumbers
+	.4byte	0xC0000040		// Characteristics (section flags)
+
 	/*
 	 * The EFI application loader requires a relocation section
 	 * because EFI applications must be relocatable.  This is a
@@ -107,17 +118,6 @@ section_table:
 	.2byte	0			// NumberOfRelocations
 	.2byte	0			// NumberOfLineNumbers
 	.4byte	0x42000040		// Characteristics (section flags)
-
-	.ascii	".data\0\0\0"
-	.4byte	_data_vsize - ImageBase			// VirtualSize
-	.4byte	_data - ImageBase			// VirtualAddress
-	.4byte	_data_size - ImageBase			// SizeOfRawData
-	.4byte	_data - ImageBase			// PointerToRawData
-	.4byte	0			// PointerToRelocations
-	.4byte	0			// PointerToLineNumbers
-	.2byte	0			// NumberOfRelocations
-	.2byte	0			// NumberOfLineNumbers
-	.4byte	0xC0000040		// Characteristics (section flags)
 
 	.ascii	".rodata\0"
 	.4byte	_rodata_vsize - ImageBase			// VirtualSize
@@ -163,11 +163,12 @@ _start:
 // hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:
  
  	.data
-dummy:	.4byte	0
+dummy0:	.4byte	0
+dummy1:	.4byte	0
 
 #define IMAGE_REL_ABSOLUTE	0
- 	.section .reloc
- 	.4byte	dummy					// Page RVA
+ 	.section .areloc, "a", %progbits
+ 	.4byte	dummy1 - dummy0					// Page RVA
 	.4byte	12					// Block Size (2*4+2*2), must be aligned by 32 Bits
 	.2byte	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
 	.2byte	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy

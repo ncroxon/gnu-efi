@@ -25,11 +25,6 @@ SECTIONS
   }
   _etext = .;
   _text_size = _etext - _text;
-  . = ALIGN(4096);
-  .reloc :
-  {
-   KEEP (*(.reloc))
-  }
 
   . = ALIGN(4096);
   .data :
@@ -80,6 +75,11 @@ SECTIONS
 
   _edata = .;
   _data_size = _edata - _etext;
+  . = ALIGN(4096);
+  .reloc :
+  {
+   KEEP (*(.reloc))
+  }
   . = ALIGN(4096);
   _DYNAMIC = .;
   .dynamic  : { *(.dynamic) }
