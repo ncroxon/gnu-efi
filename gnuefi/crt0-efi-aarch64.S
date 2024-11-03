@@ -32,16 +32,17 @@ _start:
 	adrp		x1, _DYNAMIC
 	add		x1, x1, #:lo12:_DYNAMIC
 	bl		_relocate
-	cbnz		x0, 0f
+	cbnz		x0, .L_exit
 
 	ldp		x0, x1, [sp, #16]
 	bl		_entry
 
-0:	ldp		x29, x30, [sp], #32
+.L_exit:
+	ldp		x29, x30, [sp], #32
 	ret
 
 	// hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:
- 
+
  	.data
 dummy0:	.4byte	0
 dummy1:	.4byte	0

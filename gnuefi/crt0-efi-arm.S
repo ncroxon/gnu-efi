@@ -163,12 +163,13 @@ _start:
 	sub		r0, r0, #0x1000
 	bl		_relocate
 	teq		r0, #0
-	bne		0f
+	bne		.L_exit
 
 	ldmfd		sp, {r0-r1}
 	bl		_entry
 
-0:	add		sp, sp, #12
+.L_exit:
+	add		sp, sp, #12
 	ldr		pc, [sp], #4
 
 .L_DYNAMIC:

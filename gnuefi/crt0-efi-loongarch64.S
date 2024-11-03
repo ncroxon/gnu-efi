@@ -32,13 +32,14 @@ _start:
 	la.local  $a0, ImageBase	// a0: ImageBase
 	la.local  $a1, _DYNAMIC		// a1: DynamicSection
 	bl        _relocate
-	bnez	  $a0, 0f
+	bnez	  $a0, .L_exit
 
 	ld.d	  $a0, $sp, 8
 	ld.d	  $a1, $sp, 16
 	bl        _entry
 
-0:	ld.d	  $ra, $sp, 0
+.L_exit:
+	ld.d	  $ra, $sp, 0
 	addi.d	  $sp, $sp, 24
 	jr	      $ra
 
