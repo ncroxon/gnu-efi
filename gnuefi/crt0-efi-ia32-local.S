@@ -153,11 +153,12 @@ _start:
 	popl %ebx
 	popl %ebx
 	testl %eax,%eax
-	jne .exit
+	jne .L_exit
   
 	call _entry			# call app with "image" and "systab" argument
 
-.exit:	leave
+.L_exit:
+	leave
 	ret
 
 // hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:

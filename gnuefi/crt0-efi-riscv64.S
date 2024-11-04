@@ -27,12 +27,13 @@ _start:
 	lla		a0, ImageBase
 	lla		a1, _DYNAMIC
 	call		_relocate
-	bne		a0, zero, 0f
+	bne		a0, zero, .L_exit
 	ld		a1, 8(sp)
 	ld		a0, 0(sp)
 	call		_entry
 	ld		ra, 16(sp)
-0:	addi		sp, sp, 24
+.L_exit:
+	addi		sp, sp, 24
 	ret
 
 // hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:

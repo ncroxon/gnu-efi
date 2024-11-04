@@ -60,7 +60,7 @@ _start:
 	call _entry
 	addq $8, %rsp
 
-.exit:	
+.L_exit:	
   	ret
 
  	// hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:
