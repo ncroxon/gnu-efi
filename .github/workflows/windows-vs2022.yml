@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x64, ia32, aa64, arm]
+        arch: [x64, ia32, aa64]
         conf: [Debug, Release]
 
     steps:
@@ -39,7 +39,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x64, ia32, aa64, arm]
+        arch: [x64, ia32, aa64]
         include:
         - arch: x64
           pkg: qemu-system-x86
@@ -55,11 +55,6 @@ jobs:
           pkg: qemu-system-arm
           qemu_arch: aarch64
           qemu_opts: -M virt -cpu cortex-a57
-          fw_base: AAVMF
-        - arch: arm
-          pkg: qemu-system-arm
-          qemu_arch: arm
-          qemu_opts: -M virt -cpu cortex-a15
           fw_base: AAVMF
 
     steps:
