@@ -83,10 +83,8 @@ jobs:
 
     - name: Download UEFI Shell
       run: |
-        curl -L -O https://github.com/pbatard/UEFI-Shell/releases/download/23H2/UEFI-Shell-2.2-23H2-RELEASE.iso
-        mkdir ./image
-        7z x -o./image *.iso
-        rm *.iso
+        mkdir -p ./image/efi/boot
+        curl -L https://github.com/pbatard/UEFI-Shell/releases/download/24H2/shell${{ matrix.arch }}.efi -o ./image/efi/boot/boot${{ matrix.arch }}.efi
 
     - name: Run tests
       run: |
