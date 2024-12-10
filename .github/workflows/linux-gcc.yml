@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [ia32, x64, aa64, arm, riscv64, mips64]
+        arch: [ia32, x64, aa64, arm, riscv64, mips64, loongarch64]
         include:
           - arch: ia32
             dir: ia32
@@ -34,21 +34,27 @@ jobs:
             dir: mips64el
             gcc: mips64el-linux-gnuabi64
             cross_compile: mips64el-linux-gnuabi64-
-#          - arch: loongarch64
-#            dir: loongarch64
-#            gcc: loongarch64-linux-gnu
-#            cross_compile: loongarch64-linux-gnu-
+          - arch: loongarch64
+            dir: loongarch64
+            gcc: multilib
+            cross_compile: loongarch64-unknown-linux-gnu-
 
     steps:
-    - name: Install toolchain
-      run: |
-        sudo apt-get update
-        sudo apt-get install gcc-${{ matrix.gcc }}
-
+      # Must happens first or else the LoongArch toolchain gets deleted
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Install toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc-${{ matrix.gcc }}
+        if [[ "${{ matrix.arch }}" == "loongarch64" ]]; then
+          curl -L -O https://github.com/loongson/build-tools/releases/download/2024.11.01/x86_64-cross-tools-loongarch64-binutils_2.43.1-gcc_14.2.0-glibc_2.40.tar.xz
+          tar -xJf x86_64-cross-tools-loongarch64-binutils_2.43.1-gcc_14.2.0-glibc_2.40.tar.xz
+          echo "$PWD/cross-tools/bin" >> "$GITHUB_PATH"
+        fi
 
     - name: Build
       run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.cross_compile }}
@@ -68,7 +74,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x64, ia32, aa64, arm, riscv64]
+        arch: [x64, ia32, aa64, arm, riscv64, loongarch64]
         include:
         - arch: x64
           pkg: qemu-system-x86
@@ -94,6 +100,11 @@ jobs:
           pkg: qemu-system-riscv64
           qemu_arch: riscv64
           qemu_opts: -M virt,pflash0=pflash0
+          fw_base: QEMU_EFI
+        - arch: loongarch64
+          pkg: qemu-system-loongarch64
+          qemu_arch: loongarch64
+          qemu_opts: -M virt -cpu la464
           fw_base: QEMU_EFI
 
     steps:
@@ -122,18 +133,18 @@ jobs:
 
     - name: Download UEFI Shell
       run: |
-        curl -L -O https://github.com/pbatard/UEFI-Shell/releases/download/23H2/UEFI-Shell-2.2-23H2-RELEASE.iso
-        mkdir ./image
-        7z x -o./image *.iso
-        rm *.iso
+        mkdir -p ./image/efi/boot
+        curl -L https://github.com/pbatard/UEFI-Shell/releases/download/24H2/shell${{ matrix.arch }}.efi -o ./image/efi/boot/boot${{ matrix.arch }}.efi
 
     - name: Run tests
       run: |
         export UEFI_ARCH=${{ matrix.arch }}
         export UEFI_DIR=./image
-        if [ "$UEFI_ARCH" = "riscv64" ]; then\
-          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -blockdev node-name=pflash0,driver=file,read-only=on,filename=${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image,id=drv1 -device virtio-blk-device,drive=drv1"
-        else \
+        if [ "$UEFI_ARCH" = "riscv64" ]; then
+          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -blockdev node-name=pflash0,driver=file,read-only=on,filename=${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image,id=drv1 -device virtio-blk-device,drive=drv1"
+        elif [ "$UEFI_ARCH" = "loongarch64" ]; then
+          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -bios ${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image"
+        else
           export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -drive if=pflash,format=raw,unit=0,file=${{ matrix.fw_base }}.fd,readonly=on -drive format=raw,file=fat:rw:image"
         fi
         ./tests/gen_tests.sh ./tests/test_list.txt
