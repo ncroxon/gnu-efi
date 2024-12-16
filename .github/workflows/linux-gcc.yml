@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [ia32, x64, aa64, arm, riscv64, mips64, loongarch64]
+        arch: [ia32, x64, aa64, arm, riscv64, loongarch64]
         include:
           - arch: ia32
             dir: ia32
@@ -30,10 +30,11 @@ jobs:
             dir: riscv64
             gcc: riscv64-linux-gnu
             cross_compile: riscv64-linux-gnu-
-          - arch: mips64
-            dir: mips64el
-            gcc: mips64el-linux-gnuabi64
-            cross_compile: mips64el-linux-gnuabi64-
+# See https://github.com/ncroxon/gnu-efi/issues/29
+#          - arch: mips64
+#            dir: mips64el
+#            gcc: mips64el-linux-gnuabi64
+#            cross_compile: mips64el-linux-gnuabi64-
           - arch: loongarch64
             dir: loongarch64
             gcc: multilib
