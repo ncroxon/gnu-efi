@@ -137,6 +137,9 @@ RtCompareMem (
     return 0;
 }
 
+
+typedef UINT32 QUAD_UINT32[4]; /* EFI_GUID is 128 bits so 32 x 4 */
+
 #ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareGuid)
 #endif
@@ -151,7 +154,7 @@ RtCompareGuid (
 
 Routine Description:
 
-    Compares to GUIDs
+    Compares two GUIDs
 
 Arguments:
 
@@ -163,19 +166,20 @@ Returns:
 
 --*/
 {
-    UINT32       *g1, *g2, r;
+    CONST QUAD_UINT32 *g1, *g2;
+    UINT32 r;
 
     //
     // Compare 32 bits at a time
     //
 
-    g1 = (UINT32*)Guid1;
-    g2 = (UINT32*)Guid2;
+    g1 = (CONST QUAD_UINT32*)Guid1;
+    g2 = (CONST QUAD_UINT32*)Guid2;
 
-    r  = g1[0] - g2[0];
-    r |= g1[1] - g2[1];
-    r |= g1[2] - g2[2];
-    r |= g1[3] - g2[3];
+    r  = (*g1)[0] - (*g2)[0];
+    r |= (*g1)[1] - (*g2)[1];
+    r |= (*g1)[2] - (*g2)[2];
+    r |= (*g1)[3] - (*g2)[3];
 
     if (r==0) {
         return 1;
