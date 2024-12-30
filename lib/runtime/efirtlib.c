@@ -30,7 +30,7 @@ RtZeroMem (
     IN UINTN     Size
     )
 {
-    INT8        *pt;
+    UINT8        *pt;
 
     pt = Buffer;
     while (Size--) {
@@ -50,7 +50,7 @@ RtSetMem (
     IN UINT8    Value
     )
 {
-    INT8        *pt;
+    UINT8        *pt;
 
     pt = Buffer;
     while (Size--) {
@@ -70,8 +70,10 @@ RtCopyMem (
     IN UINTN       len
     )
 {
-    CHAR8 *d = (CHAR8*)Dest;
-    CHAR8 *s = (CHAR8*)Src;
+    UINT8 *d, *s;
+
+    d = Dest;
+    s = Src;
 
     if (d == NULL || s == NULL || s == d)
         return;
@@ -118,7 +120,11 @@ RtCompareMem (
     IN UINTN    len
     )
 {
-    CONST CHAR8    *d = Dest, *s = Src;
+    CONST UINT8 *d, *s;
+
+    d = Dest;
+    s = Src;
+
     while (len--) {
         if (*d != *s) {
             return *d - *s;
@@ -157,14 +163,14 @@ Returns:
 
 --*/
 {
-    INT32       *g1, *g2, r;
+    UINT32       *g1, *g2, r;
 
     //
     // Compare 32 bits at a time
     //
 
-    g1 = (INT32 *) Guid1;
-    g2 = (INT32 *) Guid2;
+    g1 = (UINT32*)Guid1;
+    g2 = (UINT32*)Guid2;
 
     r  = g1[0] - g2[0];
     r |= g1[1] - g2[1];

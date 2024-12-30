@@ -260,9 +260,9 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
-CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wno-pointer-sign -Werror \
+CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-strict-aliasing \
-           -ffreestanding -fno-stack-protector -fno-stack-check \
+           -ffreestanding -fno-stack-protector \
            $(if $(findstring 0,$(USING_CLANG)),-Wno-error=maybe-uninitialized,) \
            $(if $(findstring 0,$(USING_CLANG)),-fno-merge-all-constants,)
 endif
