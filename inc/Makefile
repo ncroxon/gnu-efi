@@ -1,7 +1,7 @@
-SRCDIR = .
 
-VPATH = $(SRCDIR)
-TOPDIR = $(SRCDIR)/..
+VPATH ?= .
+SRCDIR = $(VPATH)
+
 
 include $(SRCDIR)/../Make.defaults
 
