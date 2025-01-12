@@ -561,6 +561,13 @@ VPrint (
     );
 
 UINTN
+EFIAPI
+MS_VPrint (
+    IN CONST CHAR16   *fmt,
+    ms_va_list           args
+    );
+
+UINTN
 UnicodeSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
@@ -576,10 +583,26 @@ UnicodeVSPrint (
     va_list           args
     );
 
+UINTN
+EFIAPI
+MS_UnicodeVSPrint (
+    OUT CHAR16        *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR16   *fmt,
+    ms_va_list           args
+    );
+
 CHAR16 *
 VPoolPrint (
     IN CONST CHAR16     *fmt,
     va_list             args
+    );
+
+CHAR16 *
+EFIAPI
+MS_VPoolPrint (
+    IN CONST CHAR16     *fmt,
+    ms_va_list             args
     );
 
 CHAR16 *
@@ -637,6 +660,15 @@ AsciiVSPrint(
     IN  UINTN         StrSize,
     IN  CONST CHAR8   *fmt,
     va_list           args
+);
+
+UINTN
+EFIAPI
+MS_AsciiVSPrint(
+    OUT CHAR8         *Str,
+    IN  UINTN         StrSize,
+    IN  CONST CHAR8   *fmt,
+    ms_va_list           args
 );
 
 //
