@@ -34,7 +34,7 @@
 #    SUCH DAMAGE.
 #
 
-TOPDIR ?= $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
+export TOPDIR ?= $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
 #
 # Variables below overridable from command-line:
@@ -300,3 +300,6 @@ endif
 ifneq ($(ARCH),arm)
 export LIBGCC=$(shell $(CC) $(CFLAGS) $(ARCH3264) -print-libgcc-file-name)
 endif
+
+export ARCH
+
