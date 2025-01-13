@@ -94,12 +94,9 @@ ifeq ($(USING_FREEBSD),1)
 override HOSTCC       := $(prefix)clang
 endif
 
-HOSTARCH      ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
-ARCH          ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
-
-# Get ARCH from the compiler if cross compiling 
-ifneq ($(CROSS_COMPILE),)
-  override ARCH := $(shell $(CC) -dumpmachine | cut -f1 -d-| sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
+HOSTARCH      := $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
+ifeq ($(origin ARCH),undefined)
+ARCH          := $(shell $(CC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
 endif
 
 # FreeBSD (and possibly others) reports amd64 instead of x86_64
@@ -113,6 +110,16 @@ ifeq ($(ARCH),x64)
 endif
 ifeq ($(ARCH),mips64)
   override ARCH := mips64el
+endif
+ifeq ($(ARCH),aa64)
+  override ARCH := aarch64
+endif
+
+# Allow 32 on 64
+ifeq ($(HOSTARCH),x86_64)
+ifeq ($(ARCH),ia32)
+	override ARCH := ia32
+endif
 endif
 
 GCCVERSION    := $(shell $(CC) -dumpversion | sed -e 's/-win32/.0/' | cut -f1 -d.)
