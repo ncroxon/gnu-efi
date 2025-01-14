@@ -1,5 +1,5 @@
-#ifndef _EFI_LEGACY_H
-#define _EFI_LEGACY_H
+#ifndef _EFI_LEGACY_EFILIB_H
+#define _EFI_LEGACY_EFILIB_H
 
 /*
 ABIs:
