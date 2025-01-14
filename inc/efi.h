@@ -66,7 +66,6 @@ extern "C" {
 
 #include "eficompiler.h"
 #include "efidef.h"
-#include "legacy.h"
 #include "efidevp.h"
 #include "efipciio.h"
 #include "efiprot.h"

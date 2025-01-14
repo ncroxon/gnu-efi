@@ -42,6 +42,7 @@ extern "C" {
 #elif defined (__loongarch64)
 #include "loongarch64/efilibplat.h"
 #endif
+#include "legacy/efilib.h"
 #include "efilink.h"
 #include "efirtlib.h"
 #include "efistdarg.h"
