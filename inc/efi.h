@@ -16,12 +16,6 @@ Revision History
 
 --*/
 
-
-// Add a predefined macro to detect usage of the library
-#ifndef _GNU_EFI
-#define _GNU_EFI
-#endif
-
 //
 // Build flags on input
 //  EFI32
@@ -41,9 +35,9 @@ extern "C" {
 #error "Mach-O toolchain isn't supported; please compile with an ELF toolchain from Homebrew"
 #endif
 
-#ifndef _GNU_EFI_4_0
+// Add a predefined macro to detect usage of the library
+#define _GNU_EFI
 #define _GNU_EFI_4_0
-#endif
 
 #define EFI_FIRMWARE_VENDOR         L"INTEL"
 #define EFI_FIRMWARE_MAJOR_REVISION 12
