@@ -30,7 +30,7 @@ RtZeroMem (
     IN UINTN     Size
     )
 {
-    INT8        *pt;
+    UINT8        *pt;
 
     pt = Buffer;
     while (Size--) {
@@ -50,7 +50,7 @@ RtSetMem (
     IN UINT8    Value
     )
 {
-    INT8        *pt;
+    UINT8        *pt;
 
     pt = Buffer;
     while (Size--) {
@@ -70,8 +70,10 @@ RtCopyMem (
     IN UINTN       len
     )
 {
-    CHAR8 *d = (CHAR8*)Dest;
-    CHAR8 *s = (CHAR8*)Src;
+    UINT8 *d, *s;
+
+    d = Dest;
+    s = Src;
 
     if (d == NULL || s == NULL || s == d)
         return;
@@ -118,7 +120,11 @@ RtCompareMem (
     IN UINTN    len
     )
 {
-    CONST CHAR8    *d = Dest, *s = Src;
+    CONST UINT8 *d, *s;
+
+    d = Dest;
+    s = Src;
+
     while (len--) {
         if (*d != *s) {
             return *d - *s;
@@ -130,6 +136,9 @@ RtCompareMem (
 
     return 0;
 }
+
+
+typedef UINT32 QUAD_UINT32[4]; /* EFI_GUID is 128 bits so 32 x 4 */
 
 #ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareGuid)
@@ -145,7 +154,7 @@ RtCompareGuid (
 
 Routine Description:
 
-    Compares to GUIDs
+    Compares two GUIDs
 
 Arguments:
 
@@ -157,19 +166,20 @@ Returns:
 
 --*/
 {
-    INT32       *g1, *g2, r;
+    CONST QUAD_UINT32 *g1, *g2;
+    UINT32 r;
 
     //
     // Compare 32 bits at a time
     //
 
-    g1 = (INT32 *) Guid1;
-    g2 = (INT32 *) Guid2;
+    g1 = (CONST QUAD_UINT32*)Guid1;
+    g2 = (CONST QUAD_UINT32*)Guid2;
 
-    r  = g1[0] - g2[0];
-    r |= g1[1] - g2[1];
-    r |= g1[2] - g2[2];
-    r |= g1[3] - g2[3];
+    r  = (*g1)[0] - (*g2)[0];
+    r |= (*g1)[1] - (*g2)[1];
+    r |= (*g1)[2] - (*g2)[2];
+    r |= (*g1)[3] - (*g2)[3];
 
     if (r==0) {
         return 1;
