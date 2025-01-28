@@ -437,7 +437,7 @@ Arguments:
 
     Str         - Output buffer to print the formatted string into
 
-    StrSize     - Size of Str.  String is truncated to this size.
+    StrSize     - Size of Str (in bytes).  String is truncated to this size.
                   A size of 0 means there is no limit
 
     fmt         - The format string
@@ -859,7 +859,7 @@ Arguments:
 
     Str         - Output buffer to print the formatted string into
 
-    StrSize     - Size of Str.  String is truncated to this size.
+    StrSize     - Size of Str (in bytes).  String is truncated to this size.
                   A size of 0 means there is no limit
 
     fmt         - The format string
@@ -887,7 +887,7 @@ Returns:
         return 0;
     }
 
-    Len = UnicodeVSPrint(UnicodeStr, StrSize, UnicodeFmt, args);
+    Len = UnicodeVSPrint(UnicodeStr, StrSize * sizeof(CHAR16), UnicodeFmt, args);
     FreePool(UnicodeFmt);
 
     // The strings are ASCII so just do a plain Unicode conversion
