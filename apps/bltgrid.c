@@ -13,7 +13,7 @@ fill_boxes(UINT32 *PixelBuffer, UINT32 Width, UINT32 Height)
 	 */
 	EFI_GRAPHICS_OUTPUT_BLT_PIXEL Red = {0, 0, 0xff, 0},
 				      Green = {0, 0xff, 0, 0},
-				      *Color;
+				      *Color = NULL;
 
 	for (y = 0; y < Height; y++) {
 		Color = ((y / 32) % 2 == 0) ? &Red : &Green;
