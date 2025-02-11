@@ -391,7 +391,7 @@ Returns:
                 EFI_DEVICE_PATH *dp = VA_ARG(ps->args, EFI_DEVICE_PATH *);
                 CHAR16 *dpstr = DevicePathToStr(dp);
                 StrnCpy(Item.Scratch, dpstr, PRINT_ITEM_BUFFER_LEN);
-                Item.Scratch[PRINT_ITEM_BUFFER_LEN-1] = L'\0';
+                Item.Scratch[PRINT_ITEM_BUFFER_LEN-1] = u'\0';
                 FreePool(dpstr);
 
                 Item.Item.pw = Item.Scratch;
