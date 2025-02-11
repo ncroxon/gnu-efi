@@ -636,7 +636,7 @@ FloatToString (
      * Decimal point.
      */
     UINTN x = StrLen(Buffer);
-    Buffer[x] = L'.';
+    Buffer[x] = u'.';
     x++;
 
 
@@ -654,7 +654,7 @@ FloatToString (
     while (   (f != 0)
            && ((INTN)f == 0))
     {
-      Buffer[x] = L'0';
+      Buffer[x] = u'0';
       x++;
       f *= 10.0;
     }
