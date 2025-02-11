@@ -122,5 +122,8 @@
     <ClCompile Include="..\lib\aarch64\math.c">
       <Filter>Source Files\aarch64</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\va_print.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
