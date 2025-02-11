@@ -92,6 +92,8 @@ extern EFI_GUID gEfiDiskIo2ProtocolGuid;
 #define DiskIo2Protocol gEfiDiskIo2ProtocolGuid
 extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
 #define FileSystemProtocol gEfiSimpleFileSystemProtocolGuid
+extern EFI_GUID gEfiLoadedImageDevicePathProtocolGuid;
+#define LoadedImageDevicePathProtocol gEfiLoadedImageDevicePathProtocolGuid
 extern EFI_GUID gEfiLoadFileProtocolGuid;
 #define LoadFileProtocol gEfiLoadFileProtocolGuid
 extern EFI_GUID gEfiLoadFile2ProtocolGuid;
