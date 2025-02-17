@@ -561,12 +561,25 @@ VPrint (
     va_list           args
     );
 
+#if !defined(_MSC_VER)
 UINTN
 EFIAPI
 MS_VPrint (
     IN CONST CHAR16   *fmt,
     ms_va_list           args
     );
+#else
+EFI_INTERNAL
+UINTN
+EFIAPI
+MS_VPrint (
+    IN CONST CHAR16   *fmt,
+    ms_va_list           args
+) {
+   return VPrint(fmt, args);
+}
+#endif
+
 
 UINTN
 UnicodeSPrint (
@@ -575,7 +588,7 @@ UnicodeSPrint (
     IN CONST CHAR16   *fmt,
     ...
     );
-
+    
 UINTN
 UnicodeVSPrint (
     OUT CHAR16        *Str,
@@ -584,6 +597,8 @@ UnicodeVSPrint (
     va_list           args
     );
 
+
+#if !defined(_MSC_VER)
 UINTN
 EFIAPI
 MS_UnicodeVSPrint (
@@ -592,6 +607,20 @@ MS_UnicodeVSPrint (
     IN CONST CHAR16   *fmt,
     ms_va_list           args
     );
+#else
+EFI_INTERNAL
+UINTN
+EFIAPI
+MS_UnicodeVSPrint (
+    OUT CHAR16        *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR16   *fmt,
+    ms_va_list           args
+) {
+    return UnicodeVSPrint(Str, StrSize, fmt, args);
+}
+#endif
+
 
 CHAR16 *
 VPoolPrint (
@@ -599,12 +628,25 @@ VPoolPrint (
     va_list             args
     );
 
+#if !defined(_MSC_VER)
 CHAR16 *
 EFIAPI
 MS_VPoolPrint (
     IN CONST CHAR16     *fmt,
     ms_va_list             args
     );
+#else
+EFI_INTERNAL
+CHAR16 *
+EFIAPI
+MS_VPoolPrint (
+    IN CONST CHAR16     *fmt,
+    ms_va_list             args
+) {
+    return VPoolPrint(fmt, args);
+}
+#endif
+
 
 CHAR16 *
 PoolPrint (
