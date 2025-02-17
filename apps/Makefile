@@ -34,10 +34,9 @@
 #    SUCH DAMAGE.
 #
 
-SRCDIR = .
+VPATH ?= .
+SRCDIR = $(VPATH)
 
-VPATH = $(SRCDIR)
-TOPDIR = $(SRCDIR)/..
 
 include $(SRCDIR)/../Make.defaults
 

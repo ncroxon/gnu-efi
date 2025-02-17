@@ -37,9 +37,9 @@
 export VERSION = 4.0.0
 
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-SRCDIR = $(dir $(MKFILE_PATH))
+VPATH ?= $(dir $(MKFILE_PATH))
 
-VPATH = $(SRCDIR)
+SRCDIR = $(VPATH)
 
 include $(SRCDIR)/Make.defaults
 
@@ -86,20 +86,20 @@ mkvars:
 
 $(SUBDIRS):
 	mkdir -p $(OBJDIR)/$@
-	$(MAKE) -C $(OBJDIR)/$@ -f $(SRCDIR)/$@/Makefile SRCDIR=$(SRCDIR)/$@ ARCH=$(ARCH)
+	$(MAKE) -C $(OBJDIR)/$@ -f $(SRCDIR)/$@/Makefile VPATH=$(SRCDIR)/$@
 
 clean:
 	@rm -vrf *~
 	@set -e ; for d in $(SUBDIRS); do \
 		if [ -d $(OBJDIR)/$$d ]; then \
-			$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile SRCDIR=$(SRCDIR)/$$d clean; \
+			$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile VPATH=$(SRCDIR)/$$d clean; \
 		fi; \
 	done
 
 install:
 	@set -e ; for d in $(SUBDIRS); do \
 		mkdir -p $(OBJDIR)/$$d; \
-		$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile SRCDIR=$(SRCDIR)/$$d install; done
+		$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile VPATH=$(SRCDIR)/$$d install; done
 
 .PHONY:	$(SUBDIRS) clean depend
 

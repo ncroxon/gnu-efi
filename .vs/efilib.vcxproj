@@ -403,6 +403,7 @@
     <ClCompile Include="..\lib\smbios.c" />
     <ClCompile Include="..\lib\sread.c" />
     <ClCompile Include="..\lib\str.c" />
+    <ClCompile Include="..\lib\va_print.c" />
     <ClCompile Include="..\lib\x86_64\initplat.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
