@@ -37,8 +37,7 @@ ReallocatePool_1 (
         IN VOID   *OldPool  OPTIONAL
 );
 
-STATIC
-inline
+EFI_INTERNAL
 VOID *
 EFIAPI
 ReallocatePool_0 (
@@ -87,8 +86,7 @@ CompareGuid_1 (
     IN CONST EFI_GUID     *Guid2
 );
 
-STATIC
-inline
+EFI_INTERNAL
 INTN
 EFIAPI
 CompareGuid_0 (

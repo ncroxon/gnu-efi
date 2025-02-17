@@ -63,6 +63,9 @@ Abstract:
 #define EFI_NOINLINE
 #endif
 
+#define EFI_INLINE inline
+#define EFI_INTERNAL STATIC EFI_INLINE
+
 /* Also add a catch-all on __attribute__() for MS compilers */
 #if defined(_MSC_VER)
 #define __attribute__(x)
