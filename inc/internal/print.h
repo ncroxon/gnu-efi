@@ -30,7 +30,7 @@ typedef struct {
     } un;
 } POINTER;
 
-STATIC
+EFI_INTERNAL
 CHAR16
 PGETC (
     IN POINTER      *p
@@ -55,7 +55,7 @@ typedef struct _pitem {
     BOOLEAN     Long;
 } PRINT_ITEM;
     
-STATIC
+EFI_INTERNAL
 CHAR16
 PGETC (
     IN POINTER      *p
@@ -87,7 +87,7 @@ _DbgOut (
     IN CHAR16   *Buffer
     );
 
-STATIC
+EFI_INTERNAL
 INTN
 IsLocalPrint(void *func)
 {
