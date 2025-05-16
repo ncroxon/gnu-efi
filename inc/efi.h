@@ -39,7 +39,7 @@ extern "C" {
 #define _GNU_EFI
 #define _GNU_EFI_4_0
 
-#define EFI_FIRMWARE_VENDOR         L"INTEL"
+#define EFI_FIRMWARE_VENDOR         u"INTEL"
 #define EFI_FIRMWARE_MAJOR_REVISION 12
 #define EFI_FIRMWARE_MINOR_REVISION 33
 #define EFI_FIRMWARE_REVISION ((EFI_FIRMWARE_MAJOR_REVISION <<16) | (EFI_FIRMWARE_MINOR_REVISION))
@@ -66,7 +66,6 @@ extern "C" {
 
 #include "eficompiler.h"
 #include "efidef.h"
-#include "legacy.h"
 #include "efidevp.h"
 #include "efipciio.h"
 #include "efiprot.h"

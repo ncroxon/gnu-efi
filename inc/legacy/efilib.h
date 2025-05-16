@@ -1,5 +1,5 @@
-#ifndef _EFI_LEGACY_H
-#define _EFI_LEGACY_H
+#ifndef _EFI_LEGACY_EFILIB_H
+#define _EFI_LEGACY_EFILIB_H
 
 /*
 ABIs:
@@ -23,9 +23,9 @@ Older versions can be selected via compiler defines
 #endif
 
 #if GNU_EFI_USE_REALLOCATEPOOL_ABI == 0
-#define ReallocatePool ReallocatePool_0
+#define ReallocatePool(a,b,c) ReallocatePool_0(a,b,c)
 #else
-#define ReallocatePool ReallocatePool_1
+#define ReallocatePool(a,b,c) ReallocatePool_1(a,b,c)
 #endif
 
 /* prevent circular headers */
@@ -37,8 +37,7 @@ ReallocatePool_1 (
         IN VOID   *OldPool  OPTIONAL
 );
 
-STATIC
-inline
+EFI_INTERNAL
 VOID *
 EFIAPI
 ReallocatePool_0 (
@@ -60,9 +59,9 @@ ReallocatePool_0 (
 #endif
 
 #if GNU_EFI_USE_COPYMEM_ABI == 0
-#define CopyMem CopyMemC
+#define CopyMem(a,b,c) CopyMemC(a,b,c)
 #else
-#define CopyMem CopyMem_1
+#define CopyMem(a,b,c) CopyMem_1(a,b,c)
 #endif
 
 /* end CopyMem */
@@ -74,9 +73,9 @@ ReallocatePool_0 (
 #endif
 
 #if GNU_EFI_USE_COMPAREGUID_ABI == 0
-#define CompareGuid CompareGuid_0
+#define CompareGuid(a,b) CompareGuid_0(a,b)
 #else
-#define CompareGuid CompareGuid_1
+#define CompareGuid(a,b) CompareGuid_1(a,b)
 #endif
 
 /* prevent circular headers */
@@ -87,8 +86,7 @@ CompareGuid_1 (
     IN CONST EFI_GUID     *Guid2
 );
 
-STATIC
-inline
+EFI_INTERNAL
 INTN
 EFIAPI
 CompareGuid_0 (
