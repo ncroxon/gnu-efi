@@ -34,7 +34,7 @@
 #    SUCH DAMAGE.
 #
 
-export VERSION = 4.0.0
+export VERSION = 4.0.2
 
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 VPATH ?= $(dir $(MKFILE_PATH))
