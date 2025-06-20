@@ -188,4 +188,16 @@ Returns:
     }
 }
 
+#ifndef __GNUC__
+#pragma RUNTIME_CODE(RtIsZeroGuid)
+#endif
+BOOLEAN
+EFIAPI
+RUNTIMEFUNCTION
+RtIsZeroGuid (
+IN CONST EFI_GUID     *Guid1
+)
+{
+	return RtCompareGuid(Guid1, &gZeroGuid);
 
+}

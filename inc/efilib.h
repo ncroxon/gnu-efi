@@ -60,6 +60,10 @@ extern EFI_BOOT_SERVICES        *BS;
 extern EFI_RUNTIME_SERVICES     *RT;
 #define gRT                      RT
 
+extern EFI_GUID gZeroGuid;
+#define EFI_ZERO_GUID {0x0, 0x0, 0x0, {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}}
+#define NullGuid gZeroGuid
+
 extern EFI_GUID gEfiDevicePathProtocolGuid;
 #define DevicePathProtocol gEfiDevicePathProtocolGuid
 extern EFI_GUID gEfiDevicePathToTextProtocolGuid;
@@ -160,7 +164,6 @@ extern EFI_GUID gEfiVT100Guid;
 extern EFI_GUID gEfiVT100PlusGuid;
 extern EFI_GUID gEfiVTUTF8Guid;
 
-extern EFI_GUID NullGuid;
 extern EFI_GUID UnknownDevice;
 
 extern EFI_GUID EfiPartTypeSystemPartitionGuid;
@@ -509,6 +512,13 @@ CompareGuid_1 (
     IN CONST EFI_GUID     *Guid1,
     IN CONST EFI_GUID     *Guid2
     );
+
+BOOLEAN
+EFIAPI
+IsZeroGuid (
+    IN CONST EFI_GUID     *Guid1
+);
+
 
 VOID *
 AllocatePool (
