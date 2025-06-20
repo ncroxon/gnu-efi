@@ -50,6 +50,11 @@ ifeq ($(origin INSTALLROOT),undefined)
 INSTALLROOT = $(DESTDIR)
 endif
 
+EFI_CFLAGS := 
+USER_CFLAGS := $(CFLAGS)
+override CFLAGS = $(EFI_CFLAGS) $(USER_CFLAGS)
+
+
 empty :=
 space := $(empty) $(empty)
 stripped = $(subst $(space),/,$(strip $(subst /,$(space),$(1))))
@@ -151,33 +156,33 @@ OBJDIR       := $(TOPDIR)/$(ARCH)
 #
 
 # Arch-specific compilation flags
-CPPFLAGS += -DCONFIG_$(ARCH)
+EFI_CFLAGS += -DCONFIG_$(ARCH)
 
-CFLAGS += -Wno-error=pragmas
+EFI_CFLAGS += -Wno-error=pragmas
 
 ifeq ($(ARCH),ia64)
-  CFLAGS += -mfixed-range=f32-f127
+  EFI_CFLAGS += -mfixed-range=f32-f127
 endif
 
 ifeq ($(ARCH),ia32)
-  CFLAGS += -mno-mmx -mno-sse
+  EFI_CFLAGS += -mno-mmx -mno-sse
   ifeq ($(HOSTARCH),x86_64)
     ARCH3264 = -m32
   endif
 endif
 
 # Set ISO C mode
-CPPFLAGS += -std=c11
+EFI_CFLAGS += -std=c11
 
 ifeq ($(ARCH),x86_64)
   ifeq ($(GCCNEWENOUGH),1)
-    CPPFLAGS += -DGNU_EFI_USE_MS_ABI
+    EFI_CFLAGS += -DGNU_EFI_USE_MS_ABI
     ifneq ($(USING_CLANG),clang)
-      CPPFLAGS +=  -maccumulate-outgoing-args
+      EFI_CFLAGS +=  -maccumulate-outgoing-args
     endif
   endif
 
-  CFLAGS += -mno-red-zone
+  EFI_CFLAGS += -mno-red-zone
   ifeq ($(HOSTARCH),ia32)
     ARCH3264 = -m64
   endif
@@ -187,12 +192,12 @@ ifneq (,$(filter $(ARCH),ia32 x86_64))
   # Disable AVX, if the compiler supports that.
   CC_CAN_DISABLE_AVX=$(shell $(CC) -Werror -c -o /dev/null -xc -mno-avx - </dev/null >/dev/null 2>&1 && echo 1)
   ifeq ($(CC_CAN_DISABLE_AVX), 1)
-    CFLAGS += -mno-avx
+    EFI_CFLAGS += -mno-avx
   endif
 endif
 
 ifeq ($(ARCH),mips64el)
-  CFLAGS += -march=mips64r2
+  EFI_CFLAGS += -march=mips64r2
   ARCH3264 = -mabi=64
 endif
 
@@ -235,15 +240,15 @@ endif
 
 
 ifeq ($(USING_APPLE),1)
-CFLAGS += -D__GNU_EFI_NO_GLIBC
+EFI_CFLAGS += -D__GNU_EFI_NO_GLIBC
 endif
 
 ifeq ($(NO_GLIBC),1)
-CFLAGS += -D__GNU_EFI_NO_GLIBC
+EFI_CFLAGS += -D__GNU_EFI_NO_GLIBC
 endif
 
 ifeq ($(ARCH),arm)
-CFLAGS += -marm
+EFI_CFLAGS += -marm
 endif
 
 ifneq (,$(filter $(ARCH),aarch64 arm loongarch64))
@@ -259,15 +264,15 @@ INCDIR  += -I$(SRCDIR) -I$(TOPDIR)/inc -I$(TOPDIR)/inc/$(ARCH) \
 GCCMACHINE := $(shell $(CC) -dumpmachine)
 IS_MINGW32 := $(findstring mingw32, $(GCCMACHINE))
 ifeq ($(IS_MINGW32),)
-  CFLAGS += -fPIE
+  EFI_CFLAGS += -fPIE
 endif
 
 ifeq ($(USING_FREEBSD),1)
-CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
+EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
-CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
+EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector \
            $(if $(findstring 0,$(USING_CLANG)),-fno-merge-all-constants,)
@@ -276,13 +281,13 @@ endif
 # Force DWARF 4 on LLVM
 # Otherwise readelf becomes very unhappy
 ifeq ($(USING_CLANG),clang)
-CFLAGS += -gdwarf-4
+EFI_CFLAGS += -gdwarf-4
 endif
 
 # Force hard float (for library mismatch)
 ifeq ($(ARCH),arm)
 ifeq ($(USING_APPLE),1)
-CFLAGS += -mfloat-abi=hard -mfpu=vfpv2
+EFI_CFLAGS += -mfloat-abi=hard -mfpu=vfpv2
 endif
 endif
 

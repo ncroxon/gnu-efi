@@ -80,11 +80,11 @@ $(SRCDIR)/ms_va_print.c:
 	@$(ECHO) "  CP       $(notdir ms_va_print.c)"
 	$(HIDE)cp $(SRCDIR)/va_print.c $(SRCDIR)/ms_va_print.c
 
-ms_va_print.o: CFLAGS += -Wno-error=unused-function -D__GNU_EFI_INTERNAL_USE_MS_VA_ABI
+ms_va_print.o: EFI_CFLAGS += -Wno-error=unused-function -D__GNU_EFI_INTERNAL_USE_MS_VA_ABI
 
-va_print.o: CFLAGS += -Wno-error=unused-function
+va_print.o: EFI_CFLAGS += -Wno-error=unused-function
 
-print.o: CFLAGS += -Wno-error=unused-function
+print.o: EFI_CFLAGS += -Wno-error=unused-function
 
 clean:
 	@rm -vf libefi.a *~ $(OBJS) */*.o $(SRCDIR)/ms_va_print.c

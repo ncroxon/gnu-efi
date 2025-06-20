@@ -42,7 +42,7 @@ include $(SRCDIR)/../Make.defaults
 
 LINUX_HEADERS	= /usr/src/sys/build
 APPSDIR		= $(LIBDIR)/gnuefi/apps
-CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
+EFI_CFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
 
 ifneq ($(HAVE_EFI_OBJCOPY),)
 ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),0)
