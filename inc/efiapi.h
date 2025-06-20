@@ -1030,5 +1030,75 @@ typedef struct _EFI_SYSTEM_TABLE {
 
 } EFI_SYSTEM_TABLE;
 
-#endif
 
+//
+// Not technically EFI, but oh well.
+//
+
+#define EFI_DXE_SERVICES_TABLE_SIGNATURE        0x565245535f455844ULL
+
+typedef enum {
+    EFI_GCD_MEMORY_TYPE_NON_EXISTENT,
+    EFI_GCD_MEMORY_TYPE_RESERVED,
+    EFI_GCD_MEMORY_TYPE_SYSTEM_MEMORY,
+    EFI_GCD_MEMORY_TYPE_MEMORY_MAPPED_IO,
+    EFI_GCD_MEMORY_TYPE_PERSISTENT,
+    EFI_GCD_MEMORY_TYPE_MORE_RELIABLE,
+    EFI_GCD_MEMORY_TYPE_MAXIMUM
+} EFI_GCD_MEMORY_TYPE_T;
+
+#define DXE_SERVICES_TABLE_GUID \
+  { \
+    0x5ad34ba, 0x6f02, 0x4214, {0x95, 0x2e, 0x4d, 0xa0, 0x39, 0x8e, 0x2b, 0xb9 } \
+  }
+
+struct _EFI_GCD_MEMORY_SPACE_DESCRIPTOR {
+    EFI_PHYSICAL_ADDRESS            BaseAddress;
+    UINT64                          Length;
+    UINT64                          Capabilities;
+    UINT64                          Attributes;
+    EFI_GCD_MEMORY_TYPE_T           GcdMemoryType;
+    EFI_HANDLE                      ImageHandle;
+    EFI_HANDLE                      DeviceHandle;
+} __attribute__((__packed__));
+
+typedef struct _EFI_GCD_MEMORY_SPACE_DESCRIPTOR EFI_GCD_MEMORY_SPACE_DESCRIPTOR;
+
+typedef
+EFI_STATUS
+(EFIAPI *GET_MEMORY_SPACE_DESCRIPTOR) (
+    IN EFI_PHYSICAL_ADDRESS     BaseAddress,
+    OUT EFI_GCD_MEMORY_SPACE_DESCRIPTOR *Desc
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *SET_MEMORY_SPACE_ATTRIBUTES) (
+    IN EFI_PHYSICAL_ADDRESS     BaseAddress,
+    IN UINT64                   Length,
+    IN UINT64                   Attributes
+    );
+
+typedef struct _EFI_DXE_SERVICES_TABLE {
+    EFI_TABLE_HEADER                Hdr;
+    VOID                            *AddMemorySpace;
+    VOID                            *AllocateMemorySpace;
+    VOID                            *FreeMemorySpace;
+    VOID                            *RemoveMemorySpace;
+    GET_MEMORY_SPACE_DESCRIPTOR	    GetMemorySpaceDescriptor;
+    SET_MEMORY_SPACE_ATTRIBUTES	    SetMemorySpaceAttributes;
+    VOID                            *GetMemorySpaceMap;
+    VOID                            *AddIoSpace;
+    VOID                            *AllocateIoSpace;
+    VOID                            *FreeIoSpace;
+    VOID                            *RemoveIoSpace;
+    VOID                            *GetIoSpaceDescriptor;
+    VOID                            *GetIoSpaceMap;
+    VOID                            *Dispatch;
+    VOID                            *Schedule;
+    VOID                            *Trust;
+    VOID                            *ProcessFirmwareVolume;
+    VOID                            *SetMemorySpaceCapabilities;
+} EFI_DXE_SERVICES_TABLE;
+
+#endif

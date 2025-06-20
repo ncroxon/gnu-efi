@@ -12,7 +12,7 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	InitializeLib(image, systab);
 
 	name[0] = 0;
-	vendor = NullGuid;
+	vendor = gZeroGuid;
 
 	Print(u"GUID                                Variable Name        Value\n");
 	Print(u"=================================== ==================== ========\n");

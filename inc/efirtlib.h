@@ -159,6 +159,13 @@ RtCompareGuid (
     IN CONST EFI_GUID     *Guid2
     );
 
+BOOLEAN
+EFIAPI
+RUNTIMEFUNCTION
+RtIsZeroGuid (
+    IN CONST EFI_GUID     *Guid1
+);
+
 UINT8
 RUNTIMEFUNCTION
 RtDecimaltoBCD(

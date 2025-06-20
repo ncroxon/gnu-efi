@@ -48,7 +48,7 @@ static struct {
     EFI_GUID        *Guid;
     WCHAR           *GuidName;
 } KnownGuids[] = {
-	{  &NullGuid,                                       u"G0" },
+	{  &gZeroGuid,                                      u"NullGuid" },
 	{  &gEfiGlobalVariableGuid,                         u"EfiVar" },
 
 	{  &VariableStoreProtocol,                          u"VarStore" },
@@ -139,6 +139,15 @@ Returns:
 --*/
 {
     return RtCompareGuid (Guid1, Guid2);
+}
+
+BOOLEAN
+EFIAPI
+IsZeroGuid (
+IN CONST EFI_GUID *Guid1
+)
+{
+	return RtIsZeroGuid(Guid1);
 }
 
 
