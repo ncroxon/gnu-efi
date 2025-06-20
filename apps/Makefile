@@ -67,7 +67,12 @@ LDFLAGS		+= -L$(TOPDIR)/$(ARCH)/lib -L$(TOPDIR)/$(ARCH)/gnuefi $(CRTOBJS)
 LOADLIBES	+= -T $(LDSCRIPT)
 endif
 
-LDFLAGS		+= -shared -Bsymbolic -L$(TOPDIR)/$(ARCH)/lib
+LDFLAGS		+= -pie -Bsymbolic -L$(TOPDIR)/$(ARCH)/lib
+
+ifeq ($(IS_MINGW32),)
+EFI_CFLAGS      += -fPIE
+LDFLAGS         += --no-dynamic-linker
+endif
 
 LOADLIBES	+= -lefi $(CRT0_LIBS)
 LOADLIBES	+= $(LIBGCC)
