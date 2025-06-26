@@ -53,6 +53,9 @@ endif
 EFI_CFLAGS := 
 USER_CFLAGS := $(CFLAGS)
 override CFLAGS = $(EFI_CFLAGS) $(USER_CFLAGS)
+EFI_LDFLAGS := 
+USER_LDFLAGS := $(LDFLAGS)
+override LDFLAGS = $(EFI_LDFLAGS) $(USER_LDFLAGS)
 
 
 empty :=
@@ -252,8 +255,8 @@ EFI_CFLAGS += -marm
 endif
 
 ifneq (,$(filter $(ARCH),aarch64 arm loongarch64))
-LDFLAGS += -z common-page-size=4096
-LDFLAGS += -z max-page-size=4096
+EFI_LDFLAGS += -z common-page-size=4096
+EFI_LDFLAGS += -z max-page-size=4096
 endif
 
 # Generic compilation flags
@@ -297,15 +300,15 @@ else
 ARFLAGS := rD
 endif
 ASFLAGS += $(ARCH3264)
-LDFLAGS += -nostdlib 
+EFI_LDFLAGS += -nostdlib 
 ifeq ($(IS_MINGW32),)
-  LDFLAGS += --warn-common --no-undefined --fatal-warnings \
+  EFI_LDFLAGS += --warn-common --no-undefined --fatal-warnings \
              --build-id=sha1
   ifeq ($(USING_APPLE),0)
-  LDFLAGS += -z norelro -z nocombreloc
+  EFI_LDFLAGS += -z norelro -z nocombreloc
   endif
 else
-  LDFLAGS += -Wl,--warn-common -Wl,--no-undefined -Wl,--fatal-warnings \
+  EFI_LDFLAGS += -Wl,--warn-common -Wl,--no-undefined -Wl,--fatal-warnings \
              -Wl,--build-id=sha1
 endif
 
