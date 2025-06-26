@@ -285,7 +285,7 @@ typedef uint32_t   UINTN;
 #endif
 
 /* No efi call wrapper for IA32 architecture */
-#define uefi_call_wrapper(func, va_num, ...)	func(__VA_ARGS__)
+#define uefi_call_wrapper(func, va_num, ...)	(func)(__VA_ARGS__)
 #define EFI_FUNCTION
 
 #ifdef _MSC_EXTENSIONS
