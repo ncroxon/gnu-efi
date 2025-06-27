@@ -45,6 +45,7 @@ extern "C" {
 #include "legacy/efilib.h"
 #include "efilink.h"
 #include "efirtlib.h"
+#include "efisetjmp.h"
 #include "efistdarg.h"
 #include "pci22.h"
 #include "libsmbios.h"

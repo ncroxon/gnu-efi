@@ -1,7 +1,6 @@
 
 #include <efi.h>
 #include <efilib.h>
-#include <efisetjmp.h>
 
 EFI_STATUS
 efi_main(

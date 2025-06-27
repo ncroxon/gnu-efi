@@ -155,5 +155,5 @@ typedef uint64_t   UINTN;
 
 #define INTERFACE_DECL(x) struct x
 
-#define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
+#define uefi_call_wrapper(func, va_num, ...) (func)(__VA_ARGS__)
 #define EFI_FUNCTION
