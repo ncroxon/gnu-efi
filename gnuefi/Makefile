@@ -76,7 +76,7 @@ ifeq ($(ARCH),mips64el)
 endif
 
 # on aarch64, avoid jump tables before all relocations have been processed
-reloc_aarch64.o: CFLAGS += -fno-jump-tables
+reloc_aarch64.o: EFI_CFLAGS += -fno-jump-tables
 
 ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
 CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
