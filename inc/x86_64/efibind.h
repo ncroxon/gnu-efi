@@ -299,7 +299,7 @@ typedef uint64_t   UINTN;
 
 /* for x86_64, EFI_FUNCTION_WRAPPER must be defined */
 #if defined(HAVE_USE_MS_ABI)
-#define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
+#define uefi_call_wrapper(func, va_num, ...) (func)(__VA_ARGS__)
 #else
 /*
   Credits for macro-magic:

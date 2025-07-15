@@ -42,7 +42,7 @@ include $(SRCDIR)/../Make.defaults
 
 LINUX_HEADERS	= /usr/src/sys/build
 APPSDIR		= $(LIBDIR)/gnuefi/apps
-CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
+EFI_CFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
 
 ifneq ($(HAVE_EFI_OBJCOPY),)
 ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),0)
@@ -63,11 +63,16 @@ LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi$(LDS_LOCAL).lds
 ifeq ($(USING_FREEBSD),1)
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
 endif
-LDFLAGS		+= -L$(TOPDIR)/$(ARCH)/lib -L$(TOPDIR)/$(ARCH)/gnuefi $(CRTOBJS)
+EFI_LDFLAGS		+= -L$(TOPDIR)/$(ARCH)/lib -L$(TOPDIR)/$(ARCH)/gnuefi $(CRTOBJS)
 LOADLIBES	+= -T $(LDSCRIPT)
 endif
 
-LDFLAGS		+= -shared -Bsymbolic -L$(TOPDIR)/$(ARCH)/lib
+EFI_LDFLAGS		+= -pie -Bsymbolic -L$(TOPDIR)/$(ARCH)/lib
+
+ifeq ($(IS_MINGW32),)
+EFI_CFLAGS      += -fPIE
+EFI_LDFLAGS     += --no-dynamic-linker
+endif
 
 LOADLIBES	+= -lefi $(CRT0_LIBS)
 LOADLIBES	+= $(LIBGCC)
@@ -99,18 +104,19 @@ $(TARGET_BSDRIVERS): FORMAT=-O efi-bsdrv-$(ARCH)
 $(TARGET_RTDRIVERS): FORMAT=-O efi-rtdrv-$(ARCH)
 
 ifneq ($(IS_MINGW32),)
-LDFLAGS     += -s -Wl,-dll -Wl,--subsystem,$(SUBSYSTEM) 
+EFI_LDFLAGS += -s -Wl,-dll
+SUBSYSTEM_DEFINES = -Wl,--subsystem,$(SUBSYSTEM)
 ifeq ($(ARCH),ia32)
-LDFLAGS     += -e _efi_main
+EFI_LDFLAGS     += -e _efi_main
 else
-LDFLAGS     += -e efi_main
+EFI_LDFLAGS     += -e efi_main
 endif
 endif
 
 else
 
 FORMAT		:= -O binary
-LDFLAGS		+= --defsym=EFI_SUBSYSTEM=$(SUBSYSTEM)
+SUBSYSTEM_DEFINES = --defsym=EFI_SUBSYSTEM=$(SUBSYSTEM)
 
 endif
 

@@ -123,5 +123,5 @@ typedef uint64_t                UINTN;
 // The following macro provide a workaround for such cases.
 #define INTERFACE_DECL(x)       struct x
 
-#define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
+#define uefi_call_wrapper(func, va_num, ...) (func)(__VA_ARGS__)
 #define EFI_FUNCTION

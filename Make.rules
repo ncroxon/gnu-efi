@@ -59,29 +59,29 @@ endif
 
 %.so: %.o
 	@$(ECHO) "  LD       $(notdir $@)"
-	$(HIDE)$(LD) $(LDFLAGS) $^ -o $@ $(LOADLIBES)
+	$(HIDE)$(LD) $(LDFLAGS) $(SUBSYSTEM_DEFINES) $^ -o $@ $(LOADLIBES)
 else
 %.efi: %.o
 	@$(ECHO) "  CCLD     $(notdir $@)"
-	$(HIDE)$(CC) $(LDFLAGS) $< -o $@ $(LOADLIBES)
+	$(HIDE)$(CC) $(LDFLAGS) $(SUBSYSTEM_DEFINES) $< -o $@ $(LOADLIBES)
 endif
 
 %.o: %.c
 	@$(ECHO) "  CC       $(notdir $@)"
-	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
 
 %.s: %.c
 	@$(ECHO) "  CC       $(notdir $@)"
-	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -S $< -o $@
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -S $< -o $@
 
 %.i: %.c
 	@$(ECHO) "  CPP      $(notdir $@)"
-	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -E $< -o $@
 
 %.o: %.S
 	@$(ECHO) "  CC       $(notdir $@)"
-	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
 
 %.s: %.S
 	@$(ECHO) "  CPP      $(notdir $@)"
-	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -E $< -o $@
