@@ -61,6 +61,10 @@ extern EFI_BOOT_SERVICES        *BS;
 extern EFI_RUNTIME_SERVICES     *RT;
 #define gRT                      RT
 
+extern EFI_GUID gZeroGuid;
+#define EFI_ZERO_GUID {0x0, 0x0, 0x0, {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}}
+#define NullGuid gZeroGuid
+
 extern EFI_GUID gEfiDevicePathProtocolGuid;
 #define DevicePathProtocol gEfiDevicePathProtocolGuid
 extern EFI_GUID gEfiDevicePathToTextProtocolGuid;
@@ -91,10 +95,16 @@ extern EFI_GUID gEfiDiskIoProtocolGuid;
 #define DiskIoProtocol gEfiDiskIoProtocolGuid
 extern EFI_GUID gEfiDiskIo2ProtocolGuid;
 #define DiskIo2Protocol gEfiDiskIo2ProtocolGuid
+extern EFI_GUID gEfiDxeServicesTableGuid;
+#define DxeServicesTable gEfiDxeServicesTableGuid
 extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
 #define FileSystemProtocol gEfiSimpleFileSystemProtocolGuid
+extern EFI_GUID gEfiLoadedImageDevicePathProtocolGuid;
+#define LoadedImageDevicePathProtocol gEfiLoadedImageDevicePathProtocolGuid
 extern EFI_GUID gEfiLoadFileProtocolGuid;
 #define LoadFileProtocol gEfiLoadFileProtocolGuid
+extern EFI_GUID gEfiLoadFile2ProtocolGuid;
+#define LoadFile2Protocol gEfiLoadFile2ProtocolGuid
 extern EFI_GUID gEfiDeviceIoProtocolGuid;
 #define DeviceIoProtocol gEfiDeviceIoProtocolGuid
 extern EFI_GUID VariableStoreProtocol;
@@ -155,7 +165,6 @@ extern EFI_GUID gEfiVT100Guid;
 extern EFI_GUID gEfiVT100PlusGuid;
 extern EFI_GUID gEfiVTUTF8Guid;
 
-extern EFI_GUID NullGuid;
 extern EFI_GUID UnknownDevice;
 
 extern EFI_GUID EfiPartTypeSystemPartitionGuid;
@@ -504,6 +513,13 @@ CompareGuid_1 (
     IN CONST EFI_GUID     *Guid1,
     IN CONST EFI_GUID     *Guid2
     );
+
+BOOLEAN
+EFIAPI
+IsZeroGuid (
+    IN CONST EFI_GUID     *Guid1
+);
+
 
 VOID *
 AllocatePool (
