@@ -11,17 +11,17 @@
  */
 	.text
 	.arm
-	.globl	setjmp
-	.type	setjmp, %function
-setjmp:
+	.globl	base_setjmp
+	.type	base_setjmp, %function
+base_setjmp:
 	mov	r3, r13
 	stmia	r0, {r3-r12,r14}
 	eor	r0, r0, r0
 	bx	lr
 
-	.globl	longjmp
-	.type	longjmp, %function
-longjmp:
+	.globl	base_longjmp
+	.type	base_longjmp, %function
+base_longjmp:
 	ldmia	r0, {r3-r12,r14}
 
 #if defined(__ELF__) && defined(__linux__)

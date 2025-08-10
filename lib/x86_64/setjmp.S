@@ -1,11 +1,11 @@
 	.text
-	.globl	setjmp
+	.globl	base_setjmp
 #ifndef __MINGW32__
-	.type setjmp, @function
+	.type base_setjmp, @function
 #else
-	.def setjmp; .scl 2; .type 32; .endef
+	.def base_setjmp; .scl 2; .type 32; .endef
 #endif
-setjmp:
+base_setjmp:
 	pop	%rsi
 	movq	%rbx,0x00(%rdi)
 	movq	%rsp,0x08(%rdi)
@@ -19,13 +19,13 @@ setjmp:
 	xor	%rax,%rax
 	ret
 
-	.globl	longjmp
+	.globl	base_longjmp
 #ifndef __MINGW32__
-	.type	longjmp, @function
+	.type	base_longjmp, @function
 #else
-	.def longjmp; .scl 2; .type 32; .endef
+	.def base_longjmp; .scl 2; .type 32; .endef
 #endif
-longjmp:
+base_longjmp:
 	movl	%esi, %eax
 	movq	0x00(%rdi), %rbx
 	movq	0x08(%rdi), %rsp

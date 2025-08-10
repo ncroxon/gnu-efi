@@ -13,9 +13,9 @@ BASIS,
  * IMPLIED.
  */
 	.text
-	.globl	setjmp
-	.type	setjmp, @function
-setjmp:
+	.globl	base_setjmp
+	.type	base_setjmp, @function
+base_setjmp:
 	alloc	loc0 = ar.pfs, 1, 2, 1, 0
 	;;
 	mov	r14 = ar.unat
@@ -96,10 +96,10 @@ setjmp:
 	br.ret.sptk	b0
 	;;
 
-	.globl	longjmp
-	.type	longjmp, @function
+	.globl	base_longjmp
+	.type	base_longjmp, @function
 	.regstk 2, 0, 0, 0
-longjmp:
+base_longjmp:
 	add		r10 = 0x10*20 + 8*14, in0
 	movl		r2  = ~((((1<<14) - 1) << 16) | 3)
 	;;

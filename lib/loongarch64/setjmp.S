@@ -20,12 +20,10 @@
 	.text
 	.p2align 3
 
-/*
-   int setjmp(jmp_buf env);
-*/
-	.globl	setjmp
-	.type	setjmp, @function
-setjmp:
+
+	.globl	base_setjmp
+	.type	base_setjmp, @function
+base_setjmp:
 	st.d $ra, $a0, 0x0
 	st.d $sp, $a0, 0x8
 	st.d $fp, $a0, 0x10
@@ -42,12 +40,9 @@ setjmp:
 	move $a0, $zero
 	jr   $ra
 
-/*
-   void longjmp(jmp_buf env, int val);
-*/
-	.globl	longjmp
-	.type	longjmp, @function
-longjmp:
+	.globl	base_longjmp
+	.type	base_longjmp, @function
+base_longjmp:
 	ld.d $ra, $a0, 0x0
 	ld.d $sp, $a0, 0x8
 	ld.d $fp, $a0, 0x10

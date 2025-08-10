@@ -33,9 +33,9 @@ BASIS,
 #define REG_PAIR(REG1, REG2, OFFS)      stp REG1, REG2, [x0, OFFS]
 #define REG_ONE(REG1, OFFS)             str REG1, [x0, OFFS]
 
-	.globl	setjmp
-	.type	setjmp, @function
-setjmp:
+	.globl	base_setjmp
+	.type	base_setjmp, @function
+base_setjmp:
 	mov	x16, sp
 	GPR_LAYOUT
 	FPR_LAYOUT
@@ -48,9 +48,9 @@ setjmp:
 #define REG_PAIR(REG1, REG2, OFFS)      ldp REG1, REG2, [x0, OFFS]
 #define REG_ONE(REG1, OFFS)             ldr REG1, [x0, OFFS]
 
-	.globl	longjmp
-	.type	longjmp, @function
-longjmp:
+	.globl	base_longjmp
+	.type	base_longjmp, @function
+base_longjmp:
 	GPR_LAYOUT
 	FPR_LAYOUT
 	mov	sp, x16
