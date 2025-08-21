@@ -136,6 +136,12 @@ typedef struct {
     UINT8                   Addr[16];
 } EFI_IPv6_ADDRESS;
 
+typedef EFI_ALIGN(4) union {
+    UINT32      Addr[4];
+    EFI_IPv4_ADDRESS    v4;
+    EFI_IPv6_ADDRESS    v6;
+} EFI_IP_ADDRESS;
+
 typedef struct {
     UINT8                   Addr[32];
 } EFI_MAC_ADDRESS;

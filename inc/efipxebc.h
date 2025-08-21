@@ -34,12 +34,6 @@ INTERFACE_DECL(_EFI_PXE_BASE_CODE_PROTOCOL);
 // Address definitions
 //
 
-typedef union {
-    UINT32      Addr[4];
-    EFI_IPv4_ADDRESS    v4;
-    EFI_IPv6_ADDRESS    v6;
-} EFI_IP_ADDRESS;
-
 typedef UINT16 EFI_PXE_BASE_CODE_UDP_PORT;
 
 //
