@@ -89,7 +89,7 @@ typedef VOID            *EFI_EVENT;
 // A GUID
 //
 
-typedef struct {          
+typedef EFI_ALIGN(8) struct {          
     UINT32  Data1;
     UINT16  Data2;
     UINT16  Data3;
