@@ -138,7 +138,7 @@ RtCompareMem (
 }
 
 
-typedef UINT32 QUAD_UINT32[4]; /* EFI_GUID is 128 bits so 32 x 4 */
+typedef EFI_ALIGN(8) UINT32 QUAD_UINT32[4]; /* EFI_GUID is 128 bits so 32 x 4 */
 
 #ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareGuid)

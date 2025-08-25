@@ -89,7 +89,7 @@ typedef VOID            *EFI_EVENT;
 // A GUID
 //
 
-typedef struct {          
+typedef EFI_ALIGN(8) struct {          
     UINT32  Data1;
     UINT16  Data2;
     UINT16  Data3;
@@ -135,6 +135,12 @@ typedef struct {
 typedef struct {
     UINT8                   Addr[16];
 } EFI_IPv6_ADDRESS;
+
+typedef EFI_ALIGN(4) union {
+    UINT32      Addr[4];
+    EFI_IPv4_ADDRESS    v4;
+    EFI_IPv6_ADDRESS    v6;
+} EFI_IP_ADDRESS;
 
 typedef struct {
     UINT8                   Addr[32];
@@ -216,6 +222,7 @@ typedef enum {
 #define EFI_MEMORY_MORE_RELIABLE 0x0000000000010000
 #define EFI_MEMORY_SP            0x0000000000040000
 #define EFI_MEMORY_CPU_CRYPTO    0x0000000000080000
+#define EFI_MEMORY_HOT_PLUGGABLE 0x0000000000100000
 #define EFI_MEMORY_ISA_VALID     0x4000000000000000
 #define EFI_MEMORY_ISA_MASK      0x0FFFF00000000000
 
