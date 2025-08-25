@@ -39,10 +39,10 @@
 #define REG_ONE(R, P) sd R, P(a0)
 #define FREG_ONE(R, P) fsd R, P(a0)
 
-	.globl setjmp
-	.type setjmp, @function
+	.globl base_setjmp
+	.type base_setjmp, @function
 
-setjmp:
+base_setjmp:
 	GREG_LIST
 #ifndef __riscv_float_abi_soft
 	FREG_LIST
@@ -56,10 +56,10 @@ setjmp:
 #define REG_ONE(R, P) ld R, P(a0)
 #define FREG_ONE(R, P) fld R, P(a0)
 
-	.globl longjmp
-	.type longjmp, @function
+	.globl base_longjmp
+	.type base_longjmp, @function
 
-longjmp:
+base_longjmp:
 	GREG_LIST
 #ifndef __riscv_float_abi_soft
 	FREG_LIST
