@@ -79,7 +79,7 @@ endif
 	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -E $< -o $@
 
 %.o: %.S
-	@$(ECHO) "  CC       $(notdir $@)"
+	@$(ECHO) "  AS       $(notdir $@)"
 	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
 
 %.s: %.S
