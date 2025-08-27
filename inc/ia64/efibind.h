@@ -24,7 +24,7 @@ Revision History
 // Basic int types of various widths
 //
 
-#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L ) && !defined(__cplusplus)
+#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L )) && !defined(__cplusplus)
 
     // No ANSI C 1999/2000 stdint.h integer width declarations 
 
