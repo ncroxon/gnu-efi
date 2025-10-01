@@ -716,6 +716,14 @@ AsciiPrint (
     );
 
 UINTN
+AsciiSPrint (
+    OUT CHAR8         *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR8    *fmt,
+    ...
+);
+
+UINTN
 AsciiVSPrint(
     OUT CHAR8         *Str,
     IN  UINTN         StrSize,

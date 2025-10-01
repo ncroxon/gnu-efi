@@ -291,6 +291,44 @@ Returns:
     return len;
 }
 
+UINTN
+AsciiSPrint (
+    OUT CHAR8         *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR8    *fmt,
+    ...
+    )
+/*++
+
+Routine Description:
+
+    Prints a formatted unicode string to a buffer
+
+Arguments:
+
+    Str         - Output buffer to print the formatted string into
+
+    StrSize     - Size of Str.  String is truncated to this size.
+                  A size of 0 means there is no limit
+
+    fmt         - The format string
+
+Returns:
+
+    String length returned in buffer
+
+--*/
+{
+    va_list       args;
+    UINTN         len;
+
+    va_start (args, fmt);
+    len = AsciiVSPrint(Str, StrSize, fmt, args);
+    va_end (args);
+
+    return len;
+}
+
 CHAR16 *
 PoolPrint (
     IN CONST CHAR16     *fmt,
