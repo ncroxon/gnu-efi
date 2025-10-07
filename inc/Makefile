@@ -23,4 +23,6 @@ ifeq ($(ARCH),ia64)
 	$(INSTALL) -m 644 $(SRCDIR)/protocol/ia64/*.h $(INSTALLROOT)$(INCLUDEDIR)/efi/protocol/ia64
 endif
 
+.PHONY: all clean install
+
 include $(SRCDIR)/../Make.rules

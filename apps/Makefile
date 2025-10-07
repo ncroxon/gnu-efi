@@ -133,6 +133,6 @@ install:
 	mkdir -p $(INSTALLROOT)$(APPSDIR)
 	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)$(APPSDIR)
 
-.PHONY: install
+.PHONY: all clean install
 
 include $(SRCDIR)/../Make.rules
