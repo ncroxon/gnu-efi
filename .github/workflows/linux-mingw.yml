@@ -32,7 +32,7 @@ jobs:
       run: make ARCH=${{ matrix.arch }} CROSS_COMPILE=${{ matrix.tuple }}
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ${{ matrix.arch }}
         path: ./${{ matrix.dir }}/apps/*.efi

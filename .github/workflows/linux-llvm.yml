@@ -33,7 +33,7 @@ jobs:
       run: readelf -a ./${{ matrix.dir }}/apps/ctors_dtors_priority_test.so > ./${{ matrix.dir }}/apps/readelf.txt
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ${{ matrix.arch }}
         path: |
