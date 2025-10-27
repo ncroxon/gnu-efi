@@ -80,7 +80,7 @@ LOADLIBES	+= $(LIBGCC)
 TARGET_APPS  = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi t7.efi t8.efi \
                tcc.efi printenv.efi modelist.efi route80h.efi drv0_use.efi \
                AllocPages.efi exit.efi FreePages.efi bltgrid.efi \
-               lfbgrid.efi setdbg.efi unsetdbg.efi old_ABI.efi
+               lfbgrid.efi setdbg.efi unsetdbg.efi old_ABI.efi check_print.efi
 ifeq ($(IS_MINGW32),)
 TARGET_APPS += setjmp.efi debughook.efi debughook.efi.debug \
                ctors_test.efi ctors_dtors_priority_test.efi
