@@ -271,11 +271,11 @@ ifeq ($(IS_MINGW32),)
 endif
 
 ifeq ($(USING_FREEBSD),1)
-EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
+EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wstrict-prototypes -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
-EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
+EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wstrict-prototypes -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector \
            $(if $(findstring 0,$(USING_CLANG)),-fno-merge-all-constants,)
