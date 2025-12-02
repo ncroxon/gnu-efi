@@ -1,3 +1,6 @@
+#ifndef _EFICOMPILER_H_
+#define _EFICOMPILER_H_
+
 /*++
 
 Copyright (c) 2016-2024 Pete Batard <pete@akeo.ie>
@@ -70,3 +73,5 @@ Abstract:
 #if defined(_MSC_VER)
 #define __attribute__(x)
 #endif
+
+#endif /* _EFICOMPILER_H_ */

@@ -163,8 +163,9 @@ FUNCTION_NAME(PPUTC) (
     IN CHAR16              c
     )
 {
-    // if this is a newline, add a carraige return
-    if (c == '\n') {
+    // if this is a newline, add a carriage return
+    CHAR16 last_char = (ps->Len > 0) ? *(ps->Pos - 1) : '\0';
+    if (c == '\n' && last_char != '\r') {
         FUNCTION_NAME(PPUTC) (ps, '\r');
     }
 
