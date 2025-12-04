@@ -27,7 +27,7 @@ jobs:
       run: msbuild ./gnu-efi.sln /m /p:Configuration=${{ matrix.conf }},Platform=${{ matrix.arch }}
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: ${{ matrix.conf == 'Release' }}
       with:
         name: ${{ matrix.arch }}
