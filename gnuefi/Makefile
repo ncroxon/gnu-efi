@@ -75,16 +75,16 @@ ifeq ($(ARCH),mips64el)
   efi_machine_type_name=mips64
 endif
 
-# on aarch64, avoid jump tables before all relocations have been processed
-reloc_aarch64.o: EFI_CFLAGS += -fno-jump-tables
-
 ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
 CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
 endif
 
-TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET)
+TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET) gnu-efi.pc
 
-all:	$(TARGETS) gnu-efi.pc
+all:	$(TARGETS)
+
+# on aarch64, avoid jump tables before all relocations have been processed
+reloc_aarch64.o: EFI_CFLAGS += -fno-jump-tables
 
 libgnuefi.a: $(OBJS)
 	@$(ECHO) "  AR       $(notdir $@)"
@@ -105,7 +105,7 @@ gnu-efi.pc:
 
 
 clean:
-	@rm -vf $(TARGETS) *~ *.o $(OBJS) gnu-efi.pc
+	@rm -vf $(TARGETS) *~ *.o $(OBJS)
 
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
@@ -119,5 +119,7 @@ endif
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
 	$(INSTALL) -d $(INSTALLROOT)$(PKGCONFIGDIR)
 	$(INSTALL) -m 644 gnu-efi.pc $(INSTALLROOT)$(PKGCONFIGDIR)
+
+.PHONY: all clean install
 
 include $(SRCDIR)/../Make.rules

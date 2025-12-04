@@ -100,7 +100,6 @@ install:
 		mkdir -p $(OBJDIR)/$$d; \
 		$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile VPATH=$(SRCDIR)/$$d install; done
 
-.PHONY:	$(SUBDIRS) clean depend
 
 #
 # on both platforms you must use gcc 3.0 or higher 
@@ -134,4 +133,7 @@ archive: tag
 	@dir=$$PWD; cd /tmp; tar -c --bzip2 -f $$dir/gnu-efi-$(VERSION).tar.bz2 gnu-efi-$(VERSION)
 	@rm -rf /tmp/gnu-efi-$(VERSION)
 	@echo "The archive is in gnu-efi-$(VERSION).tar.bz2"
+
+.PHONY:	all $(SUBDIRS) clean depend install tag archive mkvars check_gcc test-archive
+
 

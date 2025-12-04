@@ -64,13 +64,12 @@ OBJS  = $(FILES:%=%.o)
 
 SUBDIRS = ia32 x86_64 ia64 aarch64 arm mips64el riscv64 loongarch64 runtime
 
-all: libsubdirs libefi.a
+all:	libefi.a
 
-.PHONY: libsubdirs
+$(OBJS): | libsubdirs
+
 libsubdirs:
 	@set -e ; for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
-
-$(OBJS): libsubdirs
 
 libefi.a: $(OBJS)
 	@$(ECHO) "  AR       $(notdir $@)"
@@ -92,5 +91,7 @@ clean:
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
 	$(INSTALL) -m 644 libefi.a $(INSTALLROOT)$(LIBDIR)
+
+.PHONY: all libsubdirs clean install
 
 include $(SRCDIR)/../Make.rules
