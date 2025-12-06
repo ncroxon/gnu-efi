@@ -79,7 +79,8 @@ ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
 CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
 endif
 
-TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET) gnu-efi.pc
+LIBS = crt0-efi-$(ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET)
+TARGETS	= $(LIBS) gnu-efi.pc
 
 all:	$(TARGETS)
 
@@ -109,7 +110,7 @@ clean:
 
 install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
-	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)$(LIBDIR)
+	$(INSTALL) -m 644 $(LIBS) $(INSTALLROOT)$(LIBDIR)
 ifneq (,$(filter $(ARCH),x86_64 ia32))
 	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_fbsd_efi.lds $(INSTALLROOT)$(LIBDIR)
 endif
