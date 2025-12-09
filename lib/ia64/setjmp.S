@@ -13,6 +13,9 @@ BASIS,
  * IMPLIED.
  */
 	.text
+	.globl	setjmp
+	.type	setjmp, @function
+setjmp:
 	.globl	base_setjmp
 	.type	base_setjmp, @function
 base_setjmp:
@@ -96,6 +99,9 @@ base_setjmp:
 	br.ret.sptk	b0
 	;;
 
+	.globl	longjmp
+	.type	longjmp, @function
+longjmp:
 	.globl	base_longjmp
 	.type	base_longjmp, @function
 	.regstk 2, 0, 0, 0
