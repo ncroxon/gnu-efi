@@ -20,7 +20,9 @@
 	.text
 	.p2align 3
 
-
+	.globl	setjmp
+	.type	setjmp, @function
+setjmp:
 	.globl	base_setjmp
 	.type	base_setjmp, @function
 base_setjmp:
@@ -40,6 +42,9 @@ base_setjmp:
 	move $a0, $zero
 	jr   $ra
 
+	.globl	longjmp
+	.type	longjmp, @function
+longjmp:
 	.globl	base_longjmp
 	.type	base_longjmp, @function
 base_longjmp:

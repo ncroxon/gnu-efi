@@ -13,12 +13,16 @@ BASIS,
  * IMPLIED.
  */
 	.text
+	.globl	setjmp
 	.globl	base_setjmp
 #ifndef __MINGW32__
-	.type base_setjmp, @function
+	.type	setjmp, @function
+	.type	base_setjmp, @function
 #else
-	.def base_setjmp; .scl 2; .type 32; .endef
+	.def	setjmp; .scl 2; .type 32; .endef
+	.def	base_setjmp; .scl 2; .type 32; .endef
 #endif
+setjmp:
 base_setjmp:
 	pop	%ecx
 	movl	(%esp), %edx
@@ -30,12 +34,16 @@ base_setjmp:
 	xorl	%eax, %eax
 	jmp	*%ecx
 
+	.globl	longjmp
 	.globl	base_longjmp
 #ifndef __MINGW32__
+	.type	longjmp, @function
 	.type	base_longjmp, @function
 #else
-	.def base_longjmp; .scl 2; .type 32; .endef
+	.def	longjmp; .scl 2; .type 32; .endef
+	.def	base_longjmp; .scl 2; .type 32; .endef
 #endif
+longjmp:
 base_longjmp:
 	pop	%eax
 	pop	%edx

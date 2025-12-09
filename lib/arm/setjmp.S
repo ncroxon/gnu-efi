@@ -11,6 +11,9 @@
  */
 	.text
 	.arm
+	.globl	setjmp
+	.type	setjmp, %function
+setjmp:
 	.globl	base_setjmp
 	.type	base_setjmp, %function
 base_setjmp:
@@ -19,6 +22,9 @@ base_setjmp:
 	eor	r0, r0, r0
 	bx	lr
 
+	.globl	longjmp
+	.type	longjmp, %function
+longjmp:
 	.globl	base_longjmp
 	.type	base_longjmp, %function
 base_longjmp:

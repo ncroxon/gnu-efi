@@ -39,6 +39,9 @@
 #define REG_ONE(R, P) sd R, P(a0)
 #define FREG_ONE(R, P) fsd R, P(a0)
 
+	.globl	setjmp
+	.type	setjmp, @function
+setjmp:
 	.globl base_setjmp
 	.type base_setjmp, @function
 
@@ -56,6 +59,9 @@ base_setjmp:
 #define REG_ONE(R, P) ld R, P(a0)
 #define FREG_ONE(R, P) fld R, P(a0)
 
+	.globl	longjmp
+	.type	lobgjmp, @function
+longjmp:
 	.globl base_longjmp
 	.type base_longjmp, @function
 
