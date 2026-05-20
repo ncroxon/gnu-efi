@@ -40,6 +40,28 @@
 	.globl _start
 	.type _start,%function
 _start:
+
+#if defined(GNU_EFI_EXPORT_MS_ABI)
+	pushq %rsi
+	movq %rdx, %rsi
+	pushq %rbx
+	movq %rcx, %rbx
+	movq %rdx, %r9
+	movq %rcx, %r8
+	subq $40, %rsp
+
+	lea _DYNAMIC(%rip), %rdx
+	lea ImageBase(%rip), %rcx
+	call _relocate
+
+	addq $40, %rsp
+	movq %rsi, %rdx
+	movq %rbx, %rcx
+	popq %rbx
+	popq %rsi
+	jmp _entry
+	nop
+#else
 	subq $8, %rsp
 	pushq %rcx
 	pushq %rdx
@@ -59,6 +81,7 @@ _start:
 
 	call _entry
 	addq $8, %rsp
+#endif
 
 .L_exit:	
   	ret

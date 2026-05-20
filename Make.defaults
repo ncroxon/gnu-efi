@@ -180,6 +180,9 @@ EFI_CFLAGS += -std=c11
 ifeq ($(ARCH),x86_64)
   ifeq ($(GCCNEWENOUGH),1)
     EFI_CFLAGS += -DGNU_EFI_USE_MS_ABI
+    ifeq ($(GNU_EFI_EXPORT_MS_ABI),1)
+      EFI_CFLAGS += -mabi=ms -DGNU_EFI_EXPORT_MS_ABI
+    endif
     ifneq ($(USING_CLANG),clang)
       EFI_CFLAGS +=  -maccumulate-outgoing-args
     endif
