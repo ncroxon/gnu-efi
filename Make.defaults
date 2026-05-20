@@ -270,12 +270,17 @@ ifeq ($(IS_MINGW32),)
   EFI_CFLAGS += -fPIC
 endif
 
+OPTIMIZATION_CFLAGS ?= -O2
+DEBUG_CFLAGS ?= -g
+
 ifeq ($(USING_FREEBSD),1)
-EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wstrict-prototypes -Werror \
+EFI_CFLAGS  += $(ARCH3264) $(OPTIMIZATION_CFLAGS) $(DEBUG_CFLAGS) \
+           -Wall -Wextra -Wstrict-prototypes -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
-EFI_CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Wstrict-prototypes -Werror \
+EFI_CFLAGS  += $(ARCH3264) $(OPTIMIZATION_CFLAGS) $(DEBUG_CFLAGS) \
+           -Wall -Wextra -Wstrict-prototypes -Werror \
            -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector \
            $(if $(findstring 0,$(USING_CLANG)),-fno-merge-all-constants,)
