@@ -22,7 +22,7 @@ jobs:
         sudo apt-get install gcc-${{ matrix.gcc }} clang lld
 
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
 
@@ -33,13 +33,13 @@ jobs:
       run: readelf -a ./${{ matrix.dir }}/apps/ctors_dtors_priority_test.so > ./${{ matrix.dir }}/apps/readelf.txt
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ matrix.arch }}
         path: |
           ./${{ matrix.dir }}/apps/*
   tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     needs: build
 
     strategy:
@@ -59,12 +59,12 @@ jobs:
         sudo apt-get -y --no-install-recommends install ${{ matrix.pkg }}
 
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
 
     - name: Download artifacts
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: ${{ matrix.arch }}
 
