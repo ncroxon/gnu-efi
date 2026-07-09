@@ -113,9 +113,6 @@ ifeq ($(ARCH),amd64)
 endif
 
 # Allow UEFI shorthands to be specified for the arch
-ifeq ($(ARCH),x64)
-  override ARCH := x86_64
-endif
 ifeq ($(ARCH),mips64)
   override ARCH := mips64el
 endif
@@ -141,6 +138,17 @@ GCCNEWENOUGH := $(shell ( [ $(GCCVERSION) -gt "4" ]           \
                           && [ $(GCCMINOR) -ge "7" ] ) ) \
                           && echo 1)
 
+#
+# if we don't supprt -mabi=ms, the user definitely wants the old UEFI shorthand
+# name behavior for ARCH=x64
+#
+ifeq ($(GCCNEWENOUGH),0)
+  ifeq ($(ARCH),x64)
+    override ARCH := x86_64
+  endif
+endif
+SRC_ARCH=$(ARCH)
+
 PART_ONE = $(shell echo "$(1)" | cut -f1 -d.)
 PART_TWO = $(shell echo "$(1)" | cut -f2 -d.)
 
@@ -159,7 +167,7 @@ OBJDIR       := $(TOPDIR)/$(ARCH)
 #
 
 # Arch-specific compilation flags
-EFI_CFLAGS += -DCONFIG_$(ARCH)
+EFI_CFLAGS += -DCONFIG_$(SRC_ARCH)
 
 EFI_CFLAGS += -Wno-error=pragmas
 
@@ -193,8 +201,23 @@ ifeq ($(ARCH),x86_64)
     ARCH3264 = -m64
   endif
 endif
+ifeq ($(ARCH),x64)
+  ifeq ($(GCCNEWENOUGH),0)
+    $(error this needs newer gcc)
+  endif
+  EFI_CFLAGS += -DGNU_EFI_USE_MS_ABI -mabi=ms -DGNU_EFI_EXPORT_MS_ABI
+  ifneq ($(USING_CLANG),clang)
+    EFI_CFLAGS +=  -maccumulate-outgoing-args
+  endif
 
-ifneq (,$(filter $(ARCH),ia32 x86_64))
+  EFI_CFLAGS += -mno-red-zone
+  ifeq ($(HOSTARCH),ia32)
+    ARCH3264 = -m64
+  endif
+  SRC_ARCH=x86_64
+endif
+
+ifneq (,$(filter $(ARCH),ia32 x86_64 x64))
   # Disable AVX, if the compiler supports that.
   CC_CAN_DISABLE_AVX=$(shell $(CC) -Werror -c -o /dev/null -xc -mno-avx - </dev/null >/dev/null 2>&1 && echo 1)
   ifeq ($(CC_CAN_DISABLE_AVX), 1)

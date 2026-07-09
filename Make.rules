@@ -70,6 +70,10 @@ endif
 	@$(ECHO) "  CC       $(notdir $@)"
 	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
 
+$(ARCH)/%.o: $(SRC_ARCH)/%.c
+	@$(ECHO) "  CC       $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
+
 %.s: %.c
 	@$(ECHO) "  CC       $(notdir $@)"
 	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -S $< -o $@
@@ -79,6 +83,10 @@ endif
 	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -E $< -o $@
 
 %.o: %.S
+	@$(ECHO) "  AS       $(notdir $@)"
+	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
+
+$(ARCH)/%.o: $(SRC_ARCH)/%.S
 	@$(ECHO) "  AS       $(notdir $@)"
 	$(HIDE)$(CC) $(INCDIR) $(CFLAGS) -c $< -o $@
 

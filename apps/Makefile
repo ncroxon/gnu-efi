@@ -57,9 +57,9 @@ CRT0_LIBS	= -lgnuefi
 endif
 
 ifneq ($(CRT0_LIBS),)
-CRTOBJS		= $(TOPDIR)/$(ARCH)/gnuefi/crt0-efi-$(ARCH)$(CRT0_LOCAL).o
+CRTOBJS		= $(TOPDIR)/$(ARCH)/gnuefi/crt0-efi-$(SRC_ARCH)$(CRT0_LOCAL).o
 
-LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi$(LDS_LOCAL).lds
+LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(SRC_ARCH)_efi$(LDS_LOCAL).lds
 ifeq ($(USING_FREEBSD),1)
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
 endif
@@ -99,9 +99,9 @@ $(TARGET_RTDRIVERS): SUBSYSTEM = 0xc
 
 ifeq ($(SYSTEM_HAS_EFI_OBJCOPY),1)
 
-FORMAT		:= -O efi-app-$(ARCH)
-$(TARGET_BSDRIVERS): FORMAT=-O efi-bsdrv-$(ARCH)
-$(TARGET_RTDRIVERS): FORMAT=-O efi-rtdrv-$(ARCH)
+FORMAT		:= -O efi-app-$(SRC_ARCH)
+$(TARGET_BSDRIVERS): FORMAT=-O efi-bsdrv-$(SRC_ARCH)
+$(TARGET_RTDRIVERS): FORMAT=-O efi-rtdrv-$(SRC_ARCH)
 
 ifneq ($(IS_MINGW32),)
 EFI_LDFLAGS += -s -Wl,-dll

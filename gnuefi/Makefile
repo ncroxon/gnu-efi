@@ -40,7 +40,7 @@ SRCDIR = $(VPATH)
 include $(SRCDIR)/../Make.defaults
 
 PKGCONFIGDIR ?= $(LIBDIR)/pkgconfig
-FILES	= reloc_$(ARCH)  
+FILES	= reloc_$(SRC_ARCH)
 
 OBJS	= $(FILES:%=%.o)
 
@@ -50,6 +50,9 @@ else
   gnu_efi_default_is_objcopy=false
 endif
 # https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#uefi-image-types
+ifeq ($(ARCH),x64)
+  efi_machine_type_name=x64
+endif
 ifeq ($(ARCH),x86_64)
   efi_machine_type_name=x64
 endif
@@ -79,7 +82,7 @@ ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
 CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
 endif
 
-LIBS = crt0-efi-$(ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET)
+LIBS = crt0-efi-$(SRC_ARCH).o libgnuefi.a $(CRT0_LOCAL_TARGET)
 TARGETS	= $(LIBS) gnu-efi.pc
 
 all:	$(TARGETS)
@@ -112,12 +115,12 @@ install:
 	mkdir -p $(INSTALLROOT)$(LIBDIR)
 	$(INSTALL) -m 644 $(LIBS) $(INSTALLROOT)$(LIBDIR)
 ifneq (,$(filter $(ARCH),x86_64 ia32))
-	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_fbsd_efi.lds $(INSTALLROOT)$(LIBDIR)
+	$(INSTALL) -m 644 $(SRCDIR)/elf_$(SRC_ARCH)_fbsd_efi.lds $(INSTALLROOT)$(LIBDIR)
 endif
 ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
-	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi_local.lds $(INSTALLROOT)$(LIBDIR)
+	$(INSTALL) -m 644 $(SRCDIR)/elf_$(SRC_ARCH)_efi_local.lds $(INSTALLROOT)$(LIBDIR)
 endif
-	$(INSTALL) -m 644 $(SRCDIR)/elf_$(ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
+	$(INSTALL) -m 644 $(SRCDIR)/elf_$(SRC_ARCH)_efi.lds $(INSTALLROOT)$(LIBDIR)
 	$(INSTALL) -d $(INSTALLROOT)$(PKGCONFIGDIR)
 	$(INSTALL) -m 644 gnu-efi.pc $(INSTALLROOT)$(PKGCONFIGDIR)
 
