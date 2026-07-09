@@ -1,3 +1,5 @@
+*.sw?
+*~
 *.efi
 *.efi.debug
 *.o
@@ -5,3 +7,9 @@
 *.so
 *.tar.*
 *.tar
+/aarch64/
+/arm/
+/ia32/
+/ia64/
+/mips64el/
+/x86_64/
