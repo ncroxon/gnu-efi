@@ -8,12 +8,16 @@ jobs:
 
     strategy:
       matrix:
-        arch: [ia32, x86_64, aa64, arm]
+        arch: [x64, ia32, x86_64, aa64, arm]
         include:
           - arch: ia32
             dir: ia32
             cross_compile: i686-elf-
             toolchain: i686-elf-gcc
+          - arch: x64
+            dir: x64
+            cross_compile: x86_64-elf-
+            toolchain: x86_64-elf-gcc
           - arch: x86_64
             dir: x86_64
             cross_compile: x86_64-elf-
@@ -58,8 +62,14 @@ jobs:
 
     strategy:
       matrix:
-        arch: [ia32, x86_64, aa64, arm]
+        arch: [x64, ia32, x86_64, aa64, arm]
         include:
+        - arch: x64
+          pkg: qemu-system-x86
+          qemu_arch: x86_64
+          qemu_opts: -M q35
+          fw_arch: x64
+          fw_base: OVMF
         - arch: x86_64
           pkg: qemu-system-x86
           qemu_arch: x86_64
