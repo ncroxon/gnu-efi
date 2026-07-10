@@ -150,7 +150,7 @@ endif
 SRC_ARCH=$(ARCH)
 
 PART_ONE = $(shell echo "$(1)" | cut -f1 -d.)
-PART_TWO = $(shell echo "$(1)" | cut -f2 -d.)
+PART_TWO = $(shell echo "$(1)" | cut -f2 -d. | cut -f1 -d-)
 
 IS_NEW_ENOUGH = $(shell ( [ $(call PART_ONE,$(1)) -gt "$(2)" ] \
                           || ( [ $(call PART_ONE,$(1)) -eq "$(2)" ] \
@@ -228,6 +228,10 @@ endif
 ifeq ($(ARCH),mips64el)
   EFI_CFLAGS += -march=mips64r2
   ARCH3264 = -mabi=64
+endif
+
+ifeq ($(ARCH),loongarch64)
+EFI_CFLAGS += -mno-lsx -mno-lasx
 endif
 
 #
