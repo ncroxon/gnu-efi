@@ -8,9 +8,9 @@ jobs:
     
     strategy:
       matrix:
-        arch: [x86_64, ia32]
+        arch: [x64, ia32]
         include:
-        - arch: x86_64
+        - arch: x64
           dir: x86_64
           pkg: gcc-mingw-w64-x86-64
           tuple: x86_64-w64-mingw32-
@@ -43,19 +43,17 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x86_64, ia32]
+        arch: [x64, ia32]
         include:
-        - arch: x86_64
+        - arch: x64
           pkg: qemu-system-x86
           qemu_arch: x86_64
           qemu_opts: -M q35
-          fw_arch: x64
           fw_base: OVMF
         - arch: ia32
           pkg: qemu-system-x86
           qemu_arch: i386
           qemu_opts: -M pc
-          fw_arch: ia32
           fw_base: OVMF
 
     steps:
@@ -76,7 +74,7 @@ jobs:
 
     - name: Download UEFI firmware
       run: |
-        fw_arch=$(echo ${{ matrix.fw_arch }} | tr a-z A-Z)
+        fw_arch=$(echo ${{ matrix.arch }} | tr a-z A-Z)
         fw_zip=${{ matrix.fw_base }}-${fw_arch}.zip
         curl -O https://efi.akeo.ie/${{ matrix.fw_base }}/${fw_zip}
         7z x ${fw_zip}
@@ -85,11 +83,11 @@ jobs:
     - name: Download UEFI Shell
       run: |
         mkdir -p ./image/efi/boot
-        curl -L https://github.com/pbatard/UEFI-Shell/releases/download/24H2/shell${{ matrix.fw_arch }}.efi -o ./image/efi/boot/boot${{ matrix.fw_arch }}.efi
+        curl -L https://github.com/pbatard/UEFI-Shell/releases/download/24H2/shell${{ matrix.arch }}.efi -o ./image/efi/boot/boot${{ matrix.arch }}.efi
 
     - name: Run tests
       run: |
-         export UEFI_ARCH=${{ matrix.fw_arch }}
+         export UEFI_ARCH=${{ matrix.arch }}
          export UEFI_DIR=./image
          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -L . -drive if=pflash,format=raw,unit=0,file=${{ matrix.fw_base }}.fd,readonly=on -drive format=raw,file=fat:rw:image -nodefaults -nographic -serial stdio -net none"
          ./tests/gen_tests.sh ./tests/test_list.txt

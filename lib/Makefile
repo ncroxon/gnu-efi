@@ -44,15 +44,15 @@ FILES = boxdraw smbios console crc data debug dpath \
         entry error event exit guid hand hw init lock \
         misc pause sread str cmdline runtime/rtlock \
         runtime/efirtlib runtime/rtstr runtime/vm runtime/rtdata \
-        $(SRC_ARCH)/initplat $(SRC_ARCH)/math $(SRC_ARCH)/setjmp \
+        $(ARCH)/initplat $(ARCH)/math $(ARCH)/setjmp \
         ctors print ms_va_print va_print
 
 ifeq ($(ARCH),ia64)
 FILES += $(ARCH)/salpal $(ARCH)/palproc
 endif
 
-ifneq (,$(filter $(ARCH),x64 x86_64))
-FILES += $(SRC_ARCH)/callwrap $(SRC_ARCH)/efi_stub
+ifeq ($(ARCH),x86_64)
+FILES += $(ARCH)/callwrap $(ARCH)/efi_stub
 endif
 
 ifeq ($(ARCH),arm)
@@ -60,9 +60,9 @@ FILES += $(ARCH)/uldiv $(ARCH)/ldivmod $(ARCH)/div $(ARCH)/llsl $(ARCH)/llsr \
 	 $(ARCH)/mullu
 endif
 
-OBJS = $(subst $(SRC_ARCH)/,$(ARCH)/,$(FILES:%=%.o))
+OBJS  = $(FILES:%=%.o)
 
-SUBDIRS = x64 ia32 x86_64 ia64 aarch64 arm mips64el riscv64 loongarch64 runtime
+SUBDIRS = ia32 x86_64 ia64 aarch64 arm mips64el riscv64 loongarch64 runtime
 
 all:	libefi.a
 
