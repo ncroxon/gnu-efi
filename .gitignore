@@ -13,4 +13,4 @@
 /ia64/
 /mips64el/
 /x86_64/
-/x64/
+/lib/ms_va_print.c
