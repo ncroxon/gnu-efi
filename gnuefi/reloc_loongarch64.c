@@ -65,12 +65,6 @@ EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
 				relent = dyn[i].d_un.d_val;
 				break;
 
-			case DT_PLTGOT:
-				addr = (unsigned long *)
-					((unsigned long)dyn[i].d_un.d_ptr
-					 + ldbase);
-				break;
-
 			default:
 				break;
 		}
