@@ -85,7 +85,7 @@ EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
 			case R_LARCH_RELATIVE:
 				addr = (unsigned long *)
 					(ldbase + rel->r_offset);
-				*addr += ldbase;
+				*addr = ldbase + rel->r_addend;
 				break;
 
 			default:
