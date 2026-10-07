@@ -69,8 +69,7 @@ extra_header_fields:
 	// Everything before the kernel image is considered part of the header
 	.4byte	_text - ImageBase		// SizeOfHeaders
 	.4byte	0				// CheckSum
-	.2byte	0				// Subsystem
-	.2byte	0				// DllCharacteristics
+	.4byte	EFI_SUBSYSTEM	// Subsystem + DllCharacteristics
 	.8byte	0				// SizeOfStackReserve
 	.8byte	0				// SizeOfStackCommit
 	.8byte	0				// SizeOfHeapReserve
