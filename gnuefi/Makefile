@@ -75,7 +75,7 @@ ifeq ($(ARCH),mips64el)
   efi_machine_type_name=mips64
 endif
 
-ifneq (,$(filter $(ARCH),aarch64 riscv64 ia32))
+ifneq (,$(filter $(ARCH),aarch64 riscv64 loongarch64 ia32))
 CRT0_LOCAL_TARGET = crt0-efi-$(ARCH)-local.o
 endif
 
