@@ -49,7 +49,7 @@ jobs:
         path: ./${{ matrix.dir }}/apps/*.efi
 
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: build
 
     strategy:
@@ -57,12 +57,12 @@ jobs:
         arch: [x64, ia32]
         include:
         - arch: x64
-          pkg: qemu-system-x86
+          pkg: qemu-system-x86-hwe
           qemu_arch: x86_64
           qemu_opts: -M q35
           fw_base: OVMF
         - arch: ia32
-          pkg: qemu-system-x86
+          pkg: qemu-system-x86-hwe
           qemu_arch: i386
           qemu_opts: -M pc
           fw_base: OVMF

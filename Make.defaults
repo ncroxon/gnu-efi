@@ -200,6 +200,21 @@ ifneq (,$(filter $(ARCH),ia32 x86_64))
   ifeq ($(CC_CAN_DISABLE_AVX), 1)
     EFI_CFLAGS += -mno-avx
   endif
+  # Disable SSE3, if the compiler supports that.
+  CC_CAN_DISABLE_SSE3=$(shell $(CC) -Werror -c -o /dev/null -xc -mno-sse3  - </dev/null >/dev/null 2>&1 && echo 1)
+  ifeq ($(CC_CAN_DISABLE_SSE3), 1)
+    EFI_CFLAGS += -mno-sse3 
+  endif
+  # Disable POPCNT, if the compiler supports that.
+  CC_CAN_DISABLE_POPCNT=$(shell $(CC) -Werror -c -o /dev/null -xc -mno-popcnt - </dev/null >/dev/null 2>&1 && echo 1)
+  ifeq ($(CC_CAN_DISABLE_POPCNT), 1)
+    EFI_CFLAGS += -mno-popcnt 
+  endif
+  # Disable BMI2, if the compiler supports that.
+  CC_CAN_DISABLE_BMI2=$(shell $(CC) -Werror -c -o /dev/null -xc -mno-bmi2 - </dev/null >/dev/null 2>&1 && echo 1)
+  ifeq ($(CC_CAN_DISABLE_BMI2), 1)
+    EFI_CFLAGS += -mno-bmi2 
+  endif
 endif
 
 ifeq ($(ARCH),mips64el)

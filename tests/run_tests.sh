@@ -66,7 +66,8 @@ for t in $TEST_DIR/*.dat; do
     cat error.txt
     NUM_ERROR=$((NUM_ERROR + 1))
   else
-    tail -n $nb_lines output.txt | diff -Z --strip-trailing-cr -q "$t" - >/dev/null 2>&1
+    # Must filter the polluting ^PROGRESS CODE ... lines the current LoongArch64 firmware produces on serial
+    grep -av '^PROGRESS CODE' output.txt | tail -n $nb_lines | diff -Z --strip-trailing-cr -q "$t" - >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
       echo "[PASS]"
       NUM_PASS=$((NUM_PASS + 1))

@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     strategy:
       matrix:
@@ -70,7 +70,7 @@ jobs:
         path: |
           ./${{ matrix.dir }}/apps/*
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: build
 
     strategy:
@@ -78,32 +78,32 @@ jobs:
         arch: [x64, ia32, aa64, arm, riscv64, loongarch64]
         include:
         - arch: x64
-          pkg: qemu-system-x86
+          pkg: qemu-system-x86-hwe
           qemu_arch: x86_64
           qemu_opts: -M q35
           fw_base: OVMF
         - arch: ia32
-          pkg: qemu-system-x86
+          pkg: qemu-system-x86-hwe
           qemu_arch: i386
           qemu_opts: -M pc
           fw_base: OVMF
         - arch: aa64
-          pkg: qemu-system-arm
+          pkg: qemu-system-arm-hwe
           qemu_arch: aarch64
           qemu_opts: -M virt -cpu cortex-a57
           fw_base: AAVMF
         - arch: arm
-          pkg: qemu-system-arm
+          pkg: qemu-system-arm-hwe
           qemu_arch: arm
           qemu_opts: -M virt -cpu cortex-a15
           fw_base: AAVMF
         - arch: riscv64
-          pkg: qemu-system-riscv64
+          pkg: qemu-system-riscv-hwe
           qemu_arch: riscv64
-          qemu_opts: -M virt,pflash0=pflash0
+          qemu_opts: -M virt,pflash0=pflash0 -cpu rva23s64
           fw_base: QEMU_EFI
         - arch: loongarch64
-          pkg: qemu-system-loongarch64
+          pkg: qemu-system-misc-hwe
           qemu_arch: loongarch64
           qemu_opts: -M virt -cpu la464
           fw_base: QEMU_EFI
@@ -142,7 +142,7 @@ jobs:
         export UEFI_ARCH=${{ matrix.arch }}
         export UEFI_DIR=./image
         if [ "$UEFI_ARCH" = "riscv64" ]; then
-          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -blockdev node-name=pflash0,driver=file,read-only=on,filename=${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image,id=drv1 -device virtio-blk-device,drive=drv1"
+          export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -blockdev node-name=pflash0,driver=file,read-only=on,filename=${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image,id=drv1,if=none -device virtio-blk-device,drive=drv1"
         elif [ "$UEFI_ARCH" = "loongarch64" ]; then
           export QEMU_CMD="qemu-system-${{ matrix.qemu_arch }} ${{ matrix.qemu_opts }} -nodefaults -nographic -serial stdio -net none -L . -bios ${{ matrix.fw_base }}.fd -drive format=raw,file=fat:rw:image"
         else
