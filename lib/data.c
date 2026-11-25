@@ -110,6 +110,7 @@ EFI_GUID gEfiLoadFileProtocolGuid                   = EFI_LOAD_FILE_PROTOCOL_GUI
 EFI_GUID gEfiLoadFile2ProtocolGuid                  = EFI_LOAD_FILE2_PROTOCOL_GUID;
 EFI_GUID gEfiDeviceIoProtocolGuid                   = EFI_DEVICE_IO_PROTOCOL_GUID;
 EFI_GUID gEfiUnicodeCollationProtocolGuid           = EFI_UNICODE_COLLATION_PROTOCOL_GUID;
+EFI_GUID gEfiUnicodeCollation2ProtocolGuid          = EFI_UNICODE_COLLATION2_PROTOCOL_GUID;
 EFI_GUID gEfiSerialIoProtocolGuid                   = EFI_SERIAL_IO_PROTOCOL_GUID;
 EFI_GUID gEfiSimpleNetworkProtocolGuid              = EFI_SIMPLE_NETWORK_PROTOCOL_GUID;
 EFI_GUID gEfiPxeBaseCodeProtocolGuid                = EFI_PXE_BASE_CODE_PROTOCOL_GUID;
