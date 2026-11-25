@@ -112,6 +112,8 @@ extern EFI_GUID VariableStoreProtocol;
 extern EFI_GUID LegacyBootProtocol;
 extern EFI_GUID gEfiUnicodeCollationProtocolGuid;
 #define UnicodeCollationProtocol gEfiUnicodeCollationProtocolGuid
+extern EFI_GUID gEfiUnicodeCollation2ProtocolGuid;
+#define UnicodeCollation2Protocol gEfiUnicodeCollation2ProtocolGuid
 extern EFI_GUID gEfiSerialIoProtocolGuid;
 #define SerialIoProtocol gEfiSerialIoProtocolGuid
 extern EFI_GUID VgaClassProtocol;
