@@ -51,6 +51,10 @@ draw_boxes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 			Print(u"Trying to start GOP with SetMode().\n");
 			rc = uefi_call_wrapper(gop->SetMode, 2, gop,
 				gop->Mode ? gop->Mode->Mode : 0);
+			if (EFI_ERROR(rc)) {
+				Print(u"gop->SetMode() returned %r\n", rc);
+				continue;
+			}
 			rc = uefi_call_wrapper(gop->QueryMode, 4, gop, i,
 				&SizeOfInfo, &info);
 		}
